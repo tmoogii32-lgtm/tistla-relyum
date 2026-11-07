@@ -555,6 +555,29 @@ a:hover > .plate .plate__fill,
   color: var(--foreground-on-dark);
 }
 
+/* Гүйдэг тоо — өргөн нь тогтвортой байх */
+[data-counter] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* "Шууд" тэмдэг */
+.stat-live {
+  position: absolute;
+  top: .75rem;
+  right: 1.25rem;
+  width: .5rem;
+  height: .5rem;
+  background: var(--accent);
+}
+
+.stat-live__ring {
+  position: absolute;
+  inset: -.25rem;
+  border: 1px solid var(--accent);
+  opacity: 0;
+  pointer-events: none;
+}
+
 .standings__stroke {
   position: absolute;
   inset: 0;
@@ -592,11 +615,28 @@ a:hover > .plate .plate__fill,
 }
 
 .check-list a {
-  transition: color var(--duration-fast) var(--ease-entrance);
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding-bottom: .25rem;
+  border-bottom: 1px solid var(--accent-muted);
+  transition: color var(--duration-fast) var(--ease-entrance), border-color var(--duration-fast) var(--ease-entrance);
 }
 
-.check-list a:hover {
+.check-list a::after {
+  content: "→";
+  transition: transform var(--duration-fast) var(--ease-entrance);
+}
+
+.check-list a:hover,
+.check-list a:focus-visible {
   color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.check-list a:hover::after,
+.check-list a:focus-visible::after {
+  transform: translateX(.25rem);
 }
 
 /* ---------- Арын давхаргууд (contour, seam, stack) ---------- */

@@ -665,7 +665,7 @@
       items.push({ el: el, kind: "words", units: units });
     });
 
-    $$(".stats > * > .h2").forEach(function (el) {
+    $$(".stats > * > .h2:not([data-counter])").forEach(function (el) {
       var units = splitText(el, "letters");
       units.forEach(function (u) { u.style.opacity = "0"; u.style.transform = "translateY(.3em)"; });
       items.push({ el: el, kind: "letters", units: units });
