@@ -61,6 +61,147 @@
       </div>
     </section>
 
+    <!-- ===== Хоцрогдол арилгах интерактив даалгаврууд ===== -->
+    <section class="section ia-tasks" id="daalgavar">
+      <div class="container">
+        <div class="section-title">
+          <p class="tagline">7-р анги · Хоцрогдол арилгах</p>
+          <div class="section-title__body">
+            <h2 class="h2">Ганцаарчилсан, хосоор, багаар</h2>
+            <p class="text-medium">Сурагч эхлээд ганцаараа дадлага хийж, дараа нь хосоороо бие биеэ дасгалжуулж, эцэст нь багаараа сорилго давна. Даалгавар бүрт мэдлэгийн төрөл ба Блумын түвшнийг тэмдэглэсэн.</p>
+          </div>
+        </div>
+
+        <div class="task-tabs" role="tablist" aria-label="Даалгаврын хэлбэр">
+          <button type="button" role="tab" id="tab-solo" aria-controls="panel-solo" aria-selected="true">
+            <span class="task-tabs__icon" aria-hidden="true">👤</span>
+            <span><strong>Ганцаарчилсан</strong><small>1 сурагч · 15–20 мин</small></span>
+          </button>
+          <button type="button" role="tab" id="tab-pair" aria-controls="panel-pair" aria-selected="false" tabindex="-1">
+            <span class="task-tabs__icon" aria-hidden="true">👥</span>
+            <span><strong>Хосоор</strong><small>2 сурагч · 20 мин</small></span>
+          </button>
+          <button type="button" role="tab" id="tab-team" aria-controls="panel-team" aria-selected="false" tabindex="-1">
+            <span class="task-tabs__icon" aria-hidden="true">👨‍👩‍👧‍👦</span>
+            <span><strong>Багаар</strong><small>3–4 сурагч · 25–40 мин</small></span>
+          </button>
+        </div>
+
+        <noscript><p class="task-note">Интерактив даалгаврыг ашиглахын тулд браузерын JavaScript-ийг идэвхжүүлнэ үү.</p></noscript>
+
+        <!-- ===== Ганцаарчилсан ===== -->
+        <div class="task-panel" role="tabpanel" id="panel-solo" aria-labelledby="tab-solo">
+          <div class="task-head">
+            <div>
+              <h3 class="task-title">Алхам алхмаар дадлага</h3>
+              <p class="muted">Сэдвээ сонгоод 5 даалгавар бод. Хариугаа шууд шалгаж, хэцүү бол зөвлөгөө ав. 5-аас 4 ба түүнээс дээш зөв бол сэдвээ эзэмшсэн гэж үзнэ.</p>
+            </div>
+            <ul class="task-meta">
+              <li>Мэдлэг: <strong>Журам · Ойлголт</strong></li>
+              <li>Блум: <strong>Хэрэглэх · Үнэлэх</strong></li>
+            </ul>
+          </div>
+
+          <div class="topic-picker" id="solo-topics" role="group" aria-label="Сэдэв сонгох"></div>
+          <div class="solo" id="solo-area" aria-live="polite"></div>
+        </div>
+
+        <!-- ===== Хосоор ===== -->
+        <div class="task-panel" role="tabpanel" id="panel-pair" aria-labelledby="tab-pair" hidden>
+          <div class="task-head">
+            <div>
+              <h3 class="task-title">Нэг нь бодно, нөгөө нь дасгалжуулна</h3>
+              <p class="muted">Шат бүрт хоёр төстэй бодлого бий. Эхлээд нэг нь чангаар тайлбарлан бодож, нөгөө нь хянах хуудсаар дасгалжуулна. Дараа нь үүргээ сольж төстэй бодлогыг бодно.</p>
+            </div>
+            <ul class="task-meta">
+              <li>Мэдлэг: <strong>Журам · Мета-танин</strong></li>
+              <li>Блум: <strong>Хэрэглэх · Үнэлэх</strong></li>
+            </ul>
+          </div>
+
+          <div class="names">
+            <label class="field"><span>1-р сурагч</span><input id="pair-name-1" type="text" maxlength="30" placeholder="Нэр" /></label>
+            <label class="field"><span>2-р сурагч</span><input id="pair-name-2" type="text" maxlength="30" placeholder="Нэр" /></label>
+          </div>
+
+          <div class="pair" id="pair-area"></div>
+        </div>
+
+        <!-- ===== Багаар ===== -->
+        <div class="task-panel" role="tabpanel" id="panel-team" aria-labelledby="tab-team" hidden>
+          <div class="task-head">
+            <div>
+              <h3 class="task-title">Код тайлах сорилго</h3>
+              <p class="muted">Баг 4 станцын бодлогыг бодно. Зөв хариу бүр түгжээний нэг цифр болно. 4 цифрийг цуглуулж түгжээг нээгээрэй. Хугацаа: 15 минут.</p>
+            </div>
+            <ul class="task-meta">
+              <li>Мэдлэг: <strong>Ойлголт · Журам</strong></li>
+              <li>Блум: <strong>Хэрэглэх · Задлан шинжлэх</strong></li>
+            </ul>
+          </div>
+
+          <div class="team-setup">
+            <div class="names names--four">
+              <label class="field"><span>Гишүүн 1</span><input class="team-name" type="text" maxlength="30" placeholder="Нэр" /></label>
+              <label class="field"><span>Гишүүн 2</span><input class="team-name" type="text" maxlength="30" placeholder="Нэр" /></label>
+              <label class="field"><span>Гишүүн 3</span><input class="team-name" type="text" maxlength="30" placeholder="Нэр" /></label>
+              <label class="field"><span>Гишүүн 4</span><input class="team-name" type="text" maxlength="30" placeholder="Нэр (заавал биш)" /></label>
+            </div>
+            <button type="button" class="btn btn--secondary" id="team-assign">Үүрэг хуваарилах</button>
+            <ul class="roles" id="team-roles" aria-live="polite"></ul>
+          </div>
+
+          <div class="timer-row" id="team-timer"></div>
+
+          <div class="stations" id="team-stations"></div>
+
+          <div class="lock" id="team-lock">
+            <div class="lock__digits" id="lock-digits" aria-label="Цуглуулсан цифрүүд"></div>
+            <form class="lock__form" id="lock-form" autocomplete="off">
+              <label class="field">
+                <span>Түгжээний код</span>
+                <input id="lock-input" type="text" inputmode="numeric" maxlength="4" placeholder="••••" />
+              </label>
+              <button type="submit" class="btn btn--primary">Түгжээ нээх</button>
+            </form>
+            <p class="lock__msg" id="lock-msg" role="status"></p>
+          </div>
+
+          <div class="reflect">
+            <h4>Багийн эргэцүүлэл</h4>
+            <ul>
+              <li>Аль станц хамгийн хэцүү байсан бэ? Яагаад?</li>
+              <li>Ямар стратеги (зураг зурах, хүснэгт хийх, орлуулж шалгах) ашигласан бэ?</li>
+              <li>Багийн гишүүн бүр юу хувь нэмэр оруулсан бэ?</li>
+              <li>Дараагийн удаа юуг өөрөөр хийх вэ?</li>
+            </ul>
+          </div>
+
+          <div class="project">
+            <div class="task-head">
+              <div>
+                <h3 class="task-title">Багийн төсөл: Манай ангийн судалгаа</h3>
+                <p class="muted">Баг ангийнхнаасаа өгөгдөл цуглуулж (жишээ нь: өдөрт унтдаг цаг, гэрээс сургууль хүртэлх зай), дундаж, медиан, моод, далайцыг олж, диаграмм зурж танилцуулна. 1–2 хичээл.</p>
+              </div>
+              <ul class="task-meta">
+                <li>Мэдлэг: <strong>Ойлголт · Журам</strong></li>
+                <li>Блум: <strong>Задлан шинжлэх · Бүтээх</strong></li>
+              </ul>
+            </div>
+            <ol class="project__steps" id="project-steps">
+              <li><label><input type="checkbox" /> Судалгааны асуулт сонгож, хэнээс асуухаа тохирох</label></li>
+              <li><label><input type="checkbox" /> Дор хаяж 15 сурагчаас өгөгдөл цуглуулж хүснэгтэд бичих</label></li>
+              <li><label><input type="checkbox" /> Давтамжийн хүснэгт зохиож, өгөгдлийг бүлэглэх</label></li>
+              <li><label><input type="checkbox" /> Арифметик дундаж, медиан, моод, далайцыг олох</label></li>
+              <li><label><input type="checkbox" /> Баганан эсвэл дугуй диаграмм зурах</label></li>
+              <li><label><input type="checkbox" /> Дүгнэлт гаргаж, ангидаа 3 минутад танилцуулах</label></li>
+            </ol>
+            <p class="project__progress" id="project-progress" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== Нийтлэл, материал (хуучин 2 дахь цэсний Resources хэсэг) ===== -->
     <section class="section ia-resources" id="resources">
       <div class="container ia-layout">
@@ -199,5 +340,6 @@
     </div>
   </footer>
 
+  <script src="interaktiv.js"></script>
 </body>
 </html>
