@@ -1036,6 +1036,38 @@ div:has(> .tagline + .section-title__body) {
   background: color-mix(in srgb, var(--surface-black) 40%, transparent);
 }
 
+/* Видеотой хувилбар */
+.lightbox video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lightbox--video .plate__fill::after,
+.lightbox--video:not(.plate)::after {
+  transition: opacity var(--duration-normal) var(--ease-entrance);
+}
+
+.lightbox--video.is-playing .plate__fill::after,
+.lightbox--video.is-playing:not(.plate)::after {
+  opacity: 0;
+}
+
+.lightbox--video .lightbox__play {
+  transition: opacity var(--duration-normal) var(--ease-entrance);
+}
+
+.lightbox--video.is-playing .lightbox__play {
+  opacity: 0;
+}
+
+.lightbox--video.is-playing:hover .lightbox__play,
+.lightbox--video.is-playing:focus-visible .lightbox__play {
+  opacity: .85;
+}
+
 .lightbox__play {
   position: absolute;
   top: 50%;
