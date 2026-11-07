@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Математикт дурлагсад</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Raleway:wght@500&display=swap&subset=cyrillic" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== Navbar 10 ===== -->
+  <header class="navbar">
+    <div class="navbar__header">
+      <div class="navbar__content">
+        <a href="#" class="logo" aria-label="Нүүр хуудас">
+          <img src="assets/logo.png" alt="Сургуулийн лого" />
+        </a>
+        <nav class="navbar__links" aria-label="Үндсэн цэс">
+          <a href="#">Нүүр</a>
+          <a href="#">Математик</a>
+          <a href="#">Хоцрогдлыг тооцох</a>
+          <a href="#">Шалгалт өгөх</a>
+          <a href="#">Интерактив даалгавар</a>
+          <a href="#">Сургалтууд</a>
+          <button type="button" class="navbar__dropdown" aria-expanded="true" aria-controls="mega-menu-1">
+            Түвгин
+            <img src="assets/chevron-down.svg" width="24" height="24" alt="" />
+          </button>
+        </nav>
+      </div>
+      <div class="navbar__actions">
+        <a href="#" class="btn btn--sm btn--secondary">Нэвтрэх</a>
+        <a href="#" class="btn btn--sm btn--primary">Бүртгүүлэх</a>
+      </div>
+    </div>
+
+    <div class="mega-menu" id="mega-menu-1">
+      <div class="mega-menu__categories">
+        <h3>Categories</h3>
+        <ul>
+          <li><a href="#">Түвшин -I</a></li>
+          <li><a href="#">Түвшин -2</a></li>
+          <li><a href="#">Түвшин -3</a></li>
+          <li><a href="#">Түвшин -4</a></li>
+          <li><a href="#">Үр дүн</a></li>
+        </ul>
+      </div>
+      <div class="mega-menu__blog">
+        <div class="mega-menu__column">
+          <a href="#" class="blog-item">
+            <img class="blog-item__image" src="assets/mega-vark.png" alt="VARK судалгаа" />
+            <div class="blog-item__body">
+              <div class="blog-item__text">
+                <p class="blog-item__title">VARK судалгаа</p>
+                <p class="text-small">Сурах хэв шинжийн судалгаа</p>
+              </div>
+            </div>
+          </a>
+          <a href="#" class="blog-item">
+            <img class="blog-item__image" src="assets/mega-temperament.png" alt="Темпераминт" />
+            <div class="blog-item__body">
+              <div class="blog-item__text">
+                <p class="blog-item__title">Темпераминт</p>
+                <p class="text-small">Сурагчдын сэтгэл судлал</p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="mega-menu__column">
+          <article class="blog-item">
+            <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+            <div class="blog-item__body">
+              <div class="blog-item__text">
+                <p class="blog-item__title">Article Title</p>
+                <p class="text-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+              </div>
+              <a href="#" class="text-small link-underline">Read more</a>
+            </div>
+          </article>
+          <article class="blog-item">
+            <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+            <div class="blog-item__body">
+              <div class="blog-item__text">
+                <p class="blog-item__title">Article Title</p>
+                <p class="text-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+              </div>
+              <a href="#" class="text-small link-underline">Read more</a>
+            </div>
+          </article>
+          <article class="blog-item">
+            <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+            <div class="blog-item__body">
+              <div class="blog-item__text">
+                <p class="blog-item__title">Article Title</p>
+                <p class="text-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+              </div>
+              <a href="#" class="text-small link-underline">Read more</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Header 30 (Hero) ===== -->
+    <section class="hero">
+      <img class="hero__bg" src="assets/hero-bg.png" alt="" />
+      <div class="hero__content">
+        <div class="hero__text">
+          <h1 class="h1 hero__title">математикт дурлагсад</h1>
+          <p class="text-medium">хоцрогдол арилгах</p>
+        </div>
+        <div class="actions hero__actions">
+          <a href="#" class="btn btn--primary">Button</a>
+          <a href="#" class="btn btn--secondary">Sign up</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Layout 26 ===== -->
+    <section class="section">
+      <div class="container split">
+        <div class="split__content">
+          <div class="section-title">
+            <p class="tagline">Numbers</p>
+            <div class="section-title__body">
+              <h2 class="h2">Сурагчдын ирц</h2>
+              <p class="text-medium">Сурагч бүр түвшинчилсэн байдлаар оролцох</p>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stats__item">
+              <p class="h2">12</p>
+              <p>Сурагчдын бүртгэл</p>
+            </div>
+            <div class="stats__item">
+              <p class="h2">1800</p>
+              <p>Хамрагдах сурагчдын тоо</p>
+            </div>
+          </div>
+          <div class="actions">
+            <a href="#" class="btn btn--secondary">Book</a>
+            <a href="#" class="btn btn--link">
+              More
+              <img src="assets/chevron-right.svg" width="24" height="24" alt="" />
+            </a>
+          </div>
+        </div>
+        <button type="button" class="lightbox" aria-label="Видео тоглуулах">
+          <img class="bg-cover" src="assets/lightbox.png" alt="" />
+          <img class="lightbox__play" src="assets/play-button.svg" width="64" height="64" alt="" />
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== Layout 26 (давтагдсан) ===== -->
+    <section class="section">
+      <div class="container split">
+        <div class="split__content">
+          <div class="section-title">
+            <p class="tagline">Numbers</p>
+            <div class="section-title__body">
+              <h2 class="h2">Сурагчдын ирц</h2>
+              <p class="text-medium">Сурагч бүр түвшинчилсэн байдлаар оролцох</p>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stats__item">
+              <p class="h2">12</p>
+              <p>Сурагчдын бүртгэл</p>
+            </div>
+            <div class="stats__item">
+              <p class="h2">1800</p>
+              <p>Хамрагдах сурагчдын тоо</p>
+            </div>
+          </div>
+          <div class="actions">
+            <a href="#" class="btn btn--secondary">Book</a>
+            <a href="#" class="btn btn--link">
+              More
+              <img src="assets/chevron-right.svg" width="24" height="24" alt="" />
+            </a>
+          </div>
+        </div>
+        <button type="button" class="lightbox" aria-label="Видео тоглуулах">
+          <img class="bg-cover" src="assets/lightbox.png" alt="" />
+          <img class="lightbox__play" src="assets/play-button.svg" width="64" height="64" alt="" />
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== Layout 67 ===== -->
+    <section class="section layout-67">
+      <img class="bg-cover" src="assets/layout67-bg.png" alt="" />
+      <div class="container layout-67__grid">
+        <div class="layout-67__col">
+          <p class="tagline">Tagline</p>
+          <h2 class="h2">МАТЕМАТИК</h2>
+        </div>
+        <div class="layout-67__col layout-67__col--right">
+          <p class="text-medium">Суралцахуйн зорилт</p>
+          <ul class="check-list">
+            <li><img src="assets/relume.svg" width="16" height="16" alt="" />Суралцахуйн хөтөлбөр</li>
+            <li><img src="assets/relume.svg" width="16" height="16" alt="" />Хичээлийн төлөвлөлт</li>
+            <li><img src="assets/relume.svg" width="16" height="16" alt="" />Шалгуур үзүүлэлт</li>
+          </ul>
+          <div class="actions">
+            <a href="#" class="btn btn--secondary">Button</a>
+            <a href="#" class="btn btn--link">
+              Button
+              <img src="assets/chevron-right-white.svg" width="24" height="24" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Navbar 10 (хоёр дахь) ===== -->
+    <div class="navbar navbar--alt">
+      <div class="navbar__header">
+        <div class="navbar__content">
+          <a href="#" class="logo" aria-label="Нүүр хуудас">
+            <img src="assets/logo.png" alt="Сургуулийн лого" />
+          </a>
+          <nav class="navbar__links" aria-label="Нэмэлт цэс">
+            <a href="#">Home</a>
+            <a href="#">Courses</a>
+            <a href="#">About</a>
+            <button type="button" class="navbar__dropdown" aria-expanded="true" aria-controls="mega-menu-2">
+              Resources
+              <img src="assets/chevron-down.svg" width="24" height="24" alt="" />
+            </button>
+          </nav>
+        </div>
+        <div class="navbar__actions">
+          <a href="#" class="btn btn--sm btn--secondary">Sign up</a>
+          <a href="#" class="btn btn--sm btn--primary">Book</a>
+        </div>
+      </div>
+
+      <div class="mega-menu" id="mega-menu-2">
+        <div class="mega-menu__categories">
+          <h3>Blog categories</h3>
+          <ul>
+            <li><a href="#">AI tools</a></li>
+            <li><a href="#">Teaching tips</a></li>
+            <li><a href="#">Lesson plans</a></li>
+            <li><a href="#">Case studies</a></li>
+            <li><a href="#">News</a></li>
+          </ul>
+        </div>
+        <div class="mega-menu__blog">
+          <div class="mega-menu__column">
+            <article class="blog-item">
+              <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+              <div class="blog-item__body">
+                <div class="blog-item__text">
+                  <p class="blog-item__title">Prompt AI basics</p>
+                  <p class="text-small">Learn how to craft prompts for Gmail and Google Calendar.</p>
+                </div>
+                <a href="#" class="text-small link-underline">Read more</a>
+              </div>
+            </article>
+            <article class="blog-item">
+              <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+              <div class="blog-item__body">
+                <div class="blog-item__text">
+                  <p class="blog-item__title">Gemini in class</p>
+                  <p class="text-small">Using Google Gemini to generate lesson ideas and quizzes.</p>
+                </div>
+                <a href="#" class="text-small link-underline">Read more</a>
+              </div>
+            </article>
+            <article class="blog-item">
+              <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+              <div class="blog-item__body">
+                <div class="blog-item__text">
+                  <p class="blog-item__title">Notebook LM guide</p>
+                  <p class="text-small">Organize your research with Google Notebook LM.</p>
+                </div>
+                <a href="#" class="text-small link-underline">Read more</a>
+              </div>
+            </article>
+            <article class="blog-item">
+              <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+              <div class="blog-item__body">
+                <div class="blog-item__text">
+                  <p class="blog-item__title">Classroom automation</p>
+                  <p class="text-small">Streamline assignments with Google Classroom and AI.</p>
+                </div>
+                <a href="#" class="text-small link-underline">Read more</a>
+              </div>
+            </article>
+            <article class="blog-item">
+              <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+              <div class="blog-item__body">
+                <div class="blog-item__text">
+                  <p class="blog-item__title">Video lessons</p>
+                  <p class="text-small">Create engaging videos with Google Vids.</p>
+                </div>
+                <a href="#" class="text-small link-underline">Read more</a>
+              </div>
+            </article>
+            <article class="blog-item">
+              <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+              <div class="blog-item__body">
+                <div class="blog-item__text">
+                  <p class="blog-item__title">Forms and quizzes</p>
+                  <p class="text-small">Build smart quizzes with Google Forms and AI.</p>
+                </div>
+                <a href="#" class="text-small link-underline">Read more</a>
+              </div>
+            </article>
+          </div>
+          <div class="mega-menu__column">
+            <article class="blog-item">
+              <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+              <div class="blog-item__body">
+                <div class="blog-item__text">
+                  <p class="blog-item__title">Article Title</p>
+                  <p class="text-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                </div>
+                <a href="#" class="text-small link-underline">Read more</a>
+              </div>
+            </article>
+            <article class="blog-item">
+              <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+              <div class="blog-item__body">
+                <div class="blog-item__text">
+                  <p class="blog-item__title">Article Title</p>
+                  <p class="text-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                </div>
+                <a href="#" class="text-small link-underline">Read more</a>
+              </div>
+            </article>
+            <article class="blog-item">
+              <img class="blog-item__image" src="assets/mega-article.png" alt="" />
+              <div class="blog-item__body">
+                <div class="blog-item__text">
+                  <p class="blog-item__title">Article Title</p>
+                  <p class="text-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                </div>
+                <a href="#" class="text-small link-underline">Read more</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Product 1 (Сургалтууд) ===== -->
+    <section class="section">
+      <div class="container products__container">
+        <div class="products__title">
+          <div class="section-title">
+            <p class="tagline">Багш нарын сургалт</p>
+            <div class="section-title__body">
+              <h2 class="h2">Сургалтын явцууд</h2>
+              <p class="text-medium">Багш нарын хиймэл оюун ухааныг сайжруулах сургалтын явцаас</p>
+            </div>
+          </div>
+          <a href="#" class="btn btn--secondary">View all</a>
+        </div>
+
+        <div class="products__grid">
+          <a href="#" class="product">
+            <img class="product__image" src="assets/course-1.png" alt="Сургалт-1: Gmail" />
+            <div class="product__body">
+              <div>
+                <h3 class="product__name">Сургалт-1</h3>
+                <p class="text-small">Prompt AI</p>
+              </div>
+              <p class="product__label">Gmail</p>
+            </div>
+          </a>
+          <a href="#" class="product">
+            <img class="product__image" src="assets/course-2.png" alt="Сургалт-2: Google calendar" />
+            <div class="product__body">
+              <div>
+                <h3 class="product__name">Сургалт -2</h3>
+                <p class="text-small">Prompt AI</p>
+              </div>
+              <p class="product__label">Google calendar</p>
+            </div>
+          </a>
+          <a href="#" class="product">
+            <img class="product__image" src="assets/course-3.png" alt="Сургалт-3: Google Gemini" />
+            <div class="product__body">
+              <div>
+                <h3 class="product__name">Сургалт -3</h3>
+                <p class="text-small">Prompt AI</p>
+              </div>
+              <p class="product__label">Google Gemini</p>
+            </div>
+          </a>
+          <a href="#" class="product">
+            <img class="product__image" src="assets/course-4.png" alt="Сургалт-4: Google Notebook LM" />
+            <div class="product__body">
+              <div>
+                <h3 class="product__name">Сургалт -4</h3>
+                <p class="text-small">Prompt AI</p>
+              </div>
+              <p class="product__label">Google Notebook LM</p>
+            </div>
+          </a>
+          <a href="#" class="product">
+            <img class="product__image" src="assets/course-5.png" alt="Сургалт-5: Google classroom" />
+            <div class="product__body">
+              <div>
+                <h3 class="product__name">Сургалт -5</h3>
+                <p class="text-small">Prompt AI</p>
+              </div>
+              <p class="product__label">Google classroom</p>
+            </div>
+          </a>
+          <a href="#" class="product">
+            <img class="product__image" src="assets/course-6.png" alt="Сургалт-6: Google vids" />
+            <div class="product__body">
+              <div>
+                <h3 class="product__name">Сургалт -6</h3>
+                <p class="text-small">Prompt AI</p>
+              </div>
+              <p class="product__label">Google vids</p>
+            </div>
+          </a>
+          <a href="#" class="product">
+            <img class="product__image" src="assets/course-7.png" alt="Сургалт-7: Google form" />
+            <div class="product__body">
+              <div>
+                <h3 class="product__name">Сургалт -7</h3>
+                <p class="text-small">Prompt AI</p>
+              </div>
+              <p class="product__label">Google form</p>
+            </div>
+          </a>
+          <a href="#" class="product">
+            <img class="product__image" src="assets/course-8.png" alt="Сургалт-8: App script cod" />
+            <div class="product__body">
+              <div>
+                <h3 class="product__name">Сургалт -8</h3>
+                <p class="text-small">Prompt AI</p>
+              </div>
+              <p class="product__label">App script cod</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer 4 ===== -->
+  <footer class="footer">
+    <div class="container footer__container">
+      <div class="footer__top">
+        <div class="footer__logo">
+          <a href="#" class="logo" aria-label="Нүүр хуудас">
+            <img src="assets/logo.png" alt="Сургуулийн лого" />
+          </a>
+        </div>
+        <p class="footer__address">Өмнөговь аймаг Даланзадгад сумын ЕБ-ын 5 дугаар сургууль</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Facebook"><img src="assets/facebook.svg" width="24" height="24" alt="" /></a>
+          <a href="#" aria-label="Instagram"><img src="assets/instagram.svg" width="24" height="24" alt="" /></a>
+          <a href="#" aria-label="X"><img src="assets/x.svg" width="24" height="24" alt="" /></a>
+          <a href="#" aria-label="LinkedIn"><img src="assets/linkedin.svg" width="24" height="24" alt="" /></a>
+          <a href="#" aria-label="YouTube"><img src="assets/youtube.svg" width="24" height="24" alt="" /></a>
+        </div>
+      </div>
+      <div class="footer__credits">
+        <img class="footer__divider" src="assets/divider.svg" alt="" />
+        <div class="footer__legal">
+          <p>© 2025 School No. 5, Dalanzadgad. All rights reserved.</p>
+          <a href="#" class="link-underline">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
