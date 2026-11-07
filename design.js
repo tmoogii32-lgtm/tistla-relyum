@@ -646,7 +646,7 @@
     ".product", ".strand", ".level", ".criteria__item", ".chapter", ".card",
     ".feature", ".blog-item", ".book__cover", ".cta", ".check-list li",
     ".layout-67__col--right > p", ".mega-menu__categories", ".ia-categories",
-    ".data-actions", ".products__title > .btn", ".subnav__inner"
+    ".data-actions", ".products__title > .btn", ".subnav__inner", ".child-study__title"
   ].join(",");
 
   var revealQueue = [];
