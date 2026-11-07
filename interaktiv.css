@@ -1,0 +1,153 @@
+/* ===== Интерактив даалгавар хуудас ===== */
+
+.navbar__links a[aria-current="page"] {
+  color: var(--color-cerulean);
+}
+
+.ia-intro {
+  padding-bottom: 64px;
+}
+
+/* --- Онцлох карт (математикийн апп) --- */
+.feature {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) 7fr;
+  margin-top: 48px;
+  overflow: hidden;
+  border: 1px solid rgba(4, 170, 247, 0.4);
+  border-radius: var(--radius);
+  background: linear-gradient(120deg, rgba(4, 170, 247, 0.18), rgba(4, 170, 247, 0.04));
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.feature:hover {
+  border-color: var(--color-cerulean);
+  transform: translateY(-2px);
+}
+
+.feature__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--color-black);
+}
+
+.feature__media img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
+
+.feature__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px;
+}
+
+.strand-tag {
+  color: var(--color-cerulean);
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.feature__title {
+  font-family: var(--font-heading);
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.feature__body p:not(.strand-tag) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.feature .btn {
+  margin-top: 8px;
+}
+
+/* --- Нийтлэлүүд --- */
+.ia-resources {
+  padding-top: 0;
+}
+
+.ia-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 48px;
+  align-items: start;
+  padding-top: 48px;
+  border-top: 1px solid var(--color-border);
+}
+
+.ia-categories {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ia-categories h2 {
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.ia-categories ul {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ia-categories a:hover {
+  color: var(--color-cerulean);
+}
+
+.ia-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 32px;
+}
+
+.ia-grid .blog-item__title {
+  font-size: var(--text-regular);
+}
+
+/* --- Responsive --- */
+@media (max-width: 991px) {
+  .feature {
+    grid-template-columns: 1fr;
+  }
+
+  .ia-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .ia-categories {
+    position: static;
+  }
+
+  .ia-categories ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .feature__body {
+    padding: 24px;
+  }
+
+  .feature__title {
+    font-size: 28px;
+  }
+
+  .ia-grid {
+    grid-template-columns: 1fr;
+  }
+}
