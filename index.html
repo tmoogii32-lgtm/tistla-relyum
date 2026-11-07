@@ -6,13 +6,13 @@
   <title>Математикт дурлагсад</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Raleway:wght@500&display=swap&subset=cyrillic" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="home.css" />
 </head>
 <body>
 
   <!-- ===== Navbar 10 ===== -->
-  <header class="navbar">
+  <header class="navbar" data-surface="light">
     <div class="navbar__header">
       <div class="navbar__content">
         <a href="#" class="logo" aria-label="Нүүр хуудас">
@@ -37,16 +37,10 @@
       </div>
     </div>
 
-    <div class="mega-menu" id="mega-menu-1">
+    <div class="mega-menu" id="mega-menu-1" data-surface="muted">
       <div class="mega-menu__categories">
-        <h3>Categories</h3>
-        <ul>
-          <li><a href="#">Түвшин -I</a></li>
-          <li><a href="#">Түвшин -2</a></li>
-          <li><a href="#">Түвшин -3</a></li>
-          <li><a href="#">Түвшин -4</a></li>
-          <li><a href="#">Үр дүн</a></li>
-        </ul>
+        <h3>Хүүхэд судлал</h3>
+    
       </div>
       <div class="mega-menu__blog">
         <div class="mega-menu__column">
@@ -69,37 +63,7 @@
             </div>
           </a>
         </div>
-        <div class="mega-menu__column">
-          <article class="blog-item">
-            <img class="blog-item__image" src="assets/mega-article.png" alt="" />
-            <div class="blog-item__body">
-              <div class="blog-item__text">
-                <p class="blog-item__title">Article Title</p>
-                <p class="text-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-              </div>
-              <a href="#" class="text-small link-underline">Read more</a>
-            </div>
-          </article>
-          <article class="blog-item">
-            <img class="blog-item__image" src="assets/mega-article.png" alt="" />
-            <div class="blog-item__body">
-              <div class="blog-item__text">
-                <p class="blog-item__title">Article Title</p>
-                <p class="text-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-              </div>
-              <a href="#" class="text-small link-underline">Read more</a>
-            </div>
-          </article>
-          <article class="blog-item">
-            <img class="blog-item__image" src="assets/mega-article.png" alt="" />
-            <div class="blog-item__body">
-              <div class="blog-item__text">
-                <p class="blog-item__title">Article Title</p>
-                <p class="text-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-              </div>
-              <a href="#" class="text-small link-underline">Read more</a>
-            </div>
-          </article>
+       
         </div>
       </div>
     </div>
@@ -107,7 +71,7 @@
 
   <main>
     <!-- ===== Header 30 (Hero) ===== -->
-    <section class="hero">
+    <section class="hero" data-surface="dark" data-stack>
       <img class="hero__bg" src="assets/hero-bg.png" alt="" />
       <div class="hero__content">
         <div class="hero__text">
@@ -122,7 +86,7 @@
     </section>
 
     <!-- ===== Layout 26 ===== -->
-    <section class="section">
+    <section class="section" data-surface="light" data-stack>
       <div class="container split">
         <div class="split__content">
           <div class="section-title">
@@ -158,7 +122,7 @@
     </section>
 
     <!-- ===== Layout 26 (давтагдсан) ===== -->
-    <section class="section">
+    <section class="section" data-surface="dark" data-stack>
       <div class="7-р анги Математик">
         <div class="Хоцогдол арилгах">
           <div class="Хувь тооцох">
@@ -194,7 +158,7 @@
     </section>
 
     <!-- ===== Layout 67 ===== -->
-    <section class="section layout-67">
+    <section class="section layout-67" data-surface="dark">
       <img class="bg-cover" src="assets/layout67-bg.png" alt="" />
       <div class="container layout-67__grid">
         <div class="layout-67__col">
@@ -220,7 +184,7 @@
     </section>
 
     <!-- ===== Product 1 (Сургалтууд) ===== -->
-    <section class="section" id="courses">
+    <section class="section" id="courses" data-surface="light">
       <div class="container products__container">
         <div class="products__title">
           <div class="section-title">
@@ -347,5 +311,6 @@
     </div>
   </footer>
 
+  <script src="design.js"></script>
 </body>
 </html>

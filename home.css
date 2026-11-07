@@ -1,0 +1,1398 @@
+/* =========================================================
+   Дизайн систем — "уралдааны багаж самбар / инженерийн хуудас"
+   Компонентууд зөвхөн Түвшин 2 token ашиглана.
+   ========================================================= */
+:root {
+  /* Түвшин 1 — түүхий утга */
+  --raw-color-ice-50:#f7fafb; --raw-color-ice-100:#ebeef1; --raw-color-ice-200:#dfe5e9;
+  --raw-color-steel-400:#b6c1c8;
+  --raw-color-ink-950:#090a0b; --raw-color-ink-900:#0e0f14; --raw-color-ink-800:#1b1d24; --raw-color-ink-700:#2a2d36;
+  --raw-color-ink-alpha-35:rgb(9 10 11 / .35); --raw-color-ink-alpha-08:rgb(9 10 11 / .08);
+  --raw-color-slate-500:#7a7a7a; --raw-color-slate-600:#4d4d4d; --raw-color-slate-900:#1e1e1e;
+  --raw-color-cyan-400:#02d2e3; --raw-color-cyan-alpha-25:rgb(2 210 227 / .25);
+  --raw-color-stone-600:#535450;
+  --raw-color-white:#fff; --raw-color-white-alpha-10:rgb(255 255 255 / .1);
+  --raw-color-white-alpha-20:rgb(255 255 255 / .2); --raw-color-white-alpha-40:rgb(255 255 255 / .4);
+
+  /* Түвшин 2 — үүрэг */
+  --background:var(--raw-color-ice-50);
+  --foreground:var(--raw-color-ink-950);
+  --foreground-muted:var(--raw-color-ink-alpha-35);
+  --surface-black:var(--raw-color-ink-950);
+  --surface-dark:var(--raw-color-ink-900);
+  --surface-dark-raised:var(--raw-color-ink-800);
+  --surface-muted:var(--raw-color-ice-100);
+  --surface-soft:var(--raw-color-ice-200);
+  --foreground-on-dark:var(--raw-color-white);
+  --foreground-on-dark-muted:var(--raw-color-steel-400);
+  --foreground-on-dark-faint:var(--raw-color-white-alpha-40);
+  --border-muted:var(--raw-color-ice-200);
+  --border-on-dark:var(--raw-color-ink-700);
+  --accent:var(--raw-color-cyan-400);
+  --accent-muted:var(--raw-color-cyan-alpha-25);
+  --plate-outline:var(--raw-color-stone-600);
+  --plate-fill:var(--raw-color-white-alpha-10);
+  --rail:var(--raw-color-white-alpha-20);
+  --contour-light:var(--raw-color-ink-alpha-08);
+  --contour-dark:var(--raw-color-white-alpha-10);
+
+  /* Үсгийн хэмжээ */
+  --type-impact:6rem;
+  --type-display-lg:4.375rem;
+  --type-display-sm:3.4375rem;
+  --type-display:3.25rem;
+  --type-heading:2.375rem;
+  --type-year:2.25rem;
+  --type-title:1.25rem;
+  --type-lead:1.125rem;
+  --type-label:1rem;
+  --type-body:.875rem;
+  --type-eyebrow:.75rem;
+
+  --leading-headline:.95; --leading-flat:.9; --leading-cap:.72; --leading-display:1.1;
+  --tracking-stat:-.08em; --tracking-label:-.04em; --tracking-eyebrow:-.02em;
+
+  --duration-fast:150ms; --duration-normal:250ms; --duration-plate:700ms;
+  --ease-entrance:cubic-bezier(.2,0,0,1);
+  --ease-plate:cubic-bezier(.33,0,0,1);
+
+  --font-sans:"Space Grotesk",system-ui,sans-serif;
+  --font-display:"Oswald",Impact,sans-serif;
+
+  /* Зохиомж */
+  --gutter:1.5rem;
+  --section-y:7rem;
+  --container:80rem;
+  --nav-h:4.5rem;
+}
+body{background:var(--background);color:var(--foreground);font-family:var(--font-sans);margin:0}
+
+/* ---------- Root хэмжээ ---------- */
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+@media (min-width: 1280px) and (max-width: 1440px) { html { font-size: 1.111vw; } }
+@media (min-width: 1441px) and (max-width: 1920px) { html { font-size: .8333vw; } }
+@media (min-width: 640px) { :root { --gutter: 2rem; } }
+
+/* ---------- Гадаргуу (цайвар / харанхуй ээлжлэл) ---------- */
+:root,
+[data-surface="light"] {
+  --s-bg: var(--background);
+  --s-raised: var(--surface-muted);
+  --s-fg: var(--foreground);
+  --s-sub: color-mix(in srgb, var(--foreground) 72%, transparent);
+  --s-faint: var(--foreground-muted);
+  --s-border: var(--border-muted);
+  --s-contour: var(--contour-light);
+  --s-eyebrow: var(--foreground);
+  --s-heading: var(--foreground);
+  --s-dot: var(--accent);
+  --s-btn-body: var(--surface-dark);
+  --s-icon: invert(1);
+}
+
+[data-surface="muted"] {
+  --s-bg: var(--surface-muted);
+  --s-raised: var(--surface-soft);
+}
+
+[data-surface="dark"] {
+  --s-bg: var(--surface-dark);
+  --s-raised: var(--surface-dark-raised);
+  --s-fg: var(--foreground-on-dark);
+  --s-sub: var(--foreground-on-dark-muted);
+  --s-faint: var(--foreground-on-dark-faint);
+  --s-border: var(--border-on-dark);
+  --s-contour: var(--contour-dark);
+  --s-eyebrow: var(--accent);
+  --s-heading: var(--accent);
+  --s-dot: var(--foreground-on-dark);
+  --s-btn-body: none;
+  --s-icon: none;
+}
+
+[data-surface] {
+  background: var(--s-bg);
+  color: var(--s-fg);
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: var(--type-body);
+  line-height: var(--leading-display);
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, p, ul, ol {
+  margin: 0;
+}
+
+ul, ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Уншигч төхөөрөмжид л харагдах */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Цайвар гадаргуу дээр цагаан icon-ыг хар болгох */
+img[src*="chevron"],
+img[src*="relume"] {
+  filter: var(--s-icon);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: var(--section-y) var(--gutter);
+  background: var(--s-bg);
+  color: var(--s-fg);
+}
+
+main > * {
+  position: relative;
+}
+
+/* ---------- Типографи ---------- */
+.h1,
+.h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: var(--leading-headline);
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.h1 {
+  font-size: var(--type-impact);
+}
+
+.h2 {
+  font-size: var(--type-display-sm);
+}
+
+/* Гарчиг: өнгө, төгсгөлийн цэг, доорх accent зураас */
+h1.h1,
+h1.h2,
+h2.h2 {
+  color: var(--s-heading);
+  padding-bottom: 1.25rem;
+  background: linear-gradient(var(--accent), var(--accent)) no-repeat 0 100% / calc(1.5rem * var(--dash, 1)) 2px;
+}
+
+h1.h1::after,
+h1.h2::after,
+h2.h2::after {
+  content: ".";
+  color: var(--s-dot);
+}
+
+.tagline,
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: var(--type-eyebrow);
+  font-weight: 500;
+  line-height: var(--leading-flat);
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--s-eyebrow);
+}
+
+/* Цайвар дээр cyan текст уншигдахгүй тул accent-ыг тэмдэг болгоно */
+.tagline::before,
+.eyebrow::before {
+  content: "";
+  width: .375rem;
+  height: .375rem;
+  background: var(--accent);
+}
+
+[data-surface="dark"] .tagline::before,
+[data-surface="dark"] .eyebrow::before {
+  display: none;
+}
+
+.text-medium {
+  font-size: var(--type-lead);
+  line-height: var(--leading-display);
+  color: var(--s-sub);
+}
+
+.text-small {
+  font-size: var(--type-body);
+  line-height: var(--leading-display);
+}
+
+.link-underline {
+  font-size: var(--type-eyebrow);
+  font-weight: 500;
+  letter-spacing: var(--tracking-eyebrow);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: .3em;
+  transition: color var(--duration-fast) var(--ease-entrance);
+}
+
+.link-underline:hover {
+  color: var(--accent);
+}
+
+/* Текст reveal-ийн нэгж */
+.split__unit {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* ---------- Chamfer товч ---------- */
+.btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-width: 10rem;
+  height: 3.125rem;
+  padding: 0 1.5rem 0 1.25rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--accent);
+  font: 500 var(--type-title) / var(--leading-flat) var(--font-sans);
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-entrance);
+}
+
+/* JS ажиллахгүй үеийн энгийн хувилбар */
+.btn:not(.is-chamfer):not(.btn--link):not(.btn--sm) {
+  background: var(--surface-dark);
+  outline: 1px solid var(--accent-muted);
+  outline-offset: -1px;
+}
+
+.btn__shape {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.btn__body {
+  fill: var(--s-btn-body);
+}
+
+.btn__ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-opacity: .25;
+  vector-effect: non-scaling-stroke;
+}
+
+.btn__ticks {
+  fill: none;
+  stroke: var(--accent);
+  vector-effect: non-scaling-stroke;
+}
+
+.btn__flood {
+  fill: var(--accent);
+  transform: scaleX(0);
+  transform-box: fill-box;
+  transform-origin: left center;
+  transition: transform var(--duration-normal) var(--ease-plate);
+}
+
+.btn__arrow {
+  width: .8125rem;
+  height: .6875rem;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  overflow: visible;
+  transition: transform var(--duration-fast) var(--ease-entrance);
+}
+
+.btn.is-chamfer:hover,
+.btn.is-chamfer:focus-visible,
+a:hover .btn.is-chamfer {
+  color: var(--foreground);
+}
+
+.btn.is-chamfer:hover .btn__flood,
+.btn.is-chamfer:focus-visible .btn__flood,
+a:hover .btn.is-chamfer .btn__flood {
+  transform: scaleX(1);
+}
+
+.btn.is-chamfer:hover .btn__arrow,
+.btn.is-chamfer:focus-visible .btn__arrow,
+a:hover .btn.is-chamfer .btn__arrow {
+  transform: translateX(.25rem);
+}
+
+/* Харанхуй дээр — хоосон accent хүрээтэй */
+.btn--hollow .btn__body {
+  fill: none;
+}
+
+/* Текст линк хувилбар */
+.btn--link {
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  gap: .25rem;
+  color: var(--s-fg);
+  font-size: var(--type-label);
+}
+
+.btn--link:hover {
+  color: var(--accent);
+}
+
+.btn--link img {
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: transform var(--duration-fast) var(--ease-entrance);
+}
+
+.btn--link:hover img {
+  transform: translateX(.25rem);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* ---------- Bracket panel ---------- */
+.bracket {
+  position: relative;
+  padding: 1rem;
+}
+
+.bracket__c {
+  position: absolute;
+  width: .625rem;
+  height: .625rem;
+  fill: none;
+  stroke: currentColor;
+  color: var(--s-fg);
+  pointer-events: none;
+  overflow: visible;
+}
+
+.bracket__c--tr { top: 0; right: 0; }
+.bracket__c--tl { top: 0; left: 0; transform: scaleX(-1); }
+.bracket__c--br { bottom: 0; right: 0; transform: scaleY(-1); }
+.bracket__c--bl { bottom: 0; left: 0; transform: scale(-1); }
+
+.bracket--accent .bracket__c {
+  color: var(--accent);
+}
+
+/* ---------- Шатлалтай булантай зургийн хавтан ---------- */
+.plate {
+  position: relative;
+  isolation: isolate;
+}
+
+.plate__fill {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: url(#plate-clip);
+  background: var(--plate-fill);
+  transition: inset var(--duration-plate) var(--ease-plate);
+}
+
+.plate__fill > img:not(.lightbox__play) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 110%;
+  max-width: none;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.plate__outline {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.plate__outline path {
+  fill: none;
+  stroke: var(--plate-outline);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.plate:hover .plate__fill,
+a:hover > .plate .plate__fill,
+:is(.product, .blog-item, .strand, .feature):hover .plate__fill {
+  inset: 5%;
+}
+
+/* Чимэглэл зураг (зүсэхгүй) */
+.plate--contain .plate__fill > img:not(.lightbox__play) {
+  height: 100%;
+  padding: 1.5rem;
+  object-fit: contain;
+}
+
+/* ---------- Статистикийн самбар ---------- */
+.stats > *,
+.summary__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  align-content: center;
+  row-gap: .75rem;
+  column-gap: 1rem;
+  min-height: 4.875rem;
+  padding: 1.125rem 1.25rem 1.125rem 0;
+  background: var(--surface-black);
+  color: var(--foreground-on-dark);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%);
+}
+
+.stats > *::before,
+.summary__item::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+  margin: -1.125rem 0;
+  border-right: 1px solid var(--accent-muted);
+  background:
+    linear-gradient(var(--accent), var(--accent)) center / .5rem .5rem no-repeat,
+    linear-gradient(var(--accent-muted), var(--accent-muted)) center / 1rem 1rem no-repeat;
+}
+
+.stats > * > .h2,
+.summary__item > .h2 {
+  grid-column: 2;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: var(--type-heading);
+  font-weight: 500;
+  line-height: var(--leading-cap);
+  letter-spacing: var(--tracking-stat);
+  padding: .3rem 0 0;
+  background: none;
+}
+
+.stats > * > p:not(.h2),
+.summary__item > p:not(.h2) {
+  grid-column: 2;
+  font-size: var(--type-eyebrow);
+  letter-spacing: var(--tracking-label);
+  line-height: var(--leading-flat);
+  white-space: nowrap;
+  color: var(--foreground-on-dark);
+}
+
+.standings__stroke {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.standings__stroke path {
+  fill: none;
+  stroke: var(--accent);
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---------- Мета мөр ---------- */
+.check-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.check-list li {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: var(--type-lead);
+  line-height: var(--leading-flat);
+}
+
+.check-list img {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+}
+
+.check-list a {
+  transition: color var(--duration-fast) var(--ease-entrance);
+}
+
+.check-list a:hover {
+  color: var(--accent);
+}
+
+/* ---------- Арын давхаргууд (contour, seam, stack) ---------- */
+.fx-host {
+  position: relative;
+}
+
+.fx-contour {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.fx-seam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 34svh;
+  pointer-events: none;
+}
+
+.fx-host > :not(.fx-contour):not(.fx-seam):not(.hero__bg):not(.bg-cover) {
+  position: relative;
+  z-index: 2;
+}
+
+.fx-stack {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+}
+
+.fx-stack > * {
+  transform-origin: 50% var(--stack-origin, 50%);
+  will-change: transform;
+}
+
+.fx-stack::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: var(--surface-black);
+  opacity: var(--shade, 0);
+  pointer-events: none;
+}
+
+main > :not(.fx-stack) {
+  z-index: 1;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  position: relative;
+  z-index: 40;
+}
+
+.navbar__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  height: var(--nav-h);
+  padding: 0 var(--gutter);
+  border-bottom: 1px solid var(--s-border);
+  background: var(--s-bg);
+}
+
+.navbar__content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 2rem;
+  min-width: 0;
+}
+
+.logo {
+  display: block;
+  flex-shrink: 0;
+  width: 5.25rem;
+  height: 2rem;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.navbar__links {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  font-size: var(--type-body);
+  font-weight: 500;
+  line-height: var(--leading-flat);
+  letter-spacing: var(--tracking-label);
+}
+
+.navbar__links a,
+.navbar__dropdown {
+  position: relative;
+  white-space: nowrap;
+  transition: color var(--duration-fast) var(--ease-entrance);
+}
+
+.navbar__links a:hover,
+.navbar__dropdown:hover {
+  color: var(--accent);
+}
+
+.navbar__links a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -.625rem;
+  height: 2px;
+  background: var(--accent);
+}
+
+.navbar__dropdown {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-transform: uppercase;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.navbar__dropdown img {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.navbar__actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Цэсний товчнууд: энгийн шошго ба [ LABEL → ] линк */
+.navbar__actions .btn {
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  outline: 0;
+  background: none;
+  color: var(--s-fg);
+  font-size: var(--type-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+}
+
+.navbar__actions .btn--primary {
+  gap: .375rem;
+  font-weight: 700;
+}
+
+.navbar__actions .btn:hover {
+  color: var(--accent);
+}
+
+.nav-cta__mark {
+  font-weight: 500;
+}
+
+.navbar__burger {
+  display: none;
+}
+
+/* ---------- Mega menu ---------- */
+.mega-menu {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 1.5rem var(--gutter);
+  border-bottom: 1px solid var(--s-border);
+}
+
+.mega-menu__categories {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 12.5rem;
+  flex-shrink: 0;
+}
+
+.mega-menu__categories h3 {
+  font-size: var(--type-eyebrow);
+  font-weight: 500;
+  letter-spacing: var(--tracking-eyebrow);
+}
+
+.mega-menu__categories ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mega-menu__blog {
+  display: flex;
+  flex: 1;
+  gap: 2rem;
+  min-width: 0;
+}
+
+.mega-menu__column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: .5rem;
+  min-width: 0;
+}
+
+/* ---------- Нийтлэлийн мөр ---------- */
+.blog-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: .5rem 0;
+}
+
+.blog-item__image,
+.plate--blog {
+  width: 10rem;
+  height: 6.6875rem;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.blog-item__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: .75rem;
+  min-width: 0;
+}
+
+.blog-item__text {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.blog-item__title {
+  font-family: var(--font-display);
+  font-size: var(--type-title);
+  font-weight: 700;
+  line-height: var(--leading-headline);
+  transition: color var(--duration-fast) var(--ease-entrance);
+}
+
+a.blog-item:hover .blog-item__title {
+  color: var(--accent);
+}
+
+.blog-item__text .text-small {
+  color: var(--s-sub);
+}
+
+/* ---------- Hero (Header 30) ---------- */
+.hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 56.25rem;
+  padding: 22.875rem var(--gutter) 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero__bg,
+.bg-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+.hero > .hero__bg,
+.layout-67 > .bg-cover {
+  height: calc(100% + 7.5rem);
+  top: -3.75rem;
+}
+
+.hero::after,
+.layout-67::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--surface-black) 55%, transparent);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 48rem;
+}
+
+.hero__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.hero__title {
+  min-height: 25.3125rem;
+}
+
+.hero h1.h1 {
+  background-position: 50% 100%;
+}
+
+.hero__actions {
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* ---------- Layout 26 (тоо + видео) ---------- */
+.split,
+.section > div:has(> .lightbox) {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+.split__content,
+.section > div:has(> .lightbox) > div:has(> .stats) {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 2rem;
+  min-width: 0;
+}
+
+.section-title,
+div:has(> .tagline + .section-title__body) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section-title__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.lightbox {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  aspect-ratio: 600 / 640;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.lightbox .plate__fill::after,
+.lightbox:not(.plate)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--surface-black) 40%, transparent);
+}
+
+.lightbox__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 4rem;
+  height: 4rem;
+  transform: translate(-50%, -50%);
+}
+
+/* ---------- Layout 67 ---------- */
+.layout-67 .container {
+  position: relative;
+  z-index: 2;
+}
+
+.layout-67__grid {
+  display: flex;
+  align-items: flex-start;
+  gap: 5rem;
+}
+
+.layout-67__col {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.layout-67__col--right {
+  gap: 2rem;
+}
+
+/* ---------- Product 1 (сургалтууд) ---------- */
+.products__container {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+.products__title {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.products__title .section-title {
+  flex: 1 1 0;
+  max-width: 48rem;
+}
+
+.products__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4rem 2rem;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: opacity var(--duration-plate) var(--ease-plate);
+}
+
+.product__image,
+.plate--product {
+  width: 100%;
+  aspect-ratio: 296 / 364.8;
+  object-fit: cover;
+}
+
+.product__body {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.product__name {
+  font-size: var(--type-eyebrow);
+  font-weight: 500;
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: var(--leading-flat);
+}
+
+.product__body .text-small {
+  margin-top: .375rem;
+  font-size: var(--type-eyebrow);
+  color: var(--s-sub);
+}
+
+.product__label {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: var(--leading-headline);
+  transition: color var(--duration-fast) var(--ease-entrance);
+}
+
+.product:hover .product__label {
+  color: var(--accent);
+}
+
+/* Нэг картыг hover хийхэд бусдыг бүдгэрүүлэх */
+.products__grid:hover > .product:not(:hover) {
+  opacity: .3;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  padding: 1rem;
+  background: var(--accent);
+}
+
+.footer__container {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "logo  title  title"
+    "rule  rule   rule"
+    "copy  terms  social";
+  align-items: center;
+  gap: 2rem;
+  max-width: none;
+  min-height: 24rem;
+  padding: 2rem 2rem 2rem;
+  overflow: hidden;
+  background: var(--surface-black);
+  color: var(--foreground-on-dark);
+}
+
+.footer__top,
+.footer__credits,
+.footer__legal {
+  display: contents;
+}
+
+.footer__logo {
+  grid-area: logo;
+  align-self: start;
+}
+
+.footer__address {
+  grid-area: title;
+  align-self: start;
+  justify-self: end;
+  max-width: 40rem;
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: var(--type-heading);
+  font-weight: 700;
+  line-height: var(--leading-headline);
+  text-align: right;
+}
+
+.footer__divider {
+  grid-area: rule;
+  align-self: end;
+  width: 100%;
+  height: 1px;
+  max-width: none;
+  opacity: .3;
+}
+
+.footer__legal > p {
+  grid-area: copy;
+  font-size: var(--type-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--foreground-on-dark-faint);
+}
+
+.footer__legal > a {
+  grid-area: terms;
+  justify-self: start;
+  font-size: var(--type-body);
+}
+
+.footer__social {
+  grid-area: social;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .75rem;
+}
+
+.footer__social a {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  transition: opacity var(--duration-fast) var(--ease-entrance);
+}
+
+.footer__social a:hover {
+  opacity: .6;
+}
+
+.footer__social img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1279.98px) {
+  .has-js .navbar__links,
+  .has-js .navbar__actions {
+    display: none;
+  }
+
+  .has-js .navbar__burger {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .4375rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0 .5rem;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .navbar__burger-line {
+    display: block;
+    height: 1px;
+    background: var(--s-fg);
+    transition: transform var(--duration-normal) var(--ease-plate);
+  }
+
+  .navbar.is-open .navbar__burger-line:nth-child(2) {
+    transform: translateY(.25rem) rotate(45deg);
+  }
+
+  .navbar.is-open .navbar__burger-line:last-child {
+    transform: translateY(-.25rem) rotate(-45deg);
+  }
+
+  .has-js .navbar.is-open .navbar__links a,
+  .has-js .navbar.is-open .navbar__dropdown {
+    white-space: normal;
+    text-align: left;
+  }
+
+  /* Бүтэн дэлгэцийн sheet */
+  .has-js .navbar.is-open .navbar__links {
+    position: fixed;
+    inset: var(--nav-h) 0 0 0;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: .5rem;
+    padding: 2rem var(--gutter) 8rem;
+    overflow-y: auto;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-display);
+    font-size: clamp(2.375rem, 7vw, 3.25rem);
+    font-weight: 700;
+    line-height: var(--leading-headline);
+    letter-spacing: 0;
+  }
+
+  .has-js .navbar.is-open .navbar__links a[aria-current="page"]::after {
+    bottom: -.25rem;
+  }
+
+  .has-js .navbar.is-open .navbar__actions {
+    position: fixed;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: 1.5rem;
+    z-index: 61;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .navbar:not(.has-js *) .navbar__header {
+    flex-wrap: wrap;
+    height: auto;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .navbar__links {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  :root {
+    --section-y: 5rem;
+    --type-impact: 4.375rem;
+    --type-display-sm: 2.75rem;
+  }
+
+  .split,
+  .section > div:has(> .lightbox),
+  .layout-67__grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3rem;
+  }
+
+  .products__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem 1.5rem;
+  }
+
+  .hero {
+    height: auto;
+    min-height: 40rem;
+    align-items: center;
+    padding: 7.5rem var(--gutter);
+  }
+
+  .hero__title {
+    min-height: 0;
+  }
+
+  .footer__container {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "logo   social"
+      "title  title"
+      "rule   rule"
+      "copy   copy"
+      "terms  terms";
+    gap: 1.5rem;
+  }
+
+  .footer__address {
+    justify-self: start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --section-y: 4rem;
+    --type-impact: 3.4375rem;
+    --type-display-sm: 2.375rem;
+  }
+
+  /* Хоёрдогч панель */
+  .mega-menu {
+    display: none;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .products__title {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 639.98px) {
+  .actions,
+  .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .btn:not(.btn--link) {
+    width: 100%;
+  }
+
+  .navbar__actions .btn {
+    width: auto;
+  }
+
+  .products__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer__container {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-height: 500px) {
+  .hero {
+    height: auto;
+    padding-top: 6rem;
+    padding-bottom: 4rem;
+  }
+
+  .hero__title {
+    min-height: 0;
+  }
+}
