@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Математик 7</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Raleway:wght@500&display=swap&subset=cyrillic" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="matematik.css" />
+</head>
+<body>
+
+  <!-- ===== Navbar ===== -->
+  <header class="navbar">
+    <div class="navbar__header">
+      <div class="navbar__content">
+        <a href="index.html" class="logo" aria-label="Нүүр хуудас">
+          <img src="assets/logo.png" alt="Сургуулийн лого" />
+        </a>
+        <nav class="navbar__links" aria-label="Үндсэн цэс">
+          <a href="index.html">Нүүр</a>
+          <a href="matematik.html" aria-current="page">Математик</a>
+          <a href="hotsrogdol.html">Хоцрогдлыг тооцох</a>
+          <a href="#">Шалгалт өгөх</a>
+          <a href="https://web3-red-eta.vercel.app/" target="_blank" rel="noopener">Интерактив даалгавар</a>
+          <a href="index.html#courses">Сургалтууд</a>
+        </nav>
+      </div>
+      <div class="navbar__actions">
+        <a href="#" class="btn btn--sm btn--secondary">Нэвтрэх</a>
+        <a href="#" class="btn btn--sm btn--primary">Бүртгүүлэх</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="math-hero">
+      <img class="bg-cover" src="assets/course-3.png" alt="" />
+      <div class="container math-hero__inner">
+        <p class="tagline">Суурь боловсрол · 7-р анги</p>
+        <h1 class="h1">Математик 7</h1>
+        <p class="text-medium math-hero__lead">7-р ангийн математикийн хичээлийн суралцахуйн зорилт, сурах бичиг, үнэлгээний шалгуурыг нэг дороос. Тоо тоолол, алгебр, геометр, статистик ба магадлал гэсэн 4 хүрээтэй.</p>
+        <div class="actions">
+          <a href="https://web3-red-eta.vercel.app/" target="_blank" rel="noopener" class="btn btn--primary">Бодлого бодох</a>
+          <a href="#surah-bichig" class="btn btn--secondary">Сурах бичиг</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Хэсгийн цэс ===== -->
+    <nav class="subnav" aria-label="Хуудасны хэсгүүд">
+      <div class="container subnav__inner">
+        <a href="#zorilt">Суралцахуйн зорилт</a>
+        <a href="#surah-bichig">Сурах бичиг</a>
+        <a href="#shalguur">Үнэлгээний шалгуур</a>
+      </div>
+    </nav>
+
+    <!-- ===== 1. Суралцахуйн зорилт ===== -->
+    <section class="section" id="zorilt">
+      <div class="container">
+        <div class="section-title section-title--center">
+          <p class="tagline">01</p>
+          <div class="section-title__body">
+            <h2 class="h2">Суралцахуйн зорилт</h2>
+            <p class="text-medium">7-р ангийн төгсгөлд сурагч дараах мэдлэг, чадварыг эзэмшсэн байна.</p>
+          </div>
+        </div>
+
+        <div class="strands">
+          <article class="strand">
+            <div class="strand__media">
+              <img src="assets/math/number.svg" width="400" height="300" alt="3/4 = 0.75 = 75% гэсэн дугуй диаграмм" />
+            </div>
+            <div class="strand__body">
+              <p class="strand__tag">Хүрээ 1</p>
+              <h3 class="strand__title">Тоо тоолол</h3>
+              <ul class="goal-list">
+                <li>Бүхэл, бутархай, аравтын тоог жишиж, эрэмбэлж, 0.1, 0.01-ийн нарийвчлалтай тоймлох</li>
+                <li>Энгийн бутархайг хураах, ерөнхий хуваарьт шилжүүлж жиших</li>
+                <li>Энгийн бутархай дээр нэмэх, хасах, үржих, хуваах үйлдэл гүйцэтгэх</li>
+                <li>Энгийн бутархай, аравтын бутархай, процентыг хооронд нь хөрвүүлэх</li>
+                <li>Харьцаа, пропорц ашиглан процентын болон хэсгийн бодлого бодох</li>
+                <li>Урт, жин, эзлэхүүн, хугацааны нэгжийг хооронд нь шилжүүлэх</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="strand">
+            <div class="strand__media">
+              <img src="assets/math/algebra.svg" width="400" height="300" alt="y = 2x + 1 шугаман функцийн график" />
+            </div>
+            <div class="strand__body">
+              <p class="strand__tag">Хүрээ 2</p>
+              <h3 class="strand__title">Алгебр</h3>
+              <ul class="goal-list">
+                <li>Үсэгт илэрхийлэл зохиож, хялбарчилж, утгыг нь олох</li>
+                <li>Тоон дарааллын зүй тогтлыг илрүүлж, дараагийн гишүүдийг олох</li>
+                <li>Арифметик прогрессийн ерөнхий гишүүний томьёог бичиж хэрэглэх</li>
+                <li>Шугаман функцийн утгын хүснэгт зохиож, графикийг байгуулах</li>
+                <li>Өгөгдсөн нөхцлөөр шулууны тэгшитгэл бичих</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="strand">
+            <div class="strand__media">
+              <img src="assets/math/geometry.svg" width="400" height="300" alt="Хэрчмийн дундаж перпендикуляр байгуулах ба гурвалжныг 90° эргүүлэх" />
+            </div>
+            <div class="strand__body">
+              <p class="strand__tag">Хүрээ 3</p>
+              <h3 class="strand__title">Геометр</h3>
+              <ul class="goal-list">
+                <li>Тойруур, шугам ашиглан үндсэн байгуулалт хийх (дундаж перпендикуляр, биссектрис)</li>
+                <li>Дүрсийн тэнхлэгийн болон эргэлтийн тэгш хэмийг тодорхойлох</li>
+                <li>Дүрсийг цэгийн хувьд эргүүлэх, дараалсан хувиргалт гүйцэтгэх</li>
+                <li>Хэрчмийн үзүүрийн координатаар дундаж цэгийн координатыг олох</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="strand">
+            <div class="strand__media">
+              <img src="assets/math/statistics.svg" width="400" height="300" alt="Баганан диаграмм, дундаж шугам ба шоо" />
+            </div>
+            <div class="strand__body">
+              <p class="strand__tag">Хүрээ 4</p>
+              <h3 class="strand__title">Статистик ба магадлал</h3>
+              <ul class="goal-list">
+                <li>Өгөгдөл цуглуулж, давтамжийн хүснэгтэд бүлэглэх</li>
+                <li>Өгөгдлийг баганан, дугуй, шугаман диаграммаар дүрслэх</li>
+                <li>Арифметик дундаж, медиан, моод, далайцыг олж харьцуулах</li>
+                <li>Үзэгдлийн ба эсрэг үзэгдлийн магадлалыг тооцох</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2. Сурах бичиг ===== -->
+    <section class="section section--alt" id="surah-bichig">
+      <div class="container book">
+        <div class="book__cover">
+          <img src="assets/math/textbook.svg" width="320" height="400" alt="Математик 7 сурах бичиг" />
+        </div>
+        <div class="book__body">
+          <div class="section-title">
+            <p class="tagline">02</p>
+            <div class="section-title__body">
+              <h2 class="h2">7-р ангийн сурах бичиг</h2>
+              <p class="text-medium">"Математик 7" сурах бичгийг цахимаар уншиж, сэдэв бүрийн видео хичээлийг БШУЯ-ны цахим контентын сангаас үзэх боломжтой.</p>
+            </div>
+          </div>
+
+          <div class="chapters">
+            <div class="chapter">
+              <h3><span class="chapter__num">1</span>Тоо тоолол</h3>
+              <ul>
+                <li>Тоог жиших, тоймлох</li>
+                <li>Энгийн бутархайг хураах, жиших</li>
+                <li>Энгийн бутархайн үйлдэл</li>
+                <li>Энгийн ба аравтын бутархай, процент</li>
+                <li>Харьцаа, пропорц</li>
+                <li>Процент, хэсгийн бодлого</li>
+                <li>Нэгж шилжүүлэх</li>
+              </ul>
+            </div>
+            <div class="chapter">
+              <h3><span class="chapter__num">2</span>Алгебр</h3>
+              <ul>
+                <li>Алгебрын илэрхийлэл</li>
+                <li>Дараалал</li>
+                <li>Арифметик прогрессийн ерөнхий гишүүний томьёо</li>
+                <li>Шугаман функц, түүний график</li>
+                <li>Шулууны тэгшитгэл бичих</li>
+              </ul>
+            </div>
+            <div class="chapter">
+              <h3><span class="chapter__num">3</span>Геометр</h3>
+              <ul>
+                <li>Үндсэн байгуулалтууд</li>
+                <li>Дүрсийн тэгш хэмт чанар</li>
+                <li>Эргүүлэлт, дараалсан хувиргалт</li>
+                <li>Хэрчмийн дундаж цэгийн координат</li>
+              </ul>
+            </div>
+            <div class="chapter">
+              <h3><span class="chapter__num">4</span>Статистик ба магадлал</h3>
+              <ul>
+                <li>Өгөгдлийг бүлэглэх</li>
+                <li>Өгөгдлийг дүрслэх</li>
+                <li>Дунджууд ба далайц</li>
+                <li>Эсрэг үзэгдлийн магадлал</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="actions">
+            <a href="https://econtent.edu.mn/book/7rangi/" target="_blank" rel="noopener" class="btn btn--primary">Цахим сурах бичиг</a>
+            <a href="https://econtent.edu.mn/videoEBS/7rangi/mat" target="_blank" rel="noopener" class="btn btn--secondary">Видео хичээл</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. Үнэлгээний шалгуур ===== -->
+    <section class="section" id="shalguur">
+      <div class="container">
+        <div class="section-title section-title--center">
+          <p class="tagline">03</p>
+          <div class="section-title__body">
+            <h2 class="h2">Үнэлгээний шалгуур</h2>
+            <p class="text-medium">Сэдэв бүрийг 4 түвшнээр үнэлнэ. Түвшин бүрт 5 бодлого бодож, 4 ба түүнээс дээш зөв бодвол дараагийн түвшин рүү шилжинэ.</p>
+          </div>
+        </div>
+
+        <ol class="levels">
+          <li class="level">
+            <span class="level__icon" aria-hidden="true">🌱</span>
+            <h3>Суурь</h3>
+            <p>Үндсэн ойлголт, нэр томьёог таньж, загвар бодлогыг жишээний дагуу боддог.</p>
+          </li>
+          <li class="level">
+            <span class="level__icon" aria-hidden="true">🌿</span>
+            <h3>Дунд</h3>
+            <p>Дүрэм, томьёог зөв сонгож хэрэглэн, нэг алхамтай бодлогыг бие даан боддог.</p>
+          </li>
+          <li class="level">
+            <span class="level__icon" aria-hidden="true">🌳</span>
+            <h3>Ахисан</h3>
+            <p>Олон алхамтай бодлогыг төлөвлөж бодоод, бодолтынхоо алхам бүрийг тайлбарладаг.</p>
+          </li>
+          <li class="level">
+            <span class="level__icon" aria-hidden="true">🏆</span>
+            <h3>Гүнзгий</h3>
+            <p>Амьдралын нөхцөлтэй бодлогыг загварчилж, өөр аргаар шалгаж, дүгнэлт гаргадаг.</p>
+          </li>
+        </ol>
+
+        <div class="criteria">
+          <div class="criteria__item">
+            <img src="assets/math/number.svg" width="400" height="300" alt="" />
+            <div>
+              <h3>Тоо тоолол</h3>
+              <ul class="check">
+                <li>Бутархай, аравтын бутархай, процентыг зөв хөрвүүлж, жишдэг</li>
+                <li>Бутархай дээрх үйлдлийг алдаагүй гүйцэтгэж, хариуг хураадаг</li>
+                <li>Пропорц зохиож, процентын бодлогын хариуг утгаар нь шалгадаг</li>
+              </ul>
+            </div>
+          </div>
+          <div class="criteria__item">
+            <img src="assets/math/algebra.svg" width="400" height="300" alt="" />
+            <div>
+              <h3>Алгебр</h3>
+              <ul class="check">
+                <li>Нөхцөлөөс илэрхийлэл зохиож, утгыг нь зөв олдог</li>
+                <li>Дарааллын n-р гишүүний томьёог бичиж, дурын гишүүнийг олдог</li>
+                <li>Шугаман функцийн графикийг байгуулж, налалт, огтлолцлыг тайлбарладаг</li>
+              </ul>
+            </div>
+          </div>
+          <div class="criteria__item">
+            <img src="assets/math/geometry.svg" width="400" height="300" alt="" />
+            <div>
+              <h3>Геометр</h3>
+              <ul class="check">
+                <li>Байгуулалтыг тойруур, шугамаар нарийн гүйцэтгэж, алхмаа тайлбарладаг</li>
+                <li>Тэгш хэмийн тэнхлэг, эргэлтийн өнцөг, төвийг зөв тодорхойлдог</li>
+                <li>Дундаж цэгийн координатыг томьёогоор олж, зурагт шалгадаг</li>
+              </ul>
+            </div>
+          </div>
+          <div class="criteria__item">
+            <img src="assets/math/statistics.svg" width="400" height="300" alt="" />
+            <div>
+              <h3>Статистик ба магадлал</h3>
+              <ul class="check">
+                <li>Өгөгдлийг тохирох диаграммаар үнэн зөв дүрсэлдэг</li>
+                <li>Дундаж, медиан, моод, далайцыг олж, өгөгдлийг харьцуулан дүгнэдэг</li>
+                <li>Магадлалыг бутархай, процентоор илэрхийлж, P(A′) = 1 − P(A)-г хэрэглэдэг</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta">
+          <div>
+            <h3>Сурагчдын гүйцэтгэлийг бүртгэх</h3>
+            <p>Даалгавар бүрийн дүнг сурагчид бүртгэж, хоцрогдолтой сэдвийг тодорхойлоорой.</p>
+          </div>
+          <div class="actions">
+            <a href="hotsrogdol.html" class="btn btn--primary">Хоцрогдлыг тооцох</a>
+            <a href="https://web3-red-eta.vercel.app/" target="_blank" rel="noopener" class="btn btn--secondary">Бодлого бодох</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container footer__container">
+      <div class="footer__top">
+        <div class="footer__logo">
+          <a href="index.html" class="logo" aria-label="Нүүр хуудас">
+            <img src="assets/logo.png" alt="Сургуулийн лого" />
+          </a>
+        </div>
+        <p class="footer__address">Өмнөговь аймаг Даланзадгад сумын ЕБ-ын 5 дугаар сургууль</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Facebook"><img src="assets/facebook.svg" width="24" height="24" alt="" /></a>
+          <a href="#" aria-label="Instagram"><img src="assets/instagram.svg" width="24" height="24" alt="" /></a>
+          <a href="#" aria-label="X"><img src="assets/x.svg" width="24" height="24" alt="" /></a>
+          <a href="#" aria-label="LinkedIn"><img src="assets/linkedin.svg" width="24" height="24" alt="" /></a>
+          <a href="#" aria-label="YouTube"><img src="assets/youtube.svg" width="24" height="24" alt="" /></a>
+        </div>
+      </div>
+      <div class="footer__credits">
+        <img class="footer__divider" src="assets/divider.svg" alt="" />
+        <div class="footer__legal">
+          <p>© 2025 School No. 5, Dalanzadgad. All rights reserved.</p>
+          <a href="#" class="link-underline">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" fill="none">
+  <title>Үндсэн байгуулалт, эргүүлэлт, тэгш хэм</title>
+  <!-- Хэрчмийн дундаж перпендикуляр байгуулах -->
+  <g stroke="#ffffff" stroke-opacity="0.45" stroke-width="2" stroke-linecap="round">
+    <path d="M115 104.7 A110 110 0 0 1 159.7 153.5"/>
+    <path d="M159.7 246.5 A110 110 0 0 1 115 295.3"/>
+    <path d="M120.3 153.5 A110 110 0 0 1 165 104.7"/>
+    <path d="M165 295.3 A110 110 0 0 1 120.3 246.5"/>
+  </g>
+  <path d="M140 92V292" stroke="#04aaf7" stroke-width="3" stroke-dasharray="8 6"/>
+  <path d="M60 200H220" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+  <g fill="#ffffff">
+    <circle cx="60" cy="200" r="6"/>
+    <circle cx="220" cy="200" r="6"/>
+  </g>
+  <circle cx="140" cy="200" r="7" fill="#04aaf7" stroke="#ffffff" stroke-width="2"/>
+  <g font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#ffffff">
+    <text x="44" y="190">A</text>
+    <text x="226" y="190">B</text>
+    <text x="148" y="222">M</text>
+  </g>
+  <!-- Цэгийн хувьд эргүүлэх -->
+  <path d="M310 140 L350 140 L310 100 Z" fill="none" stroke="#ffffff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M310 160 L310 200 L350 160 Z" fill="#04aaf7" fill-opacity="0.35" stroke="#04aaf7" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M343 118 A50 50 0 0 1 362 150" stroke="#ffffff" stroke-opacity="0.6" stroke-width="2"/>
+  <path d="M362 150l-6 -8l10 -1z" fill="#ffffff" fill-opacity="0.6"/>
+  <circle cx="300" cy="150" r="5" fill="#ffffff"/>
+  <text x="282" y="146" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#ffffff">O</text>
+  <text x="300" y="250" font-family="Raleway, Inter, sans-serif" font-size="20" font-weight="500" fill="#ffffff" fill-opacity="0.75">90°</text>
+</svg>

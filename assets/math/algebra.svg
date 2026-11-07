@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" fill="none">
+  <title>Шугаман функц, түүний график</title>
+  <g stroke="#ffffff" stroke-opacity="0.08" stroke-width="1">
+    <path d="M30 30V270 M60 30V270 M90 30V270 M150 30V270 M180 30V270 M210 30V270 M240 30V270 M270 30V270 M300 30V270 M330 30V270 M360 30V270"/>
+    <path d="M30 30H360 M30 60H360 M30 90H360 M30 120H360 M30 150H360 M30 180H360 M30 240H360 M30 270H360"/>
+  </g>
+  <g stroke="#ffffff" stroke-opacity="0.6" stroke-width="2">
+    <path d="M30 210H364"/>
+    <path d="M120 274V26"/>
+  </g>
+  <path d="M364 210l-8 -5v10z M120 26l-5 8h10z" fill="#ffffff" fill-opacity="0.6"/>
+  <path d="M75 270 L195 30" stroke="#04aaf7" stroke-width="4" stroke-linecap="round"/>
+  <g fill="#ffffff" stroke="#04aaf7" stroke-width="3">
+    <circle cx="120" cy="180" r="6"/>
+    <circle cx="150" cy="120" r="6"/>
+    <circle cx="180" cy="60" r="6"/>
+  </g>
+  <g font-family="Inter, sans-serif" font-size="14" fill="#ffffff" fill-opacity="0.6">
+    <text x="352" y="230">x</text>
+    <text x="128" y="36">y</text>
+    <text x="106" y="226">0</text>
+  </g>
+  <rect x="226" y="52" width="140" height="48" rx="10" fill="#04aaf7"/>
+  <text x="296" y="84" font-family="Raleway, Inter, sans-serif" font-weight="500" font-size="24" fill="#ffffff" text-anchor="middle">y = 2x + 1</text>
+  <g font-family="Inter, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.75">
+    <text x="232" y="136">a₁, a₂, a₃ …</text>
+    <text x="232" y="160">aₙ = a₁ + (n − 1)d</text>
+  </g>
+</svg>
