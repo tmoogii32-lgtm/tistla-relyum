@@ -5,7 +5,8 @@
    ========================================================= */
 
 /* Нүүр хуудасны rem хэмжээс (дэд хуудсууд px ашигладаг тул нөлөөгүй) */
-html { font-size: 16px; }
+:root { --nav-h: 4.5rem; }
+html { font-size: 16px; scroll-padding-top: var(--nav-h); }
 @media (min-width: 1280px) and (max-width: 1440px) { html { font-size: 1.111vw; } }
 @media (min-width: 1441px) and (max-width: 1920px) { html { font-size: .8333vw; } }
 
@@ -29,9 +30,9 @@ html { font-size: 16px; }
   --font-sans: "Space Grotesk", system-ui, sans-serif;
   --font-display: "Oswald", Impact, sans-serif;
   --gutter: 1.5rem;
-  --nav-h: 4.5rem;
 
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 40;
   background: var(--s-bg);
   color: var(--s-fg);
@@ -232,6 +233,10 @@ html { font-size: 16px; }
     z-index: 61;
     display: flex;
     justify-content: space-between;
+  }
+
+  .navbar:not(.has-js *) {
+    position: relative;
   }
 
   .navbar:not(.has-js *) .navbar__header {

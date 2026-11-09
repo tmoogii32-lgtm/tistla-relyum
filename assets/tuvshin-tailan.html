@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="mn" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сургалтын Хоцрогдол & Ялгаатай Даалгавар Боловсруулах Харьцуулсан Судалгаа</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome icons via Unicode / Tailwind styling (No SVG used) -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcfbf9;
+            color: #1e293b;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 420px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .tab-btn.active {
+            border-bottom: 3px solid #3b82f6;
+            color: #1d4ed8;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+<!-- Chosen Palette: Slate & Warm Amber Neutral (Warm off-white background #fcfbf9, slate texts, indigo/amber subtle accent highlights) -->
+
+<!-- Application Structure Plan:
+1. Executive Header & Global Impact KPIs: Immediate visual context of post-pandemic learning loss.
+2. Section 1: RAPID Policy Explorer: Interactive tab/card view allowing users to click through the 5 RAPID pillars (Reach, Assess, Prioritize, Increase, Develop).
+3. Section 2: Differentiated Learning Models (TaRL, Singapore Full SBB, Adaptive EdTech AI): Side-by-side tabs with detailed characteristics, task structure, and applicability.
+4. Section 3: Comparative Intervention Impact Matrix & Dynamic Chart: Interactive Chart.js bar graph comparing effect sizes (Effect Size 'd') of interventions (Feedback, Tutoring, Retention, etc.) with filter buttons by impact/cost.
+5. Section 4: Interactive Differentiated Task Strategy Simulator for Educators: A simple interactive decision wizard helping users find the best approach for their classroom scenario.
+6. Section 5: Policy Recommendations & Takeaways: Structured summary cards for decision makers.
+This structure breaks down complex meta-analysis report data into bite-sized, interactive, and easily digestible segments. -->
+
+<!-- Visualization & Content Choices:
+1. Global KPIs -> Simple counter cards with contextual description -> Clear quantitative overview.
+2. RAPID Framework -> Clickable tabbed interactive layout -> HTML/JS -> Clear policy breakdown without overwhelming text.
+3. Intervention Effect Sizes -> Interactive Horizontal Bar Chart -> Chart.js Canvas -> Allows filtering by High Impact vs Low Impact -> Justification: High clarity for meta-analysis SD effect sizes, strictly NO SVG.
+4. Subject Gap & Loss -> Dynamic Donut / Bar comparison -> Chart.js Canvas -> Visualizes Math vs Reading gap.
+5. Strategy Selector -> Interactive HTML/JS Wizard -> Immediate practical utility for readers. -->
+
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-800 bg-clip-text text-transparent">
+                    EduResearch Global
+                </span>
+                <span class="hidden md:inline-block text-xs px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-medium">
+                    2020–2025 Харьцуулсан Судалгаа
+                </span>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium text-slate-600">
+                <a href="#kpi" class="hover:text-indigo-600 transition-colors">Нөхцөл байдал</a>
+                <a href="#rapid" class="hover:text-indigo-600 transition-colors">RAPID Загвар</a>
+                <a href="#models" class="hover:text-indigo-600 transition-colors">Ялгаатай Сургалт</a>
+                <a href="#impact" class="hover:text-indigo-600 transition-colors">Үр Нөлөөний Анализ</a>
+                <a href="#simulator" class="hover:text-indigo-600 transition-colors">Симмулятор</a>
+            </nav>
+            <div class="md:hidden">
+                <a href="#simulator" class="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-lg font-medium">Интерактив хэрэгсэл</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- Hero & Overview Section -->
+        <section id="kpi" class="space-y-8">
+            <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-8 sm:p-12 shadow-xl relative overflow-hidden">
+                <div class="max-w-3xl space-y-4">
+                    <span class="text-amber-400 text-sm font-semibold tracking-wider uppercase">Олон Улсын Мета-Шинжилгээ ба Бодлогын Харьцуулалт</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                        Сургалтын Хоцрогдлыг Арилгах ба Ялгаатай Даалгавар Боловсруулах Стратегиуд
+                    </h1>
+                    <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                        Сүүлийн 5 жилийн (2020–2025) дэлхийн боловсролын салбарын судалгаануудын нэгдсэн дүн: Цар тахлын дараах хичээлийн хоцрогдлыг нөхөх хамгийн үр дүнтэй арга зам нь суралцагчийн түвшинд тохируулсан ялгаатай сургалт болон уян хатан заах арга зүй болох нь нотлогдлоо.
+                    </p>
+                </div>
+
+                <!-- Intro contextual message -->
+                <div class="mt-8 p-4 bg-white/10 rounded-2xl backdrop-blur border border-white/10 text-xs sm:text-sm text-slate-200">
+                    <strong>Интерактив тайлангийн тухай:</strong> Энэхүү аппликейшн нь ЮНЕСКО, Дэлхийн Банк, J-PAL болон EEF-ийн судалгааны өгөгдлийг нэгтгэн, хичээлийн хоцрогдол арилгах арга зүй, ялгаатай даалгаврын үр ашгийг интерактив хэлбэрээр шинжлэх боломжийг олгоно.
+                </div>
+            </div>
+
+            <!-- Key Metric Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-amber-500 font-bold text-sm tracking-wide uppercase">Сургалтын Ядуурал</div>
+                    <div class="text-4xl font-extrabold text-slate-900 my-2">70%</div>
+                    <p class="text-xs text-slate-500">Буурай ба дунд орлоготой орнуудад 10 настнуудын энгийн эх ойлгох чадваргүй хувь (Өмнө нь 57% байсан).</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-indigo-600 font-bold text-sm tracking-wide uppercase">Танхимын Хаалт</div>
+                    <div class="text-4xl font-extrabold text-slate-900 my-2">141 өдөр</div>
+                    <p class="text-xs text-slate-500">Дэлхийн хэмжээнд танхимын хичээл бүрэн зогссон дундаж хугацаа (Зарим бүсэд 1+ жил).</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-rose-500 font-bold text-sm tracking-wide uppercase">Академик Хоцрогдол</div>
+                    <div class="text-4xl font-extrabold text-slate-900 my-2">-0.16 SD</div>
+                    <p class="text-xs text-slate-500">Сургууль 1 жил хаагдахад дунджаар 1.1 жилийн сургалтын агуулгын алдагдал үүссэн.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-emerald-600 font-bold text-sm tracking-wide uppercase">Эдийн Засгийн Алдагдал</div>
+                    <div class="text-4xl font-extrabold text-slate-900 my-2">$17 Төг</div>
+                    <p class="text-xs text-slate-500">Одоогийн суралцагчдын насан туршийн олох орлогын алдагдал (Дэлхийн ДНБ-ий 14%).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: RAPID Policy Framework -->
+        <section id="rapid" class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm space-y-8">
+            <div class="space-y-3">
+                <div class="inline-block px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full uppercase tracking-wider">
+                    Бодлогын Хүрээ
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">
+                    Олон Улсын RAPID Бодлогын Загвар
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-4xl">
+                    Дэлхийн Банк, ЮНЕСКО, ЮНИСЕФ зэрэг байгууллагуудаас хамтран боловсруулсан RAPID хүрээ нь хичээлийн хоцрогдлыг арилгах, сургалтыг хурдасгах таван үндсэн бодлогын чиглэлийг тодорхойлдог. Доорх бүрэлдэхүүн хэсгүүд дээр дарж бодлогын тодорхойлолт болон хэрэгжүүлэх алхмуудтай танилцана уу.
+                </p>
+            </div>
+
+            <!-- RAPID Interactive Tabs & Details -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- RAPID Tab Buttons -->
+                <div class="lg:col-span-4 flex flex-col space-y-3" id="rapid-tabs">
+                    <button onclick="setRapidTab('R')" id="tab-R" class="rapid-btn text-left p-4 rounded-xl border border-indigo-600 bg-indigo-50 font-semibold text-indigo-900 flex items-center justify-between transition-all">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm">R</span>
+                            <span>Reach (Хүрэх)</span>
+                        </div>
+                        <span class="text-xs font-normal opacity-75">→</span>
+                    </button>
+                    <button onclick="setRapidTab('A')" id="tab-A" class="rapid-btn text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 bg-white font-medium text-slate-700 flex items-center justify-between transition-all">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center font-bold text-sm">A</span>
+                            <span>Assess (Үнэлэх)</span>
+                        </div>
+                        <span class="text-xs font-normal opacity-75">→</span>
+                    </button>
+                    <button onclick="setRapidTab('P')" id="tab-P" class="rapid-btn text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 bg-white font-medium text-slate-700 flex items-center justify-between transition-all">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center font-bold text-sm">P</span>
+                            <span>Prioritize (Эрэмбэлэх)</span>
+                        </div>
+                        <span class="text-xs font-normal opacity-75">→</span>
+                    </button>
+                    <button onclick="setRapidTab('I')" id="tab-I" class="rapid-btn text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 bg-white font-medium text-slate-700 flex items-center justify-between transition-all">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center font-bold text-sm">I</span>
+                            <span>Increase (Нэмэгдүүлэх)</span>
+                        </div>
+                        <span class="text-xs font-normal opacity-75">→</span>
+                    </button>
+                    <button onclick="setRapidTab('D')" id="tab-D" class="rapid-btn text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 bg-white font-medium text-slate-700 flex items-center justify-between transition-all">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-8 h-8 rounded-full bg-slate-200 text-slate-800 flex items-center justify-center font-bold text-sm">D</span>
+                            <span>Develop (Хөгжүүлэх)</span>
+                        </div>
+                        <span class="text-xs font-normal opacity-75">→</span>
+                    </button>
+                </div>
+
+                <!-- RAPID Tab Content Container -->
+                <div class="lg:col-span-8 bg-slate-50 p-6 sm:p-8 rounded-2xl border border-slate-200 flex flex-col justify-between" id="rapid-content">
+                    <!-- Dynamic JS Content Loads Here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Differentiated Instruction Models -->
+        <section id="models" class="space-y-8">
+            <div class="space-y-3">
+                <div class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-semibold rounded-full uppercase tracking-wider">
+                    Заах Арга Зүйн Загварууд
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">
+                    Ялгаатай Даалгавар ба Сургалтын Тэргүүлэх Загварууд
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-4xl">
+                    Уламжлалт "нэг стандартын" (one-size-fits-all) сургалт нь хоцрогдолтой сурагчдад үр дүнгүй болох нь нотлогдсон. Сүүлийн 5 жилд амжилттай хэрэгжиж буй дараах 3 үндсэн загварыг харьцуулан харна уу.
+                </p>
+            </div>
+
+            <!-- Model Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Model 1: TaRL -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:border-indigo-400 transition-all flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-lg">Ази & Африкт Түгээмэл</span>
+                            <span class="text-xs text-slate-400 font-medium">J-PAL Нотлогдсон</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">TaRL Загвар</h3>
+                        <p class="text-xs font-semibold text-indigo-600">Teaching at the Right Level</p>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Сурагчдыг нас эсвэл ангиар нь бус, тэдний бодит унших, бодох чадварын түвшингээр нь бүлэглэж, түвшинд тохирсон уян хатан даалгавар өгдөг.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-100 space-y-2 text-xs">
+                        <div class="flex justify-between text-slate-500"><span>Үр ашиг:</span> <span class="font-bold text-emerald-600">Суурь чадвар +37%</span></div>
+                        <div class="flex justify-between text-slate-500"><span>Даалгаврын бүтэц:</span> <span class="font-medium text-slate-700">5 түвшний шаталсан дасгал</span></div>
+                    </div>
+                </div>
+
+                <!-- Model 2: Singapore Full SBB -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:border-indigo-400 transition-all flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-lg">Сингапур (2020–2024)</span>
+                            <span class="text-xs text-slate-400 font-medium">Системийн Шинэчлэл</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">Full SBB Загвар</h3>
+                        <p class="text-xs font-semibold text-indigo-600">Full Subject-Based Banding</p>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Сурагчийг "ерөнхий ангиар" нь шошгохгүй. Хичээл тус бүрээр G1 (суурь), G2 (дунд), G3 (ахисан) түвшний даалгаврыг сурагч өөрөө сонгон судалдаг.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-100 space-y-2 text-xs">
+                        <div class="flex justify-between text-slate-500"><span>Үр ашиг:</span> <span class="font-bold text-indigo-600">Шошгожилтгүй, Академик өсөлт</span></div>
+                        <div class="flex justify-between text-slate-500"><span>Даалгаврын бүтэц:</span> <span class="font-medium text-slate-700">G1 / G2 / G3 Модулиуд</span></div>
+                    </div>
+                </div>
+
+                <!-- Model 3: Adaptive EdTech / AI -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:border-indigo-400 transition-all flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-lg">ХИ & Алгоритм</span>
+                            <span class="text-xs text-slate-400 font-medium">Өндөр Технологи</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">Adaptive EdTech</h3>
+                        <p class="text-xs font-semibold text-indigo-600">AI-based Differentiated Learning</p>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Сурагчийн даалгавар гүйцэтгэх хурд, алдааны загварт алгоритмаар дүн шинжилгээ хийж, тохирох хүндрэлийн түвшин бүхий даалгаврыг автоматаар үүсгэдэг.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-slate-100 space-y-2 text-xs">
+                        <div class="flex justify-between text-slate-500"><span>Үр нөлөө (Effect Size):</span> <span class="font-bold text-purple-600">d = 0.18 - 0.35 SD</span></div>
+                        <div class="flex justify-between text-slate-500"><span>Даалгаврын бүтэц:</span> <span class="font-medium text-slate-700">Бодит хугацааны адаптив</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Intervention Comparative Impact (Chart.js Section) -->
+        <section id="impact" class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm space-y-8">
+            <div class="space-y-3">
+                <div class="inline-block px-3 py-1 bg-rose-100 text-rose-800 text-xs font-semibold rounded-full uppercase tracking-wider">
+                    Дата Анализ & Эмпирик Баримт
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">
+                    Интервенцүүдийн Үр Нөлөөний Харьцуулсан Шинжилгээ
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-4xl">
+                    Боловсролын судалгаанд хэрэглэгдэж буй "Effect Size (Стандарт хазайлт d)" нь тухайн арга зүй сурагчийн сурлагад ямар хэмжээний ахиц авчирсныг илтгэдэг. Үр нөлөө <strong>d &gt; 0.40</strong> байвал өндөр үр ашигтайд тооцогдоно (EEF & Hattie мета-шинжилгээ).
+                </p>
+            </div>
+
+            <!-- Chart Controls & Filtering -->
+            <div class="flex flex-wrap items-center justify-between gap-4 pb-2 border-b border-slate-100">
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="updateChartFilter('all')" id="filter-all" class="chart-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition-all">
+                        Бүх интервенц
+                    </button>
+                    <button onclick="updateChartFilter('high')" id="filter-high" class="chart-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">
+                        Өндөр үр дүнтэй (d ≥ 0.45)
+                    </button>
+                    <button onclick="updateChartFilter('low')" id="filter-low" class="chart-filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all">
+                        Бага / Үр дүнгүй (d < 0.30)
+                    </button>
+                </div>
+                <div class="text-xs text-slate-500 italic">
+                    Эх сурвалж: Education Endowment Foundation (EEF) & World Bank 2024
+                </div>
+            </div>
+
+            <!-- Chart Container -->
+            <div class="w-full flex flex-col items-center">
+                <div class="chart-container">
+                    <canvas id="impactChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart Takeaways & Insights -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+                    <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                        <span>Хамгийн Үр Дүнтэй Аргууд</span>
+                    </h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <strong>Шууд эргэх холбоо (Feedback d=0.73)</strong> ба <strong>Ганцаарчилсан / Бага бүлгийн сургалт (Tutoring d=0.70)</strong> нь хоцрогдлыг нөхөх хамгийн өндөр хурдтай байна. Багш явцын оношилгоо хийж, сурагчийн тодорхой алдаанд тохирсон зааварчилгаа өгөх нь хамгийн чухал.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+                    <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                        <span>Үр Дүнгүй / Сөрөг Арга Нөлөө</span>
+                    </h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        <strong>Анги улируулан суралцуулах (Grade Retention d=0.00)</strong> нь хоцрогдлыг нөхдөггүй бөгөөд сурагчийн сэтгэл зүйд сөрөг нөлөө үзүүлж, сургууль завсардахад хүргэдэг. Түүнчлэн зорилтот чиглүүлэггүйгээр хичээлийн цагийг зүгээр уртасгах нь зардал өндөртэй ч үр дүн муутай байна.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Interactive Strategy Simulator for Educators -->
+        <section id="simulator" class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-xl space-y-8">
+            <div class="space-y-3">
+                <div class="inline-block px-3 py-1 bg-amber-400 text-slate-900 text-xs font-bold rounded-full uppercase tracking-wider">
+                    Практик Интерактив Хэрэгсэл
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white">
+                    Анги Танхимд Ялгаатай Стратеги Сонгох Интерактив Зөвлөх
+                </h2>
+                <p class="text-slate-300 text-sm sm:text-base max-w-3xl">
+                    Та өөрийн анги, сургуулийн нөхцөл байдалд тохирох асуултуудад хариулж, хоцрогдлыг арилгах ба ялгаатай даалгавар боловсруулах оновчтой стратегийг олоорой.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Form Inputs -->
+                <div class="lg:col-span-6 bg-white/10 backdrop-blur p-6 rounded-2xl border border-white/10 space-y-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-amber-300 mb-2 uppercase">1. Сурагчдын хоцрогдлын түвшин:</label>
+                        <select id="sim-gap" onchange="runSimulation()" class="w-full bg-slate-800 text-white text-sm rounded-xl p-3 border border-slate-700 focus:outline-none focus:border-indigo-400">
+                            <option value="high">Хүнд (Суурь унших, бодох чадвар дутмаг)</option>
+                            <option value="medium" selected>Дунд (Тодорхой сэдэв, агуулга дээр хоцорсон)</option>
+                            <option value="low">Хөнгөн (Ялгаатай хурдтай суралцагчидтай)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-amber-300 mb-2 uppercase">2. Нөөц ба багшийн хангамж:</label>
+                        <select id="sim-resource" onchange="runSimulation()" class="w-full bg-slate-800 text-white text-sm rounded-xl p-3 border border-slate-700 focus:outline-none focus:border-indigo-400">
+                            <option value="low">Хязгаарлагдмал (Сургуулийн төсөв ба багш бага)</option>
+                            <option value="medium" selected>Дунд (Бага бүлгийн дэмжлэг хийх боломжтой)</option>
+                            <option value="high">Өндөр (Технологи ба туслах багшийн нөөцтэй)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-amber-300 mb-2 uppercase">3. Сургалтын хэрэгсэл / Дэд бүтэц:</label>
+                        <select id="sim-tech" onchange="runSimulation()" class="w-full bg-slate-800 text-white text-sm rounded-xl p-3 border border-slate-700 focus:outline-none focus:border-indigo-400">
+                            <option value="paper">Уламжлалт (Цаас, самбар, тоглоом)</option>
+                            <option value="hybrid" selected>Хобби / Холимог (Төхөөрөмж хэсэгчлэн байгаа)</option>
+                            <option value="digital">Бүрэн дижитал (Сурагч бүр планшет/компьютертэй)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Simulation Output -->
+                <div class="lg:col-span-6 bg-white text-slate-900 p-6 sm:p-8 rounded-2xl flex flex-col justify-between space-y-4 shadow-lg" id="sim-result">
+                    <!-- Dynamic Output Loaded via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Policy Recommendations & Summary -->
+        <section class="space-y-8">
+            <div class="space-y-3">
+                <div class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-full uppercase tracking-wider">
+                    Бодлогын Дүгнэлт
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">
+                    Бодлого Тодорхойлогч ба Багш Нарт Зориулсан Зөвлөмж
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-4xl">
+                    Судалгааны үр дүнд үндэслэн хичээлийн хоцрогдлыг богино болон дунд хугацаанд арилгах дараах 4 чухал зарчмыг хэрэгжүүлэхийг олон улсын байгууллагууд зөвлөж байна.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-lg">
+                        1
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-base">Форматив Үнэлгээг Хэвшүүлэх</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Нийт дүн тавихаас илүүтэй сурагчийн бодит мэдлэгийн заадсыг тогтоох оношилгооны ба явцын үнэлгээг өдөр тутмын хичээлд ашиглах.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-lg">
+                        2
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-base">Суурь Агуулгыг Эрэмбэлэх</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Хөтөлбөрийн ачааллыг багасгаж, унших, бичих болон математикийн суурь чадваруудад гол анхаарлаа төвлөрүүлж хураангуйлах.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-lg">
+                        3
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-base">Бага Бүлгийн Сургалт Оруулах</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Гүнзгий хоцрогдолтой сурагчдад 1-ээс 3 сурагчийн бүрэлдэхүүнтэй өндөр эрчимтэй тусгай дэмжлэгт даалгаврын сургалт зохион байгуулах.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-lg">
+                        4
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-base">Шошгожилт ба Улирахаас Татгалзах</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Анги улируулах идэвхгүй уламжлалт аргаас татгалзаж, Сингапурын SBB загварын дагуу хичээл бүрээр түвшинд нь тохируулах.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+            <div>
+                © 2026 Олон Улсын Боловсролын Харьцуулсан Судалгааны Тайлан. Эх сурвалж: World Bank, UNESCO, J-PAL, EEF.
+            </div>
+            <div class="flex space-x-6">
+                <a href="#kpi" class="hover:text-white">Дээш буцах ↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Data for RAPID Framework
+        const rapidData = {
+            'R': {
+                title: 'Reach (Суралцагч бүрт хүрэх)',
+                subtitle: 'Сургуулиас завсардсан болон эрсдэлтэй сурагчдыг эргүүлэн авчрах',
+                desc: 'Цар тахлын үеэр хичээл хаягдсан, цахим сургалтад хамрагдаж чадаагүй сурагчдын ирц, оролцоог бүртгэж, сургуулийн орчинд бүрэн хамруулах стратегийг хэрэгжүүлнэ.',
+                bullets: [
+                    'Сургууль завсардах эрсдэлтэй сурагчдыг эрт илрүүлэх мэдээллийн систем',
+                    'Өрхийн түвшинд чиглэсэн нийгмийн ба эдийн засгийн дэмжлэг',
+                    'Ирцийг өдөр бүр цахимаар хянах ба урамшууллын механизмууд'
+                ],
+                tag: 'Бодлогын Алхам 1'
+            },
+            'A': {
+                title: 'Assess (Мэдлэгийн түвшинг үнэлэх)',
+                subtitle: 'Оношилгооны үнэлгээгээр академик заадсыг тодорхойлох',
+                desc: 'Уламжлалт дүгнэх үнэлгээнээс илүүтэй явцын оношилгооны үнэлгээг ашиглаж, сурагч нэг бүрийн бодит чадвар болон хоцрогдлын гүнийг яг таг оношлох.',
+                bullets: [
+                    'Анги танхимын түвшинд богино хугацааны форматив тестийн хэрэгслүүд',
+                    'Сурагчийн хувийн мэдлэгийн зураглал (Learning Mapping) үүсгэх',
+                    'Үнэлгээний дүнгээр сурагчийг буруутгахгүй, зөвхөн сургалтад тохируулга хийх'
+                ],
+                tag: 'Бодлогын Алхам 2'
+            },
+            'P': {
+                title: 'Prioritize (Агуулгыг эрэмбэлэх)',
+                subtitle: 'Суурь чадваруудад хөтөлбөрийг төвлөрүүлж хураангуйлах',
+                desc: 'Хэт их ачаалалтай сургалтын хөтөлбөрийг цэгцэлж, цаашид бие даан суралцахад нэн шаардлагатай унших, бичих болон математикийн анхан шатны чадваруудыг эрэмбэлэх.',
+                bullets: [
+                    'Сургалтын хөтөлбөрийн агуулгыг 20-30% хураангуйлан "суурь чадварт" шилжүүлэх',
+                    'Математик ба унших чадварын цагийг сургалтын хуваарьт нэмэгдүүлж хуваарилах',
+                    'Ахисан түвшний нарийн сэдвүүдийг хоцрогдол арилтал түр хойшлуулах'
+                ],
+                tag: 'Бодлогын Алхам 3'
+            },
+            'I': {
+                title: 'Increase (Үр ашгийг нэмэгдүүлэх)',
+                subtitle: 'Заах арга зүйг адаптив болгож, ялгаатай даалгавар нэвтрүүлэх',
+                desc: 'Багшийн заах аргыг сурагч бүрийн бэлэн байдалд тохируулан ялгаатай болгох, ганцаарчилсан болон бага бүлгийн сургалтуудыг түлхүү ашиглах.',
+                bullets: [
+                    'TaRL болон Small Group Tutoring арга зүйг хичээлийн практикт нэвтрүүлэх',
+                    'Сурагчдын түвшинд тохирсон даалгаврын банк (G1, G2, G3 эсвэл Tiered tasks) бэлтгэх',
+                    'Адаптив дижитал EdTech хэрэгслүүдээр багшийн ачааллыг хөнгөвчлөх'
+                ],
+                tag: 'Бодлогын Алхам 4'
+            },
+            'D': {
+                title: 'Develop (Сэтгэц-нийгмийн эрүүл мэндийг дэмжих)',
+                subtitle: 'Сурагчид ба багш нарын сайн сайхан байдлыг хангах',
+                desc: 'Хөл хорио ба хямралын үед үүссэн сэтгэл зүйн стресс, айдас, суралцах идэвхгүй байдлыг арилгах зорилгоор сургуулийн орчинд сэтгэл зүйн дэмжлэг үзүүлэх.',
+                bullets: [
+                    'Нийгэм-эмоциональ суралцах (SEL) хөтөлбөрүүдийг ангид хэрэгжүүлэх',
+                    'Багш нарын ачааллыг зохицуулах, мэргэжлийн сэтгэл зүйн зөвлөгөө өгөх',
+                    'Сургуулийн аюулгүй, нөхөрсөг, урамшуулсан орчныг бүрдүүлэх'
+                ],
+                tag: 'Бодлогын Алхам 5'
+            }
+        };
+
+        function setRapidTab(key) {
+            const data = rapidData[key];
+            const container = document.getElementById('rapid-content');
+            
+            // Highlight Tab Buttons
+            document.querySelectorAll('.rapid-btn').forEach(btn => {
+                btn.classList.remove('border-indigo-600', 'bg-indigo-50', 'text-indigo-900');
+                btn.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+                const badge = btn.querySelector('span:first-child');
+                if (badge) {
+                    badge.classList.remove('bg-indigo-600', 'text-white');
+                    badge.classList.add('bg-slate-200', 'text-slate-800');
+                }
+            });
+
+            const activeBtn = document.getElementById(`tab-${key}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+                activeBtn.classList.add('border-indigo-600', 'bg-indigo-50', 'text-indigo-900');
+                const badge = activeBtn.querySelector('span:first-child');
+                if (badge) {
+                    badge.classList.remove('bg-slate-200', 'text-slate-800');
+                    badge.classList.add('bg-indigo-600', 'text-white');
+                }
+            }
+
+            // Render Content
+            let bulletsHtml = data.bullets.map(b => `<li class="flex items-start space-x-2"><span class="text-indigo-600 font-bold">•</span><span>${b}</span></li>`).join('');
+
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-full">${data.tag}</span>
+                        <span class="text-xs font-semibold text-slate-400">RAPID Framework</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900">${data.title}</h3>
+                    <p class="text-sm font-medium text-indigo-600">${data.subtitle}</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">${data.desc}</p>
+                    <div class="pt-4 border-t border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-900 uppercase mb-3">Хэрэгжүүлэх практик алхмууд:</h4>
+                        <ul class="space-y-2 text-xs sm:text-sm text-slate-700">
+                            ${bulletsHtml}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Chart.js Setup for Intervention Effect Sizes
+        let impactChart = null;
+
+        const allChartData = [
+            { label: 'Шууд эргэх холбоо (Feedback)', value: 0.73, category: 'high', cost: 'Бага' },
+            { label: 'Ганцаарчилсан сургалт (One-to-One)', value: 0.70, category: 'high', cost: 'Өндөр' },
+            { label: 'Явцын оношилгоо (Formative Eval)', value: 0.68, category: 'high', cost: 'Бага' },
+            { label: 'Бага бүлгийн сургалт (Small Group)', value: 0.52, category: 'high', cost: 'Дунд' },
+            { label: 'Ялгаатай сургалт (Differentiated)', value: 0.41, category: 'high', cost: 'Дунд' },
+            { label: 'Сургалтын цаг уртасгах (Extended Time)', value: 0.32, category: 'low', cost: 'Дунд' },
+            { label: 'Адаптив EdTech / AI сургалт', value: 0.27, category: 'low', cost: 'Дунд-Өндөр' },
+            { label: 'Анги улируулах (Grade Retention)', value: 0.00, category: 'low', cost: 'Өндөр' }
+        ];
+
+        function initChart() {
+            const ctx = document.getElementById('impactChart').getContext('2d');
+            
+            impactChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: allChartData.map(d => d.label),
+                    datasets: [{
+                        label: 'Үр нөлөөний хэмжээ (Effect Size - d)',
+                        data: allChartData.map(d => d.value),
+                        backgroundColor: allChartData.map(d => d.value >= 0.45 ? '#4f46e5' : (d.value === 0 ? '#f43f5e' : '#94a3b8')),
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const item = allChartData[context.dataIndex];
+                                    return ` Effect Size: d = ${item.value} | Задалгааны зардал: ${item.cost}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            min: -0.1,
+                            max: 0.8,
+                            grid: { color: '#f1f5f9' },
+                            title: { display: true, text: 'Стандарт хазайлт (d) - 0.40+ нь өндөр үр ашигтай', font: { size: 11 } }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { font: { size: 11, family: 'Inter' } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChartFilter(type) {
+            // Update button styles
+            document.querySelectorAll('.chart-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.add('bg-slate-100', 'text-slate-700');
+            });
+            const activeBtn = document.getElementById(`filter-${type}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-slate-100', 'text-slate-700');
+                activeBtn.classList.add('bg-indigo-600', 'text-white');
+            }
+
+            let filtered = allChartData;
+            if (type === 'high') {
+                filtered = allChartData.filter(d => d.value >= 0.40);
+            } else if (type === 'low') {
+                filtered = allChartData.filter(d => d.value < 0.40);
+            }
+
+            impactChart.data.labels = filtered.map(d => d.label);
+            impactChart.data.datasets[0].data = filtered.map(d => d.value);
+            impactChart.data.datasets[0].backgroundColor = filtered.map(d => d.value >= 0.45 ? '#4f46e5' : (d.value === 0 ? '#f43f5e' : '#94a3b8'));
+            impactChart.update();
+        }
+
+        // Interactive Strategy Simulator Logic
+        function runSimulation() {
+            const gap = document.getElementById('sim-gap').value;
+            const resource = document.getElementById('sim-resource').value;
+            const tech = document.getElementById('sim-tech').value;
+            const resultBox = document.getElementById('sim-result');
+
+            let recommendation = {
+                title: '',
+                desc: '',
+                steps: [],
+                badge: ''
+            };
+
+            if (gap === 'high') {
+                if (resource === 'low') {
+                    recommendation = {
+                        title: 'TaRL (Teaching at the Right Level) Суурь Загвар',
+                        badge: 'Зөвлөсөн Стратеги: Түвшинд Тохируулах',
+                        desc: 'Сурагчдын хоцрогдол хүнд боловч нөөц багатай үед сурагчдыг насаар нь бус, бодит түвшингээр нь 3-5 бүлэгт ангилан, цаасан суурьтай интерактив даалгавраар хичээллүүлнэ.',
+                        steps: [
+                            'Богино унших ба тоодох 5 шалтгаант оношилгоо хийх',
+                            'Өдөрт 1 цагийг чадварын түвшний бүлэгт зориулах',
+                            'Хамтрагч багш эсвэл ахлах ангийн сурагчдыг туслахаар ашиглах'
+                        ]
+                    };
+                } else {
+                    recommendation = {
+                        title: 'High-Dosage Small Group Tutoring',
+                        badge: 'Зөвлөсөн Стратеги: Өндөр Эрчимтэй Дэмжлэг',
+                        desc: 'Хүнд хоцрогдолтой сурагчдад 1:3 харьцаатайгаар долоо хоногт 3-аас доошгүй удаа 30-45 минутын тусгайлан боловсруулсан ялгаатай даалгавраар хичээллэнэ.',
+                        steps: [
+                            'Ганцаарчилсан оношилгооны картаар мэдлэгийн заадсыг тогтоох',
+                            'Явцын шууд эргэх холбоо (Feedback) өгөх',
+                            'Адаптив EdTech платформоор нэмэлт дасгал биелүүлэх'
+                        ]
+                    };
+                }
+            } else if (gap === 'medium') {
+                if (tech === 'digital') {
+                    recommendation = {
+                        title: 'AI ба Adaptive EdTech Интеграци',
+                        badge: 'Зөвлөсөн Стратеги: Цахим Дасан Зохицох',
+                        desc: 'Сурагчид өөрийн хурдаар дижитал систем дээр ажиллаж, алгоритм нь тухайн сурагчийн хариултад тохирсон хүндрэлийн түвшинтэй даалгаврыг бэлтгэж өгнө.',
+                        steps: [
+                            'Сурагч бүрт адаптив платформын эрх нээх',
+                            'Багш аналитик хянах самбараас хоцрогдолтой хүүхдийг хянах',
+                            '70% бие даасан дижитал, 30% багшийн чиглүүлэг хослох'
+                        ]
+                    };
+                } else {
+                    recommendation = {
+                        title: 'Tiered Tasks / Гурван Түвшний Даалгаврын Загвар',
+                        badge: 'Зөвлөсөн Стратеги: Анги Хүрээний Ялгаатай Даалгавар',
+                        desc: 'Нэг сэдвийн хүрээнд 3 өөр түвшний даалгавар (Суурь, Дунд, Ахисан) боловсруулж, сурагчид оношилгоонд суурилан өөрийн түвшнээс эхлэн суралцана.',
+                        steps: [
+                            'Даалгавар А: Суурь ойлголт ба санамж (G1)',
+                            'Даалгавар Б: Хэрэглээ ба бодлого бодох (G2)',
+                            'Даалгавар В: Шинжлэх ба бүтээлч даалгавар (G3)'
+                        ]
+                    };
+                }
+            } else {
+                recommendation = {
+                    title: 'Singapore Full SBB & Mastery Learning',
+                    badge: 'Зөвлөсөн Стратеги: Ахисан Түвшний Уян Хатан Тогтолцоо',
+                    desc: 'Хоцрогдол багатай тул сурагчдын сонирхол ба авьяасанд тохируулан гүнзгийрүүлсэн болон бие даасан төсөлт даалгавруудыг санал болгоно.',
+                    steps: [
+                        'Сурагчид хичээл тус бүрээр G2/G3 түвшнээ өөрсдөө сонгох',
+                        'Үе тэнгийнхний сургалт (Peer Tutoring) хэрэгжүүлэх',
+                        'Форматив үнэлгээгээр ахицыг байнга баталгаажуулах'
+                    ]
+                };
+            }
+
+            let stepsList = recommendation.steps.map(s => `<li class="flex items-start space-x-2"><span class="text-indigo-600 font-bold">✓</span><span>${s}</span></li>`).join('');
+
+            resultBox.innerHTML = `
+                <div class="space-y-3">
+                    <span class="px-3 py-1 bg-amber-100 text-amber-900 text-xs font-bold rounded-full inline-block">${recommendation.badge}</span>
+                    <h3 class="text-xl font-bold text-slate-900">${recommendation.title}</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">${recommendation.desc}</p>
+                </div>
+                <div class="pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-slate-900 uppercase mb-2">Хэрэгжүүлэх зөвлөмж алхмууд:</h4>
+                    <ul class="space-y-1.5 text-xs text-slate-700">
+                        ${stepsList}
+                    </ul>
+                </div>
+                <div class="pt-2 text-[11px] text-slate-400 italic">
+                    * Энэхүү зөвлөмж нь олон улсын 2020–2025 оны мета-шинжилгээний туршлагад үндэслэгдсэн.
+                </div>
+            `;
+        }
+
+        // Initialize page state
+        window.addEventListener('DOMContentLoaded', () => {
+            setRapidTab('R');
+            initChart();
+            runSimulation();
+        });
+    </script>
+</body>
+</html>

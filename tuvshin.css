@@ -1,0 +1,47 @@
+/* "Түвшин" тайлангийн самбар — дээд цэсийн доор, хуудас дотроо нээгдэнэ */
+html.tuvshin-open {
+  overflow: hidden;
+}
+
+.tuvshin-panel {
+  position: fixed;
+  inset: var(--nav-h) 0 0 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  background: #fcfbf9;
+}
+
+.tuvshin-panel[hidden] {
+  display: none;
+}
+
+.tuvshin-panel__bar {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: flex-end;
+  padding: .25rem 1.5rem;
+  border-bottom: 1px solid #dfe5e9;
+  background: #f7fafb;
+}
+
+.tuvshin-panel__close {
+  padding: .5rem .75rem;
+  border: 0;
+  background: none;
+  color: #090a0b;
+  font: 500 .875rem/1 "Space Grotesk", system-ui, sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.tuvshin-panel__close:hover {
+  color: #0097a7;
+}
+
+.tuvshin-panel__frame {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+}

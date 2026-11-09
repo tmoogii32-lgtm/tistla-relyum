@@ -58,7 +58,7 @@ section[id] {
 /* --- Хэсгийн цэс --- */
 .subnav {
   position: sticky;
-  top: 0;
+  top: var(--nav-h);
   z-index: 10;
   padding: 0 var(--padding-global);
   background: rgba(6, 6, 6, 0.92);
