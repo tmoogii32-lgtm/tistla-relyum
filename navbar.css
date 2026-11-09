@@ -1,0 +1,247 @@
+/* =========================================================
+   Дэд хуудсуудын дээд цэс — нүүр хуудасны цэстэй (home.css,
+   "Navbar" хэсэг) яг адил харагдуулна.
+   styles.css болон хуудасны CSS-ийн дараа ачаална.
+   ========================================================= */
+
+/* Нүүр хуудасны rem хэмжээс (дэд хуудсууд px ашигладаг тул нөлөөгүй) */
+html { font-size: 16px; }
+@media (min-width: 1280px) and (max-width: 1440px) { html { font-size: 1.111vw; } }
+@media (min-width: 1441px) and (max-width: 1920px) { html { font-size: .8333vw; } }
+
+.navbar {
+  --background: #f7fafb;
+  --foreground: #090a0b;
+  --accent: #02d2e3;
+  --s-bg: var(--background);
+  --s-fg: var(--foreground);
+  --s-border: #dfe5e9;
+
+  --type-label: 1rem;
+  --type-body: .875rem;
+  --leading-headline: .95;
+  --leading-flat: .9;
+  --tracking-label: -.04em;
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-entrance: cubic-bezier(.2, 0, 0, 1);
+  --ease-plate: cubic-bezier(.33, 0, 0, 1);
+  --font-sans: "Space Grotesk", system-ui, sans-serif;
+  --font-display: "Oswald", Impact, sans-serif;
+  --gutter: 1.5rem;
+  --nav-h: 4.5rem;
+
+  position: relative;
+  z-index: 40;
+  background: var(--s-bg);
+  color: var(--s-fg);
+  font-family: var(--font-sans);
+  font-size: var(--type-body);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+@media (min-width: 640px) {
+  .navbar { --gutter: 2rem; }
+}
+
+.navbar :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.navbar__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  height: var(--nav-h);
+  padding: 0 var(--gutter);
+  border-bottom: 1px solid var(--s-border);
+  background: var(--s-bg);
+}
+
+.navbar__content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 2rem;
+  min-width: 0;
+}
+
+.logo {
+  width: 5.25rem;
+  height: 2rem;
+}
+
+.navbar__links {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  font-size: var(--type-body);
+  font-weight: 500;
+  line-height: var(--leading-flat);
+  letter-spacing: var(--tracking-label);
+}
+
+.navbar__links a {
+  position: relative;
+  white-space: nowrap;
+  transition: color var(--duration-fast) var(--ease-entrance);
+}
+
+/* Хуудасны CSS-ийн өнгийг дарж, нүүр хуудасны доогуур зураасыг хэрэглэнэ */
+.navbar__links a[aria-current="page"] {
+  color: inherit;
+}
+
+.navbar__links a:hover {
+  opacity: 1;
+  color: var(--accent);
+}
+
+.navbar__links a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -.625rem;
+  height: 2px;
+  background: var(--accent);
+}
+
+.navbar__actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 1.5rem;
+  width: auto;
+}
+
+/* Цэсний товчнууд: энгийн шошго ба [ LABEL → ] линк */
+.navbar__actions .btn {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: none;
+  color: var(--s-fg);
+  font: 500 var(--type-label) / var(--leading-flat) var(--font-sans);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  transition: color var(--duration-fast) var(--ease-entrance);
+}
+
+.navbar__actions .btn--primary {
+  gap: .375rem;
+  font-weight: 700;
+}
+
+.navbar__actions .btn:hover {
+  color: var(--accent);
+}
+
+.nav-cta__mark {
+  font-weight: 500;
+}
+
+.navbar__burger {
+  display: none;
+}
+
+@media (max-width: 1279.98px) {
+  .has-js .navbar__links,
+  .has-js .navbar__actions {
+    display: none;
+  }
+
+  .has-js .navbar__burger {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .4375rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0 .5rem;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .navbar__burger-line {
+    display: block;
+    height: 1px;
+    background: var(--s-fg);
+    transition: transform var(--duration-normal) var(--ease-plate);
+  }
+
+  .navbar.is-open .navbar__burger-line:nth-child(2) {
+    transform: translateY(.25rem) rotate(45deg);
+  }
+
+  .navbar.is-open .navbar__burger-line:last-child {
+    transform: translateY(-.25rem) rotate(-45deg);
+  }
+
+  .has-js .navbar.is-open .navbar__links a {
+    white-space: normal;
+    text-align: left;
+  }
+
+  /* Бүтэн дэлгэцийн sheet */
+  .has-js .navbar.is-open .navbar__links {
+    position: fixed;
+    inset: var(--nav-h) 0 0 0;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: .5rem;
+    padding: 2rem var(--gutter) 8rem;
+    overflow-y: auto;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-display);
+    font-size: clamp(2.375rem, 7vw, 3.25rem);
+    font-weight: 700;
+    line-height: var(--leading-headline);
+    letter-spacing: 0;
+  }
+
+  .has-js .navbar.is-open .navbar__links a[aria-current="page"]::after {
+    bottom: -.25rem;
+  }
+
+  .has-js .navbar.is-open .navbar__actions {
+    position: fixed;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: 1.5rem;
+    z-index: 61;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .navbar:not(.has-js *) .navbar__header {
+    flex-wrap: wrap;
+    height: auto;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .navbar__links {
+    flex-wrap: wrap;
+  }
+}
