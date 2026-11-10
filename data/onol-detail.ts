@@ -5,6 +5,8 @@
 import type { TheoryExample } from "./onol";
 import { THEORY_DETAIL_2 } from "./onol-detail-2";
 import { THEORY_DETAIL_3 } from "./onol-detail-3";
+import { THEORY_DETAIL_4 } from "./onol-detail-4";
+import { THEORY_DETAIL_5 } from "./onol-detail-5";
 
 export type TheorySection = {
   title: string;
@@ -23,9 +25,11 @@ export type TheoryDetail = {
 };
 
 export const THEORY_DETAIL: Record<string, TheoryDetail> = {
-  // II бүлэг — data/onol-detail-2.ts; III–V бүлэг — data/onol-detail-3.ts
+  // II бүлэг — onol-detail-2.ts; III–V — -3; VI–VII — -4; VIII–IX, 10.9 — -5
   ...THEORY_DETAIL_2,
   ...THEORY_DETAIL_3,
+  ...THEORY_DETAIL_4,
+  ...THEORY_DETAIL_5,
   "1.1": {
     intro:
       "Даланзадгадад өвлийн хүйтэн шөнө агаар −18°, зуны халуун өдөр +32° хүрдэг. Термометрийн 0-ээс хэдэн хэмээр холдсоныг тоолоход тэмдэг огт хамаагүй — зөвхөн зай чухал. Тооны модуль яг энэ зайг хэмждэг.",
