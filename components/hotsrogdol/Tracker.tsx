@@ -23,7 +23,7 @@ const isString = (v: unknown): v is string => typeof v === "string";
  */
 export function Tracker() {
   const router = useRouter();
-  const { state, addStudent, deleteStudent, clearAll } = useTracker();
+  const { state, addStudent, deleteStudent, addRecord, clearAll } = useTracker();
   const [, setActiveStudent] = useLocalStorage<string>("daalgavar-student", GUEST, isString);
   const [classFilter, setClassFilter] = useState("");
 
@@ -96,10 +96,10 @@ export function Tracker() {
         <Container className="flex flex-col gap-8">
           <SectionTitle
             tagline="Онош · Мэдлэг × Блум"
-            title="Оношлох сорилын дүн"
-            lead="Сурагч бүрийн сүүлийн оношлох сорилын онош, Мэдлэг × Блумын матриц, хоцрогдлоо нөхөх төлөвлөгөө, зөвлөгөө. Сурагчийг сонгож дэлгэрэнгүйг харна."
+            title="Оношлох сорил"
+            lead={`Мэдлэгийн 4 төрөл ба Блумын матрицаар хоцрогдлыг оношилно: 4 өөрийн үнэлгээ, 30 сонгох даалгавар, ~30 минут. Илгээмэгц онош, Мэдлэг × Блумын матриц, хоцрогдлоо нөхөх төлөвлөгөө доор гарч, дүн нь автоматаар бүртгэгдэнэ.`}
           />
-          <DiagnosisSection students={students} />
+          <DiagnosisSection students={students} addRecord={addRecord} />
         </Container>
       </Section>
 

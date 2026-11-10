@@ -175,7 +175,7 @@ export const REMEDIATION_CYCLE: { title: string; text: string; link?: PlanLink }
   {
     title: "Оношлох",
     text: "{link} мэдлэгийн төрөл × Блумын түвшин бүрийн хоцрогдлыг илрүүлнэ. Онош, нөхөх зөвлөгөө шууд гарна.",
-    link: { label: "Оношлох сорилоор", href: "/daalgavar#onosh" },
+    link: { label: "Оношлох сорилоор", href: "/hotsrogdol#onosh" },
   },
   {
     title: "Бүртгэх",

@@ -48,7 +48,7 @@ export function UnitPlanTable() {
                     </ul>
                   </td>
                   <td className={td}>
-                    <TextLink href="/daalgavar#onosh">Оношлох сорил</TextLink> · {plan.tasks}
+                    <TextLink href="/hotsrogdol#onosh">Оношлох сорил</TextLink> · {plan.tasks}
                   </td>
                 </tr>
               );
