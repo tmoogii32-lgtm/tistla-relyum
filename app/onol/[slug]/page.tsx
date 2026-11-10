@@ -8,6 +8,7 @@ import { Actions, Button } from "@/components/ui/Button";
 import { Container, Section } from "@/components/ui/Section";
 import { SectionTitle } from "@/components/ui/Typography";
 import { THEORY_TOPICS, topicBySlug, topicSlug } from "@/data/onol";
+import { formulasForTopic } from "@/data/tomyo";
 import { topicById } from "@/lib/problems";
 
 export function generateStaticParams() {
@@ -30,6 +31,7 @@ export default async function OnolTopicPage({ params }: { params: Promise<{ slug
   const prev = THEORY_TOPICS[i - 1];
   const next = THEORY_TOPICS[i + 1];
   const practice = t.practice ? topicById(t.practice) : null;
+  const formulas = formulasForTopic(t.id);
 
   return (
     <Section tight className="pt-[calc(var(--section-y)*0.75)]">
@@ -118,6 +120,26 @@ export default async function OnolTopicPage({ params }: { params: Promise<{ slug
               </Button>
             </Actions>
           </BracketCard>
+
+          {formulas.length > 0 && (
+            <section aria-labelledby="tomyonuud" className="flex flex-col gap-3">
+              <h2 id="tomyonuud" className={h3}>
+                Томьёоны сангаас
+              </h2>
+              <ul className="flex flex-wrap gap-2">
+                {formulas.map((f) => (
+                  <li key={f.id}>
+                    <Link
+                      href={`/tomyo#${f.id}`}
+                      className="inline-block border border-s-border px-3 py-2 text-body transition-colors hover:border-accent hover:text-accent"
+                    >
+                      {f.title} →
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           <nav aria-label="Сэдвүүд" className="grid gap-3 border-t border-s-border pt-6 sm:grid-cols-2">
             {prev ? (

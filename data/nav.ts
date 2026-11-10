@@ -4,6 +4,7 @@ export const NAV_LINKS: NavLink[] = [
   { href: "/", label: "Нүүр" },
   { href: "/matematik", label: "Математик" },
   { href: "/onol", label: "Онол" },
+  { href: "/tomyo", label: "Томьёо" },
   { href: "/soril", label: "Сорил өгөх" },
   { href: "/hotsrogdol", label: "Хоцрогдлыг тооцох" },
   { href: "/daalgavar", label: "Даалгавартай ажиллах" },

@@ -51,7 +51,7 @@ export function Navbar() {
   const isCurrent = (href: string) => !href.includes("#") && (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
-    <header data-surface="light" className="sticky top-0 z-40 font-sans text-body uppercase">
+    <header data-surface="light" className="sticky top-0 z-40 font-sans text-body uppercase print:hidden">
       <div className="relative flex h-(--nav-h) items-center justify-between gap-8 border-b border-s-border bg-s-bg px-(--gutter)">
         <div className="flex min-w-0 flex-1 items-center gap-8">
           <Logo />

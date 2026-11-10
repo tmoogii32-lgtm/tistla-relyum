@@ -25,6 +25,7 @@ export default function OnolPage() {
           />
           <Actions>
             <Button href="/soril">Оношлох сорил өгөх</Button>
+            <Button href="/tomyo">Томьёоны сан</Button>
             <Button href="/daalgavar#ajillah" variant="link">
               Даалгавар бодох
             </Button>

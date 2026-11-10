@@ -23,7 +23,7 @@ export function SocialLinks() {
  */
 export function Footer() {
   return (
-    <footer className="bg-accent p-4 uppercase">
+    <footer className="bg-accent p-4 uppercase print:hidden">
       <div
         data-surface="dark"
         className="relative isolate grid min-h-96 items-center gap-6 overflow-hidden bg-surface-black p-6 text-on-dark [grid-template-areas:'logo_social'_'title_title'_'rule_rule'_'copy_copy'_'terms_terms'] grid-cols-[minmax(0,1fr)_auto] sm:p-8 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:gap-8 lg:[grid-template-areas:'logo_title_title'_'rule_rule_rule'_'copy_terms_social']"
