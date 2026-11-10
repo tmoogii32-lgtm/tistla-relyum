@@ -57,7 +57,7 @@ export function Navbar() {
             id={sheetId}
             aria-label="Үндсэн цэс"
             className={cn(
-              "flex-1 items-center justify-center gap-8 leading-flat font-medium tracking-label",
+              "flex-1 items-center justify-center gap-5 leading-flat font-medium tracking-label 2xl:gap-8",
               open
                 ? "fixed inset-x-0 top-(--nav-h) bottom-0 z-60 flex flex-col items-start justify-start gap-2 overflow-y-auto bg-background px-(--gutter) pt-8 pb-32 font-display text-[clamp(2.375rem,7vw,3.25rem)] leading-headline font-bold tracking-normal text-foreground"
                 : "hidden xl:flex",

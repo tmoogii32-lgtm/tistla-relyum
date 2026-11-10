@@ -1,12 +1,11 @@
 import Image from "next/image";
-import { Reveal } from "@/components/effects/Reveal";
-import { BlogItem } from "@/components/ui/BlogItem";
 import { BracketCard } from "@/components/ui/BracketCard";
 import { Button } from "@/components/ui/Button";
 import { Plate } from "@/components/ui/Plate";
 import { Container, Section } from "@/components/ui/Section";
-import { ARTICLES, RESOURCE_CATEGORIES } from "@/data/interaktiv";
+import { SectionTitle } from "@/components/ui/Typography";
 import { PRACTICE_APP_URL } from "@/lib/site";
+import { MiniTasks } from "./MiniTasks";
 
 /** Онцлох: web3 бодлогын апп руу том карт */
 export function FeatureCard() {
@@ -31,31 +30,17 @@ export function FeatureCard() {
 }
 
 /** Нийтлэл, материал */
+/** Сурагчдад зориулсан интерактив мини даалгаврууд (хуучин нийтлэлийн хэсгийн оронд) */
 export function ResourcesSection() {
   return (
-    <Section id="resources" surface="muted">
-      <Container className="grid gap-12 lg:grid-cols-[12.5rem_minmax(0,1fr)]">
-        <Reveal as="aside">
-          <BracketCard className="flex flex-col gap-4">
-            <h2 className="text-eyebrow font-medium tracking-eyebrow uppercase">Blog categories</h2>
-            <ul className="flex flex-col gap-3 text-label uppercase">
-              {RESOURCE_CATEGORIES.map((c) => (
-                <li key={c}>
-                  <a href="#" className="transition-colors hover:text-accent">
-                    {c}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </BracketCard>
-        </Reveal>
-        <div className="grid gap-x-8 gap-y-6 md:grid-cols-2 xl:grid-cols-3">
-          {ARTICLES.map((a, i) => (
-            <Reveal key={i} delay={(i % 3) * 60}>
-              <BlogItem image="/assets/mega-article.png" title={a.title} text={a.text} cta={{ label: "Read more", href: "#" }} />
-            </Reveal>
-          ))}
-        </div>
+    <Section id="mini" surface="muted">
+      <Container className="flex flex-col gap-12">
+        <SectionTitle
+          tagline="Сурагчдад · Тоглоомоор суралцах"
+          title="Интерактив мини даалгаврууд"
+          lead="Даалгавраа сонгоод шууд тогло. Даалгавар бүрийн оноо, тайлбар, хугацааг карт дээр харуулсан. Шилдэг оноо чинь хадгалагдаж, нийт оноонд нэмэгдэнэ."
+        />
+        <MiniTasks />
       </Container>
     </Section>
   );

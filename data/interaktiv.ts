@@ -236,17 +236,3 @@ export const REFLECT_QUESTIONS = [
   "Багийн гишүүн бүр юу хувь нэмэр оруулсан бэ?",
   "Дараагийн удаа юуг өөрөөр хийх вэ?",
 ];
-
-export const RESOURCE_CATEGORIES = ["AI tools", "Teaching tips", "Lesson plans", "Case studies", "News"];
-
-export const ARTICLES = [
-  { title: "Prompt AI basics", text: "Learn how to craft prompts for Gmail and Google Calendar." },
-  { title: "Gemini in class", text: "Using Google Gemini to generate lesson ideas and quizzes." },
-  { title: "Notebook LM guide", text: "Organize your research with Google Notebook LM." },
-  { title: "Classroom automation", text: "Streamline assignments with Google Classroom and AI." },
-  { title: "Video lessons", text: "Create engaging videos with Google Vids." },
-  { title: "Forms and quizzes", text: "Build smart quizzes with Google Forms and AI." },
-  { title: "Article Title", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit" },
-  { title: "Article Title", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit" },
-  { title: "Article Title", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit" },
-];
