@@ -51,8 +51,12 @@ export function LoginCard({ initialMode = "in" }: { initialMode?: "in" | "up" })
           setMode("in");
         }
       }
-    } catch {
-      setError("Supabase-тэй холбогдож чадсангүй. Интернэт холболтоо шалгана уу.");
+    } catch (err) {
+      setError(
+        err instanceof Error && err.message.includes("NEXT_PUBLIC_SUPABASE")
+          ? "Сайтын Supabase тохиргоо дутуу байна (NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY). Админд хандана уу."
+          : "Supabase-тэй холбогдож чадсангүй. Интернэт холболтоо шалгана уу.",
+      );
     } finally {
       setBusy(false);
     }

@@ -108,7 +108,16 @@ export const refresh = () => reload();
 function start() {
   if (started) return;
   started = true;
-  getSupabase().auth.onAuthStateChange((_event, session) => {
+  let db: ReturnType<typeof getSupabase>;
+  try {
+    db = getSupabase();
+  } catch (e) {
+    // Тохиргоо (env) дутуу — сайт бүхэлдээ унахгүй, зөвхөн нэвтрэлт ажиллахгүй
+    console.error(e);
+    set({ status: "signedOut" });
+    return;
+  }
+  db.auth.onAuthStateChange((_event, session) => {
     const user = session?.user ?? null;
     if (!user) {
       userId = null;
