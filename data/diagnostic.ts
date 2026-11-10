@@ -102,46 +102,70 @@ export type Practice =
 /** Сорилын сэдэв → хоцрогдлоо нөхөх дадлага (Даалгавартай ажиллах сэдэв, мини даалгавар, интерактив) */
 export const PRACTICE_BY_TOPIC: Record<string, Practice[]> = {
   "Энгийн бутархай": [
+    { kind: "link", href: "/onol/2-5", label: "Онол: 2.5. Энгийн бутархайг хураах, жиших" },
     { kind: "topic", topicId: "number-2", label: "1.2. Энгийн бутархайг хураах, жиших" },
     { kind: "topic", topicId: "number-3", label: "1.3. Энгийн бутархайн үйлдэл" },
     { kind: "link", href: "/interaktiv#mini", label: "Мини даалгавар: Бутархайн хос" },
   ],
   "Бүхэл тоо": [
+    { kind: "link", href: "/onol/1-2", label: "Онол: 1.2. Бүхэл тооны нэмэх, хасах" },
     { kind: "topic", topicId: "number-1", label: "1.1. Тоог жиших, тоймлох" },
     { kind: "link", href: "/interaktiv#mini", label: "Мини даалгавар: Хурдан тооцоолол" },
     { kind: "link", href: "/interaktiv#daalgavar", label: "Ганцаарчилсан дадлага: Бүхэл тоо" },
   ],
-  "Аравтын бутархай": [{ kind: "topic", topicId: "number-4", label: "1.4. Энгийн ба аравтын бутархай, процент" }],
+  "Аравтын бутархай": [
+    { kind: "link", href: "/onol/2-8", label: "Онол: 2.8. Бутархай, процентыг шилжүүлэх" },
+    { kind: "topic", topicId: "number-4", label: "1.4. Энгийн ба аравтын бутархай, процент" },
+  ],
   Хувь: [
+    { kind: "link", href: "/onol/2-11", label: "Онол: 2.11. Процентын бодлого" },
     { kind: "topic", topicId: "number-6", label: "1.6. Процент, хэсгийн бодлого" },
     { kind: "link", href: "/interaktiv#mini", label: "Мини даалгавар: Хямдралын дэлгүүр" },
   ],
-  Харьцаа: [{ kind: "topic", topicId: "number-5", label: "1.5. Харьцаа, пропорц" }],
-  Пропорц: [{ kind: "topic", topicId: "number-5", label: "1.5. Харьцаа, пропорц" }],
+  Харьцаа: [
+    { kind: "link", href: "/onol/3-1", label: "Онол: 3.1. Харьцаа, пропорц" },
+    { kind: "topic", topicId: "number-5", label: "1.5. Харьцаа, пропорц" },
+  ],
+  Пропорц: [
+    { kind: "link", href: "/onol/3-2", label: "Онол: 3.2. Шууд пропорционал хамаарал" },
+    { kind: "topic", topicId: "number-5", label: "1.5. Харьцаа, пропорц" },
+  ],
   "Текст бодлого": [
+    { kind: "link", href: "/onol/2-9", label: "Онол: 2.9. Хөдөлгөөний бодлого" },
     { kind: "topic", topicId: "number-5", label: "1.5. Харьцаа, пропорц" },
     { kind: "topic", topicId: "number-7", label: "1.7. Нэгж шилжүүлэх" },
   ],
   "Үсэгт илэрхийлэл": [
+    { kind: "link", href: "/onol/5-1", label: "Онол: 5.1. Алгебрын илэрхийлэл" },
     { kind: "topic", topicId: "algebra-1", label: "2.1. Алгебрын илэрхийлэл" },
     { kind: "link", href: "/interaktiv#mini", label: "Мини даалгавар: Зөв үү, буруу юу?" },
   ],
-  "Илэрхийллийн утга": [{ kind: "topic", topicId: "algebra-1", label: "2.1. Алгебрын илэрхийлэл" }],
+  "Илэрхийллийн утга": [
+    { kind: "link", href: "/onol/5-1", label: "Онол: 5.1. Алгебрын илэрхийлэл" },
+    { kind: "topic", topicId: "algebra-1", label: "2.1. Алгебрын илэрхийлэл" },
+  ],
   "Шугаман тэгшитгэл": [
+    { kind: "link", href: "/onol/5-5", label: "Онол: 5.5. Тэгшитгэл" },
     { kind: "link", href: "/interaktiv#mini", label: "Мини даалгавар: Тэгшитгэлийн шат" },
     { kind: "link", href: "/interaktiv#daalgavar", label: "Ганцаарчилсан дадлага: Тэгшитгэл" },
     { kind: "topic", topicId: "algebra-4", label: "2.4. Шугаман функц, түүний график" },
   ],
   Өнцөг: [
+    { kind: "link", href: "/onol/7-2", label: "Онол: 7.2. Гурвалжны өнцгийн нийлбэр" },
     { kind: "link", href: "/interaktiv#mini", label: "Мини даалгавар: Өнцгийн таавар" },
     { kind: "topic", topicId: "geometry-1", label: "3.1. Үндсэн байгуулалтууд" },
   ],
-  Талбай: [{ kind: "link", href: "/interaktiv#daalgavar", label: "Ганцаарчилсан дадлага: Өнцөг ба талбай" }],
+  Талбай: [
+    { kind: "link", href: "/onol/9-4", label: "Онол: 9.4. Гурвалжин, параллелограммын талбай" },
+    { kind: "link", href: "/interaktiv#daalgavar", label: "Ганцаарчилсан дадлага: Өнцөг ба талбай" },
+  ],
   Координат: [
+    { kind: "link", href: "/onol/8-1", label: "Онол: 8.1. Дундаж цэгийн координат" },
     { kind: "topic", topicId: "geometry-4", label: "3.4. Хэрчмийн дундаж цэгийн координат" },
     { kind: "link", href: "/interaktiv#mini", label: "Мини даалгавар: Координатын эрдэнэс" },
   ],
   Статистик: [
+    { kind: "link", href: "/onol/10-7", label: "Онол: 10.7. Дунджуудыг тооцоолох" },
     { kind: "topic", topicId: "statistics-3", label: "4.3. Дунджууд ба далайц" },
     { kind: "link", href: "/interaktiv#mini", label: "Мини даалгавар: Статистикийн мөрдөгч" },
   ],

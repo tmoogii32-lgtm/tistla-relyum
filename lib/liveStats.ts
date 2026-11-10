@@ -4,15 +4,18 @@ import { useSyncExternalStore } from "react";
 import { getSupabase } from "./supabase";
 
 /* Нүүр хуудасны шууд тоолуур (Supabase: site_stats).
-   Сайт ачаалагдах бүрд нэг удаа "hit_view" (+1 үзэлт; хэн, хэдэн удаа орсныг ялгахгүй),
-   тоолуур дэлгэцэнд байх үед 30 сек тутам "site_stats"-аар шинэчилнэ. */
+   Хуудас нээгдэх бүрд "hit_view" (+1 үзэлт) — хэн, хэдэн удаа орсныг ялгахгүй;
+   refresh, дахин орох, сайт доторх шилжилт бүгд тоологдоно.
+   Тоолуур дэлгэцэнд байх үед 30 сек тутам "site_stats"-аар шинэчилнэ. */
 
 export type LiveStats = { views?: number; students?: number };
 
 const POLL_MS = 30_000;
+/** React-ийн dev горимд effect хоёр дахин ажилладаг — ижил хуудсыг 1 сек дотор давхар тоолохгүй */
+const DEDUPE_MS = 1_000;
 
 let data: LiveStats | null = null;
-let hit = false;
+let last: { path: string; at: number } | null = null;
 let timer: ReturnType<typeof setInterval> | undefined;
 const listeners = new Set<() => void>();
 
@@ -36,16 +39,17 @@ function rpc(fn: "hit_view" | "site_stats") {
   }
 }
 
-/** Сайтын үзэлтийг нэг удаа бүртгэнэ (хуудас ачаалах бүрд; сайт доторх шилжилтэд дахин тоолохгүй) */
-export function recordVisit() {
-  if (hit) return;
-  hit = true;
+/** Нэг хуудасны үзэлт бүртгэнэ (`path` — нээгдсэн хуудас) */
+export function recordVisit(path: string) {
+  const now = Date.now();
+  if (last && last.path === path && now - last.at < DEDUPE_MS) return;
+  last = { path, at: now };
   void rpc("hit_view");
 }
 
 function subscribe(cb: () => void) {
   listeners.add(cb);
-  recordVisit();
+  if (!data) void rpc("site_stats"); // hit-ийн хариу ирээгүй бол одоогийн тоог авна
   if (!timer) {
     timer = setInterval(() => {
       if (!document.hidden) void rpc("site_stats");

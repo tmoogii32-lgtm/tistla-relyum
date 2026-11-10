@@ -2,7 +2,6 @@ import { ParallaxImage } from "@/components/effects/ParallaxImage";
 import { Reveal } from "@/components/effects/Reveal";
 import { Actions, Button } from "@/components/ui/Button";
 import { Heading, Lead } from "@/components/ui/Typography";
-import { PRACTICE_APP_URL } from "@/lib/site";
 
 /** Нүүрний том зурагтай толгой хэсэг (хуучин Header 30) */
 export function Hero() {
@@ -16,7 +15,7 @@ export function Hero() {
       <div className="relative z-[2] flex w-full max-w-3xl flex-col items-center gap-8">
         <div className="flex flex-col items-center gap-6">
           <Heading as="h1" size="h1" center>
-            математикт дурлагсад
+            Математик чадвараа сайжруулцгаая
           </Heading>
           <Reveal>
             <Lead>хоцрогдол арилгах</Lead>
@@ -24,8 +23,8 @@ export function Hero() {
         </div>
         <Reveal>
           <Actions className="justify-center gap-4">
-            <Button href={PRACTICE_APP_URL}>Button</Button>
-            <Button href="#">Sign up</Button>
+            <Button href="/soril">Сорил өгөх</Button>
+            <Button href="/onol">Онолын мэдлэг</Button>
           </Actions>
         </Reveal>
       </div>

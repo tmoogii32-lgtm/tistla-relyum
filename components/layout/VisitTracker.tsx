@@ -1,10 +1,12 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { recordVisit } from "@/lib/liveStats";
 
-/** Аль ч хуудсаар орсон бай, сайт ачаалагдах бүрд нэг үзэлт бүртгэнэ */
+/** Хуудас нээгдэх бүрд (refresh, дахин орох, сайт доторх шилжилт) нэг үзэлт бүртгэнэ */
 export function VisitTracker() {
-  useEffect(() => recordVisit(), []);
+  const pathname = usePathname();
+  useEffect(() => recordVisit(pathname), [pathname]);
   return null;
 }
