@@ -9,15 +9,21 @@ import { Actions, Button } from "@/components/ui/Button";
 import { Field, inputClass } from "@/components/ui/Form";
 import { DIAG_QUESTIONS } from "@/data/diagnostic";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { EMPTY_DIAG, diagnose, isDiagStore, strandScores, type DiagAttempt, type DiagStore } from "@/lib/diagnosis";
+import { cn } from "@/lib/cn";
+import { EMPTY_DIAG, STATUS_LABEL, diagnose, isDiagStore, strandScores, type DiagAttempt, type DiagStore, type Status } from "@/lib/diagnosis";
 import { TOPICS } from "@/lib/problems";
 import { GUEST } from "@/lib/taskProgress";
 import { compareStudents, today } from "@/lib/tracker";
 import { DiagnosticTest } from "./Diagnostic";
-import { DiagnosisReport } from "./DiagnosisReport";
 import { Workspace } from "./Workspace";
 
 const isString = (v: unknown): v is string => typeof v === "string";
+
+const SUMMARY_TONE: Record<Status, { text: string; bg: string }> = {
+  ok: { text: "text-ok", bg: "bg-ok/10" },
+  mid: { text: "text-warn", bg: "bg-warn/10" },
+  low: { text: "text-danger", bg: "bg-danger/10" },
+};
 const linkCls = "underline decoration-accent decoration-2 underline-offset-4 hover:text-accent";
 
 function StepTitle({ n, title, text, id }: { n: number; title: string; text: string; id: string }) {
@@ -45,18 +51,14 @@ export function Hub() {
   const student = students.find((s) => s.id === studentId);
   const sid = student ? student.id : GUEST;
 
-  const [topicId, setTopicId] = useState(TOPICS[0].id);
+  // "Хоцрогдлыг тооцох" хуудасны зөвлөгөөнөөс ч сэдэв сонгогддог тул хадгална
+  const [topicId, setTopicId] = useLocalStorage<string>("daalgavar-topic", TOPICS[0].id, isString);
   const [testing, setTesting] = useState(false);
   const [recordSel, setRecordSel] = useState<string | null>(null);
 
   const history = diagStore[sid] ?? [];
   const latest = history[history.length - 1];
-  const previous = history[history.length - 2];
-
-  const openTopic = (id: string) => {
-    setTopicId(id);
-    document.getElementById("ajillah")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const latestDiag = latest ? diagnose(latest) : null;
 
   const submitDiag = (a: DiagAttempt) => {
     setDiagStore((s) => ({ ...s, [sid]: [...(s[sid] ?? []), a] }));
@@ -123,12 +125,38 @@ export function Hub() {
         n={1}
         id="onosh"
         title="Оношлох сорил"
-        text={`Мэдлэгийн 4 төрөл ба Блумын матрицаар хоцрогдлыг оношилно: 4 өөрийн үнэлгээ, ${DIAG_QUESTIONS.length} сонгох даалгавар, ~30 минут. Илгээмэгц доор нь онош, давтах сэдэв, хоцрогдлоо нөхөх төлөвлөгөө гарна.`}
+        text={`Мэдлэгийн 4 төрөл ба Блумын матрицаар хоцрогдлыг оношилно: 4 өөрийн үнэлгээ, ${DIAG_QUESTIONS.length} сонгох даалгавар, ~30 минут. Илгээмэгц дүн гарч, дэлгэрэнгүй онош, Мэдлэг × Блумын матриц, хоцрогдлоо нөхөх төлөвлөгөө "Хоцрогдлыг тооцох" хэсэгт хадгалагдана.`}
       />
       {testing ? (
         <DiagnosticTest onSubmit={submitDiag} onCancel={latest ? () => setTesting(false) : undefined} />
-      ) : latest ? (
-        <DiagnosisReport attempt={latest} previous={previous} studentName={student?.name} onRetake={() => setTesting(true)} onOpenTopic={openTopic} />
+      ) : latest && latestDiag ? (
+        <BracketCard accent className={cn("grid gap-6 p-6 sm:p-8 md:grid-cols-[auto_minmax(0,1fr)] md:items-center", SUMMARY_TONE[latestDiag.status].bg)}>
+          <div className="flex flex-col items-start gap-1">
+            <p className="text-eyebrow uppercase text-s-sub">
+              {student ? `${student.name} · ` : ""}
+              {latest.date}
+            </p>
+            <p className={cn("font-display text-impact leading-cap font-bold", SUMMARY_TONE[latestDiag.status].text)}>{latestDiag.pct}%</p>
+            <p className="text-body text-s-sub">
+              {latestDiag.earned}/{latestDiag.possible} зөв
+            </p>
+          </div>
+          <div className="flex flex-col gap-4">
+            <h3 className={cn("font-display text-heading leading-headline font-bold uppercase", SUMMARY_TONE[latestDiag.status].text)}>
+              {STATUS_LABEL[latestDiag.status]}
+            </h3>
+            <p className="text-body leading-display">
+              Дэлгэрэнгүй онош, Мэдлэг × Блумын матриц, хоцрогдлоо нөхөх төлөвлөгөө, зөвлөгөө{" "}
+              <b>&quot;Хоцрогдлыг тооцох&quot;</b> хэсэгт гарсан.
+            </p>
+            <Actions>
+              <Button href="/hotsrogdol#onosh">Онош, төлөвлөгөөг харах</Button>
+              <Button variant="link" onClick={() => setTesting(true)}>
+                Сорилыг дахин өгөх
+              </Button>
+            </Actions>
+          </div>
+        </BracketCard>
       ) : (
         <BracketCard accent className="flex flex-col items-start gap-4 bg-s-bg p-6 sm:p-8">
           <p className="text-lead leading-display">

@@ -11,6 +11,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { downloadCsv } from "@/lib/csv";
 import { GUEST } from "@/lib/taskProgress";
 import { compareStudents, recordsOf, toCsvRows, today, unique, type Student } from "@/lib/tracker";
+import { DiagnosisSection } from "./DiagnosisSection";
 import { BehindTable, ExamLinkCard, StudentForm, StudentTable, TrackerSummary } from "./parts";
 import { useTracker } from "./useTracker";
 
@@ -88,6 +89,17 @@ export function Tracker() {
           <Reveal className="min-w-0 lg:col-span-2">
             <BehindTable state={state} students={students} onShowRecords={showRecords} />
           </Reveal>
+        </Container>
+      </Section>
+
+      <Section id="onosh" tight>
+        <Container className="flex flex-col gap-8">
+          <SectionTitle
+            tagline="Онош · Мэдлэг × Блум"
+            title="Оношлох сорилын дүн"
+            lead="Сурагч бүрийн сүүлийн оношлох сорилын онош, Мэдлэг × Блумын матриц, хоцрогдлоо нөхөх төлөвлөгөө, зөвлөгөө. Сурагчийг сонгож дэлгэрэнгүйг харна."
+          />
+          <DiagnosisSection students={students} />
         </Container>
       </Section>
 
