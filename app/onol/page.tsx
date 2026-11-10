@@ -5,6 +5,7 @@ import { Actions, Button } from "@/components/ui/Button";
 import { Container, Section } from "@/components/ui/Section";
 import { SectionTitle } from "@/components/ui/Typography";
 import { THEORY, THEORY_TOPICS, topicSlug } from "@/data/onol";
+import { THEORY_DETAIL } from "@/data/onol-detail";
 
 export const metadata: Metadata = {
   title: "Онолын мэдлэг",
@@ -61,7 +62,12 @@ export default function OnolPage() {
                   <li key={t.id}>
                     <Link href={`/onol/${topicSlug(t.id)}`} className="group block h-full">
                       <BracketCard className="flex h-full flex-col gap-2 bg-s-raised p-5 transition-colors group-hover:bg-accent-muted">
-                        <span className="font-display text-title font-bold text-accent">{t.id}</span>
+                        <span className="flex items-center justify-between gap-2">
+                          <span className="font-display text-title font-bold text-accent">{t.id}</span>
+                          {THEORY_DETAIL[t.id] && (
+                            <span className="bg-accent-muted px-2 py-0.5 text-eyebrow font-bold uppercase">Дэлгэрэнгүй</span>
+                          )}
+                        </span>
                         <span className="text-label leading-display font-medium">{t.title}</span>
                         <span className="mt-auto pt-2 text-eyebrow font-semibold uppercase text-s-sub group-hover:text-s-fg">Унших →</span>
                       </BracketCard>
