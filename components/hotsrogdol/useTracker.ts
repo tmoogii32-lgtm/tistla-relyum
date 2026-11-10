@@ -11,9 +11,9 @@ import { EMPTY_STATE, uid, type RecordLevel, type Student, type TaskRecord, type
    Сурагч /soril хуудсаар илгээсэн сорил ч энд (diag, records) орж ирнэ. */
 
 export type TrackerStatus = "loading" | "signedOut" | "ready";
-type Snapshot = { status: TrackerStatus; email: string | null; state: TrackerState; diag: DiagStore };
+type Snapshot = { status: TrackerStatus; email: string | null; isAdmin: boolean; state: TrackerState; diag: DiagStore };
 
-const INITIAL: Snapshot = { status: "loading", email: null, state: EMPTY_STATE, diag: EMPTY_DIAG };
+const INITIAL: Snapshot = { status: "loading", email: null, isAdmin: false, state: EMPTY_STATE, diag: EMPTY_DIAG };
 let snap = INITIAL;
 const listeners = new Set<() => void>();
 let started = false;
@@ -112,15 +112,21 @@ function start() {
     const user = session?.user ?? null;
     if (!user) {
       userId = null;
-      set({ status: "signedOut", email: null, state: EMPTY_STATE, diag: EMPTY_DIAG });
+      set({ status: "signedOut", email: null, isAdmin: false, state: EMPTY_STATE, diag: EMPTY_DIAG });
       return;
     }
     set({ email: user.email ?? null });
     if (userId === user.id) return; // токен шинэчлэгдсэн гэх мэт — дахин ачаалах шаардлагагүй
     userId = user.id;
-    set({ status: "loading", state: EMPTY_STATE, diag: EMPTY_DIAG });
+    set({ status: "loading", isAdmin: false, state: EMPTY_STATE, diag: EMPTY_DIAG });
     // onAuthStateChange дотроос Supabase-ийг шууд дуудвал гацдаг тул дараагийн tick-д
-    setTimeout(() => void load(user.id), 0);
+    setTimeout(() => {
+      void load(user.id);
+      // Навбарт "Админ" холбоос харуулах эсэх (функц байхгүй / алдаа бол false)
+      void getSupabase()
+        .rpc("is_admin")
+        .then(({ data }) => userId === user.id && set({ isAdmin: data === true }));
+    }, 0);
   });
 }
 
@@ -276,6 +282,7 @@ export function useTracker() {
     diag: s.diag,
     status: s.status,
     email: s.email,
+    isAdmin: s.isAdmin,
     addStudent,
     deleteStudent,
     addRecord,

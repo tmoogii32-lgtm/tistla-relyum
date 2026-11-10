@@ -23,8 +23,8 @@ function authMessage(msg: string) {
 }
 
 /** Багш нэвтрэх / бүртгүүлэх */
-export function LoginCard() {
-  const [mode, setMode] = useState<"in" | "up">("in");
+export function LoginCard({ initialMode = "in" }: { initialMode?: "in" | "up" }) {
+  const [mode, setMode] = useState<"in" | "up">(initialMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

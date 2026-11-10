@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
+import { signOut, useTracker } from "@/components/hotsrogdol/useTracker";
 import { NAV_LINKS } from "@/data/nav";
 import { cn } from "@/lib/cn";
 import { Logo } from "./Logo";
@@ -15,6 +16,7 @@ const XL = 1280;
  */
 export function Navbar() {
   const pathname = usePathname();
+  const { status, email, isAdmin } = useTracker();
   const [open, setOpen] = useState(false);
   const sheetId = useId();
 
@@ -92,21 +94,62 @@ export function Navbar() {
             open ? "fixed inset-x-(--gutter) bottom-6 z-61 flex justify-between" : "hidden xl:flex",
           )}
         >
-          <a href="#" className="transition-colors hover:text-accent">
-            Нэвтрэх
-          </a>
-          <a href="#" className="inline-flex items-center gap-1.5 font-bold transition-colors hover:text-accent">
-            <span aria-hidden="true" className="font-medium">
-              [
-            </span>
-            Бүртгүүлэх
-            <span aria-hidden="true" className="font-medium">
-              →
-            </span>
-            <span aria-hidden="true" className="font-medium">
-              ]
-            </span>
-          </a>
+          {email ? (
+            <>
+              <Link href="/hotsrogdol#students" onClick={() => setOpen(false)} className="transition-colors hover:text-accent">
+                Багш
+              </Link>
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  onClick={() => setOpen(false)}
+                  aria-current={pathname.startsWith("/admin") ? "page" : undefined}
+                  className="transition-colors hover:text-accent"
+                >
+                  Админ
+                </Link>
+              )}
+              <button
+                type="button"
+                title={email}
+                onClick={() => {
+                  setOpen(false);
+                  void signOut();
+                }}
+                className="inline-flex cursor-pointer items-center gap-1.5 font-bold uppercase transition-colors hover:text-accent"
+              >
+                <span aria-hidden="true" className="font-medium">
+                  [
+                </span>
+                Гарах
+                <span aria-hidden="true" className="font-medium">
+                  ]
+                </span>
+              </button>
+            </>
+          ) : status === "signedOut" ? (
+            <>
+              <Link href="/nevtrekh" onClick={() => setOpen(false)} className="transition-colors hover:text-accent">
+                Нэвтрэх
+              </Link>
+              <Link
+                href="/nevtrekh?mode=up"
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center gap-1.5 font-bold transition-colors hover:text-accent"
+              >
+                <span aria-hidden="true" className="font-medium">
+                  [
+                </span>
+                Бүртгүүлэх
+                <span aria-hidden="true" className="font-medium">
+                  →
+                </span>
+                <span aria-hidden="true" className="font-medium">
+                  ]
+                </span>
+              </Link>
+            </>
+          ) : null}
         </div>
 
         <button
