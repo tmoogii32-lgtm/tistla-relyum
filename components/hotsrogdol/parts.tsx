@@ -359,12 +359,12 @@ export function ExamLinkCard() {
         <p className="text-eyebrow font-medium tracking-eyebrow uppercase text-accent">1-р алхам · Оношлох</p>
         <h2 className="font-display text-heading leading-headline font-bold uppercase">Хоцрогдлыг илрүүлэх шалгалт</h2>
         <p className="text-body leading-display text-s-sub">
-          Сурагч доорх &quot;Оношлох сорил&quot; хэсэгт нэрээ сонгоод сорил өгнө. Онош, нөхөх төлөвлөгөө шууд гарч, хүрээ бүрийн дүн
-          автоматаар бүртгэгдэнэ. Дараа нь зөвлөсөн сэдвээр даалгавар бодно.
+          Багш нэвтэрч ороод өөрийн сорилын холбоосыг сурагчдад өгнө. Сурагч нэвтрэлгүйгээр нэр, ангиа бичээд сорил өгөхөд онош,
+          нөхөх төлөвлөгөө нь шууд гарч, дүн нь зөвхөн тухайн багшид бүртгэгдэнэ. Дараа нь зөвлөсөн сэдвээр даалгавар бодно.
         </p>
       </div>
       <div className="flex flex-wrap gap-4 max-sm:w-full max-sm:flex-col">
-        <Button href="#onosh">Оношлох сорил өгөх</Button>
+        <Button href="/soril">Оношлох сорил өгөх</Button>
         <Button href="/daalgavar#ajillah">Даалгавартай ажиллах</Button>
       </div>
     </BracketCard>

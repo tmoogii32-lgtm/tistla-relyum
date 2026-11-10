@@ -3,6 +3,7 @@ export type NavLink = { href: string; label: string };
 export const NAV_LINKS: NavLink[] = [
   { href: "/", label: "Нүүр" },
   { href: "/matematik", label: "Математик" },
+  { href: "/soril", label: "Сорил өгөх" },
   { href: "/hotsrogdol", label: "Хоцрогдлыг тооцох" },
   { href: "/daalgavar", label: "Даалгавартай ажиллах" },
   { href: "/interaktiv", label: "Интерактив даалгавар" },

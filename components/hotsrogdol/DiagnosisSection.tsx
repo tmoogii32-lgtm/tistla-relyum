@@ -12,10 +12,11 @@ import { TableWrap, td, th } from "@/components/ui/Lists";
 import { DIAG_QUESTIONS } from "@/data/diagnostic";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/cn";
-import { EMPTY_DIAG, STATUS_LABEL, diagnose, isDiagStore, strandScores, type DiagAttempt, type DiagStore, type Status } from "@/lib/diagnosis";
+import { EMPTY_DIAG, STATUS_LABEL, diagnose, isDiagStore, type DiagAttempt, type DiagStore, type Status } from "@/lib/diagnosis";
+import { diagRecords } from "@/lib/exam";
 import { TOPICS } from "@/lib/problems";
 import { GUEST } from "@/lib/taskProgress";
-import { today, type Student, type TaskRecord } from "@/lib/tracker";
+import type { Student, TaskRecord } from "@/lib/tracker";
 
 const isString = (v: unknown): v is string => typeof v === "string";
 const linkCls = "underline decoration-accent decoration-2 underline-offset-4 hover:text-accent";
@@ -31,16 +32,21 @@ const scrollTo = (id: string) =>
 
 type Props = {
   students: Student[];
+  /** Бүртгэлтэй сурагчдын оролдлого (Supabase — сурагчийн /soril-оор илгээсэн ч орно) */
+  diag: DiagStore;
   addRecord: (rec: Omit<TaskRecord, "id" | "created">) => void;
+  addDiagnosis: (studentId: string, a: DiagAttempt) => void;
 };
 
 /**
  * Оношлох сорил: сурагч сонгож сорил өгөх → товч дүн → бүх сурагчийн жагсаалт → сонгосон сурагчийн бүтэн тайлан
  * (онош, Мэдлэг × Блумын матриц, нөхөх төлөвлөгөө, зөвлөгөө, хариу). Хүрээ бүрийн дүн бүртгэлд автоматаар орно.
  */
-export function DiagnosisSection({ students, addRecord }: Props) {
+export function DiagnosisSection({ students, diag, addRecord, addDiagnosis }: Props) {
   const router = useRouter();
-  const [store, setStore] = useLocalStorage<DiagStore>("onosh-v1", EMPTY_DIAG, isDiagStore);
+  // Зочны оролдлого зөвхөн энэ браузерт
+  const [local, setLocal] = useLocalStorage<DiagStore>("onosh-v1", EMPTY_DIAG, isDiagStore);
+  const store: DiagStore = { ...diag, [GUEST]: local[GUEST] ?? [] };
   const [active, setActive] = useLocalStorage<string>("daalgavar-student", GUEST, isString);
   const [, setTopic] = useLocalStorage<string>("daalgavar-topic", TOPICS[0].id, isString);
   const [testing, setTesting] = useState(false);
@@ -65,14 +71,14 @@ export function DiagnosisSection({ students, addRecord }: Props) {
   const selected = rows.find((r) => r.id === selectedId);
 
   const submit = (a: DiagAttempt) => {
-    setStore((s) => ({ ...s, [sid]: [...(s[sid] ?? []), a] }));
     setTesting(false);
     setSel(sid);
     if (student) {
+      addDiagnosis(student.id, a);
       // Хүрээ бүрийн дүнг 5-ын хуваарьт бүртгэнэ (80% = 4 = тэнцэх босго)
-      strandScores(diagnose(a)).forEach(({ strand, score }) =>
-        addRecord({ studentId: student.id, task: `Оношлох сорил · ${strand}`, level: "Онош", score, date: today() }),
-      );
+      diagRecords(a).forEach(({ task, score }) => addRecord({ studentId: student.id, task, level: "Онош", score, date: a.date }));
+    } else {
+      setLocal((s) => ({ ...s, [GUEST]: [...(s[GUEST] ?? []), a] }));
     }
     scrollTo("onosh-test");
   };

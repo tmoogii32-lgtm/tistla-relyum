@@ -32,7 +32,7 @@ export function StepTitle({ n, title, text, id }: { n: number; title: string; te
  * Оношлох сорил "Хоцрогдлыг тооцох" хуудсанд.
  */
 export function Hub() {
-  const { state: tracker, addRecord, deleteRecord } = useTracker();
+  const { state: tracker, status, addRecord, deleteRecord } = useTracker();
   const [studentId, setStudentId] = useLocalStorage<string>("daalgavar-student", GUEST, isString);
 
   const students = [...tracker.students].sort(compareStudents);
@@ -60,9 +60,10 @@ export function Hub() {
               setStudentId(e.target.value);
               setRecordSel(null);
             }}
+            disabled={status === "loading"}
             className={inputClass}
           >
-            <option value={GUEST}>Зочин (бүртгэлгүй)</option>
+            <option value={GUEST}>{status === "loading" ? "Ачаалж байна…" : "Зочин (бүртгэлгүй)"}</option>
             {students.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name} ({s.cls})
@@ -82,6 +83,13 @@ export function Hub() {
                 оношлох сорил
               </Link>{" "}
               өг.
+            </>
+          ) : status === "signedOut" ? (
+            <>
+              Зочин горимд явц энэ браузерт хадгалагдах ч дүн бүртгэгдэхгүй. Сурагчийн дүнг бүртгэхийн тулд багш{" "}
+              <Link href="/hotsrogdol#students" className={linkCls}>
+                нэвтэрнэ үү →
+              </Link>
             </>
           ) : (
             <>

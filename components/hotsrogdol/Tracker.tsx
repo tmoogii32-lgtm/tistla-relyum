@@ -13,6 +13,7 @@ import { GUEST } from "@/lib/taskProgress";
 import { compareStudents, recordsOf, toCsvRows, today, unique, type Student } from "@/lib/tracker";
 import { DiagnosisSection } from "./DiagnosisSection";
 import { BehindTable, ExamLinkCard, StudentForm, StudentTable, TrackerSummary } from "./parts";
+import { AccountBar, ExamShareCard, LegacyImport, LoginCard } from "./TeacherAuth";
 import { useTracker } from "./useTracker";
 
 const isString = (v: unknown): v is string => typeof v === "string";
@@ -23,7 +24,7 @@ const isString = (v: unknown): v is string => typeof v === "string";
  */
 export function Tracker() {
   const router = useRouter();
-  const { state, addStudent, deleteStudent, addRecord, clearAll } = useTracker();
+  const { state, diag, status, email, addStudent, deleteStudent, addRecord, addDiagnosis, clearAll } = useTracker();
   const [, setActiveStudent] = useLocalStorage<string>("daalgavar-student", GUEST, isString);
   const [classFilter, setClassFilter] = useState("");
 
@@ -71,25 +72,42 @@ export function Tracker() {
       </Section>
 
       <Section id="students" tight>
-        <Container className="grid items-start gap-8 lg:grid-cols-[minmax(18rem,1fr)_2fr]">
-          <Reveal>
-            <StudentForm state={state} classes={classes} onAdd={(name, cls) => addStudent(name, cls)} />
-          </Reveal>
-          <Reveal delay={80} className="min-w-0">
-            <StudentTable
-              state={state}
-              students={students}
-              classes={classes}
-              classFilter={effClass}
-              onClassFilter={setClassFilter}
-              onShowRecords={showRecords}
-              onDelete={confirmDeleteStudent}
-            />
-          </Reveal>
-          <Reveal className="min-w-0 lg:col-span-2">
-            <BehindTable state={state} students={students} onShowRecords={showRecords} />
-          </Reveal>
-        </Container>
+        {status === "loading" ? (
+          <Container>
+            <p role="status" className="text-body text-s-sub">
+              Бүртгэлийг Supabase-аас ачаалж байна…
+            </p>
+          </Container>
+        ) : status === "signedOut" ? (
+          <Container>
+            <LoginCard />
+          </Container>
+        ) : (
+          <Container className="grid items-start gap-8 lg:grid-cols-[minmax(18rem,1fr)_2fr]">
+            <div className="flex flex-col gap-4 lg:col-span-2">
+              <AccountBar email={email} />
+              <LegacyImport />
+              <ExamShareCard />
+            </div>
+            <Reveal>
+              <StudentForm state={state} classes={classes} onAdd={(name, cls) => addStudent(name, cls)} />
+            </Reveal>
+            <Reveal delay={80} className="min-w-0">
+              <StudentTable
+                state={state}
+                students={students}
+                classes={classes}
+                classFilter={effClass}
+                onClassFilter={setClassFilter}
+                onShowRecords={showRecords}
+                onDelete={confirmDeleteStudent}
+              />
+            </Reveal>
+            <Reveal className="min-w-0 lg:col-span-2">
+              <BehindTable state={state} students={students} onShowRecords={showRecords} />
+            </Reveal>
+          </Container>
+        )}
       </Section>
 
       <Section id="onosh" tight>
@@ -99,25 +117,27 @@ export function Tracker() {
             title="Оношлох сорил"
             lead={`Мэдлэгийн 4 төрөл ба Блумын матрицаар хоцрогдлыг оношилно: 4 өөрийн үнэлгээ, 30 сонгох даалгавар, ~30 минут. Илгээмэгц онош, Мэдлэг × Блумын матриц, хоцрогдлоо нөхөх төлөвлөгөө доор гарч, дүн нь автоматаар бүртгэгдэнэ.`}
           />
-          <DiagnosisSection students={students} addRecord={addRecord} />
+          <DiagnosisSection students={students} diag={diag} addRecord={addRecord} addDiagnosis={addDiagnosis} />
         </Container>
       </Section>
 
-      <Section tight>
-        <Container>
-          <BracketCard className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-            <p className="max-w-xl text-body leading-display text-s-sub">
-              Бүртгэл энэ компьютерийн браузерт хадгалагдана. Хуулбар авах бол Excel файл (CSV) болгон татаж авна уу.
-            </p>
-            <Actions>
-              <Button onClick={exportCsv}>CSV татах</Button>
-              <Button variant="link" onClick={confirmClear} className="text-danger! hover:opacity-70">
-                Бүх бүртгэлийг устгах
-              </Button>
-            </Actions>
-          </BracketCard>
-        </Container>
-      </Section>
+      {status === "ready" && (
+        <Section tight>
+          <Container>
+            <BracketCard className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+              <p className="max-w-xl text-body leading-display text-s-sub">
+                Бүртгэл Supabase-д хадгалагдах тул аль ч компьютерээс нэвтэрч харна. Хуулбар авах бол Excel файл (CSV) болгон татаж авна уу.
+              </p>
+              <Actions>
+                <Button onClick={exportCsv}>CSV татах</Button>
+                <Button variant="link" onClick={confirmClear} className="text-danger! hover:opacity-70">
+                  Бүх бүртгэлийг устгах
+                </Button>
+              </Actions>
+            </BracketCard>
+          </Container>
+        </Section>
+      )}
     </>
   );
 }
