@@ -3,6 +3,7 @@ import { BracketCard } from "@/components/ui/BracketCard";
 import { LinkedText, TextLink } from "@/components/ui/LinkedText";
 import { TableWrap, td, th } from "@/components/ui/Lists";
 import { LESSON_STEPS, REMEDIATION_CYCLE, STRANDS, UNIT_PLAN } from "@/data/math";
+import { FORM_URL } from "@/lib/site";
 
 function SubTitle({ children }: { children: React.ReactNode }) {
   return <h3 className="mb-6 font-display text-title leading-headline font-bold uppercase">{children}</h3>;
@@ -48,7 +49,7 @@ export function UnitPlanTable() {
                     </ul>
                   </td>
                   <td className={td}>
-                    <TextLink href="/shalgalt">Оношлох сорил</TextLink> · {plan.tasks}
+                    <TextLink href={FORM_URL}>Оношлох сорил</TextLink> · {plan.tasks}
                   </td>
                 </tr>
               );

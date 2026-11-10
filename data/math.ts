@@ -1,5 +1,7 @@
 /* Математик 7 — суралцахуйн зорилт, сурах бичиг, төлөвлөлт, шалгуур */
 
+import { FORM_URL } from "@/lib/site";
+
 export type Strand = {
   id: string;
   title: string;
@@ -121,6 +123,7 @@ export const UNIT_PLAN: { skill: string; practice: PlanLink[]; tasks: string }[]
   {
     skill: "Бутархай, аравтын бутархай, процентыг хөрвүүлж, пропорцоор бодлого бодох",
     practice: [
+      { label: "Түвшинчилсэн даалгавар: R1–R4", href: "/daalgavar" },
       { label: "Ганцаарчилсан: Бүхэл тоо, Бутархай ба хувь", href: "/interaktiv#daalgavar" },
       { label: "Хосоор: 1–3-р шат", href: "/interaktiv#daalgavar" },
     ],
@@ -129,6 +132,7 @@ export const UNIT_PLAN: { skill: string; practice: PlanLink[]; tasks: string }[]
   {
     skill: "Илэрхийлэл хялбарчилж, шугаман тэгшитгэл бодож, функцийн график байгуулах",
     practice: [
+      { label: "Түвшинчилсэн даалгавар: R1–R4", href: "/daalgavar" },
       { label: "Ганцаарчилсан: Тэгшитгэл", href: "/interaktiv#daalgavar" },
       { label: "Хосоор: 4-р шат", href: "/interaktiv#daalgavar" },
       { label: "Багаар: Код тайлах сорилго (холимог давтлага)", href: "/interaktiv#daalgavar" },
@@ -137,12 +141,16 @@ export const UNIT_PLAN: { skill: string; practice: PlanLink[]; tasks: string }[]
   },
   {
     skill: "Байгуулалт хийх, хувиргалт гүйцэтгэх, өнцөг ба талбай олох",
-    practice: [{ label: "Ганцаарчилсан: Өнцөг ба талбай", href: "/interaktiv#daalgavar" }],
+    practice: [
+      { label: "Түвшинчилсэн даалгавар: R1–R4", href: "/daalgavar" },
+      { label: "Ганцаарчилсан: Өнцөг ба талбай", href: "/interaktiv#daalgavar" },
+    ],
     tasks: "2, 22–25, 28-р даалгавар",
   },
   {
     skill: "Өгөгдөл цуглуулж дүрслэх, дундаж, медиан, далайцаар дүгнэх",
     practice: [
+      { label: "Түвшинчилсэн даалгавар: R1–R4", href: "/daalgavar" },
       { label: "Хосоор: 5-р шат", href: "/interaktiv#daalgavar" },
       { label: "Багийн төсөл: Манай ангийн судалгаа", href: "/interaktiv#daalgavar" },
     ],
@@ -169,7 +177,7 @@ export const REMEDIATION_CYCLE: { title: string; text: string; link?: PlanLink }
   {
     title: "Оношлох",
     text: "{link} мэдлэгийн төрөл × Блумын түвшин бүрийн хоцрогдлыг илрүүлнэ.",
-    link: { label: "Оношлох сорилоор", href: "/shalgalt" },
+    link: { label: "Оношлох сорилоор", href: FORM_URL },
   },
   {
     title: "Бүртгэх",
@@ -178,8 +186,8 @@ export const REMEDIATION_CYCLE: { title: string; text: string; link?: PlanLink }
   },
   {
     title: "Нөхөн сургах",
-    text: "Хоцрогдолтой сэдвээр {link} өгнө.",
-    link: { label: "ганцаарчилсан, хос, багийн даалгавар", href: "/interaktiv#daalgavar" },
+    text: "Хоцрогдолтой сэдвээр {link} бодуулж, R1-ээс R4 хүртэл ахиулна.",
+    link: { label: "түвшинчилсэн даалгавар", href: "/daalgavar" },
   },
   { title: "Дахин үнэлэх", text: "5 бодлогоос 4 ба түүнээс дээш зөв бол сэдвийг эзэмшсэнд тооцно." },
 ];

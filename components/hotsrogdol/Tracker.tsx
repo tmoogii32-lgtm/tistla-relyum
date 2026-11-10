@@ -8,7 +8,7 @@ import { Container, Section } from "@/components/ui/Section";
 import { SectionTitle } from "@/components/ui/Typography";
 import { downloadCsv } from "@/lib/csv";
 import { compareStudents, recordsOf, toCsvRows, today, unique, type Student } from "@/lib/tracker";
-import { RecordTable, StudentForm, StudentTable, TaskForm, TrackerSummary } from "./parts";
+import { BehindTable, ExamLinkCard, RecordTable, StudentForm, StudentTable, TaskForm, TrackerSummary } from "./parts";
 import { useTracker } from "./useTracker";
 
 /**
@@ -67,6 +67,9 @@ export function Tracker() {
             title="Хоцрогдлыг тооцох"
             lead="Шалгалт өгөх сурагчдыг бүртгээд даалгавар бүрийн дүнг тухайн сурагчид оруулна. Даалгавар бүр 5 бодлоготой; 4-өөс доош зөв бодсон бол хоцрогдолтой гэж тооцно."
           />
+          <Reveal>
+            <ExamLinkCard />
+          </Reveal>
           <TrackerSummary state={state} />
         </Container>
       </Section>
@@ -116,6 +119,9 @@ export function Tracker() {
               onSelect={setRecordStudent}
               onDelete={confirmDeleteRecord}
             />
+          </Reveal>
+          <Reveal className="min-w-0 lg:col-span-2">
+            <BehindTable state={state} students={students} onShowRecords={showRecords} />
           </Reveal>
         </Container>
       </Section>

@@ -9,6 +9,7 @@ import { StatCard } from "@/components/ui/StatCard";
 import { LEVELS, MAX_SCORE, PASS_SCORE, type LevelName } from "@/data/levels";
 import { useHydrated } from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/cn";
+import { FORM_URL } from "@/lib/site";
 import {
   averagePercent,
   behindTasks,
@@ -367,27 +368,105 @@ export function RecordTable({ state, students, selected, onSelect, onDelete }: R
         </table>
         {!records.length && <p className="p-6 text-center text-body text-s-sub">Даалгаврын бүртгэл алга байна.</p>}
       </TableWrap>
-      <BehindList state={state} students={student ? [student] : students} showNames={!student} />
     </BracketCard>
   );
 }
 
-/** Давтах шаардлагатай (4-өөс доош) даалгаврууд */
-export function BehindList({ state, students, showNames }: { state: TrackerState; students: Student[]; showNames: boolean }) {
-  const items = students.flatMap((s) =>
-    behindTasks(state, s.id)
-      .sort(compareTasks)
-      .map((r) => ({ key: r.id, text: `${showNames ? `${s.name} — ` : ""}${r.task} (${r.level}): ${r.score}/${MAX_SCORE}` })),
-  );
-  if (!items.length) return null;
+/**
+ * Хоцрогдолтой сурагчдын үнэлгээний бүртгэл: даалгавар + түвшин бүрийн
+ * хамгийн сүүлийн дүн нь 4-өөс доош байгаа мөрүүд.
+ */
+export function BehindTable({ state, students, onShowRecords }: {
+  state: TrackerState;
+  students: Student[];
+  onShowRecords: (id: string) => void;
+}) {
+  const rows = students.flatMap((s) => behindTasks(state, s.id).sort(compareTasks).map((r) => ({ student: s, record: r })));
+  const behindCount = new Set(rows.map((r) => r.student.id)).size;
+
   return (
-    <BracketCard accent className="flex flex-col gap-3 bg-danger/5">
-      <h3 className="font-display text-label font-bold uppercase">Давтах шаардлагатай даалгаврууд</h3>
-      <ul className="flex list-disc flex-col gap-1 pl-5 text-body leading-display">
-        {items.map((i) => (
-          <li key={i.key}>{i.text}</li>
-        ))}
-      </ul>
+    <BracketCard accent className="flex min-w-0 flex-col gap-6 bg-danger/5">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-col gap-1">
+          <h2 className={cardTitle}>Хоцрогдолтой сурагчдын үнэлгээний бүртгэл</h2>
+          <p className="text-body leading-display text-s-sub">
+            Даалгавар, түвшин бүрийн хамгийн сүүлийн дүн нь {PASS_SCORE}-өөс доош байгаа сурагчид. Дахин бодож тэнцвэл жагсаалтаас
+            автоматаар хасагдана.
+          </p>
+        </div>
+        {rows.length > 0 && (
+          <p className="font-display text-title uppercase">
+            <span className="text-danger">{behindCount}</span> сурагч · <span className="text-danger">{rows.length}</span> даалгавар
+          </p>
+        )}
+      </div>
+      <TableWrap>
+        <table className="w-full min-w-[40rem] border-collapse">
+          <thead>
+            <tr>
+              {["Сурагч", "Анги", "Даалгавар / сэдэв", "Түвшин", "Сүүлийн дүн", "Огноо"].map((h) => (
+                <th key={h} className={th}>
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map(({ student, record }) => (
+              <tr key={record.id}>
+                <td className={td}>
+                  <button
+                    type="button"
+                    title="Даалгаврын бүртгэлийг харах"
+                    onClick={() => onShowRecords(student.id)}
+                    className="cursor-pointer text-left font-medium underline decoration-accent decoration-2 underline-offset-4 hover:text-accent"
+                  >
+                    {student.name}
+                  </button>
+                </td>
+                <td className={td}>{student.cls}</td>
+                <td className={td}>{record.task}</td>
+                <td className={td}>{record.level}</td>
+                <td className={cn(td, "font-bold text-danger")}>
+                  {record.score}/{MAX_SCORE}
+                </td>
+                <td className={cn(td, "whitespace-nowrap")}>{record.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {!rows.length && (
+          <p className="p-6 text-center text-body text-s-sub">
+            {state.records.length ? "Хоцрогдолтой сурагч алга байна. 🎉" : "Дүн бүртгэгдсэний дараа энд хоцрогдолтой сурагчид гарна."}
+          </p>
+        )}
+      </TableWrap>
+      {rows.length > 0 && (
+        <div>
+          <Button href="/daalgavar">Түвшинчилсэн даалгавраар нөхөн сургах</Button>
+        </div>
+      )}
+    </BracketCard>
+  );
+}
+
+/** Хоцрогдлыг илрүүлэх оношлох сорил руу орох холбоос */
+export function ExamLinkCard() {
+  const formValid = /^https:\/\/(docs\.google\.com\/forms\/|forms\.gle\/)/.test(FORM_URL.trim());
+  return (
+    <BracketCard accent className="flex flex-col items-start justify-between gap-6 bg-s-raised p-6 sm:p-8 lg:flex-row lg:items-center">
+      <div className="flex max-w-2xl flex-col gap-2">
+        <p className="text-eyebrow font-medium tracking-eyebrow uppercase text-accent">1-р алхам · Оношлох</p>
+        <h2 className="font-display text-heading leading-headline font-bold uppercase">Хоцрогдлыг илрүүлэх шалгалт</h2>
+        <p className="text-body leading-display text-s-sub">
+          Сурагчид эхлээд оношлох сорил өгч, мэдлэгийн төрөл × Блумын түвшин бүрийн хоцрогдлоо тодорхойлно. Дараа нь гарсан дүнг доорх
+          хэсэгт сурагч бүрээр бүртгэнэ.
+        </p>
+      </div>
+      <div className="flex flex-wrap gap-4 max-sm:w-full max-sm:flex-col">
+        {formValid && <Button href={FORM_URL}>Оношлох сорил өгөх</Button>}
+        <Button href="/daalgavar">Даалгавартай ажиллах</Button>
+      </div>
     </BracketCard>
   );
 }
