@@ -31,9 +31,15 @@ export function Footer() {
         <div className="self-start [grid-area:logo]">
           <Logo />
         </div>
-        <p className="max-w-160 self-start font-display text-heading leading-headline font-bold text-accent [grid-area:title] lg:justify-self-end lg:text-right">
-          {SITE.school}
-        </p>
+        <div className="flex max-w-160 flex-col gap-3 self-start [grid-area:title] lg:items-end lg:justify-self-end lg:text-right">
+          <p className="font-display text-heading leading-headline font-bold text-accent">{SITE.team}</p>
+          <p className="text-label tracking-label">
+            Утас:{" "}
+            <a href={`tel:+976${SITE.phone}`} className="font-bold underline decoration-accent underline-offset-4 transition-colors hover:text-accent">
+              {SITE.phone}
+            </a>
+          </p>
+        </div>
         <hr className="h-px w-full self-end border-0 bg-on-dark opacity-30 [grid-area:rule]" />
         <p className="text-eyebrow tracking-eyebrow text-on-dark-faint [grid-area:copy]">
           {SITE.copyright} ·{" "}
