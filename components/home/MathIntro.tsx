@@ -16,7 +16,8 @@ const LINKS = [
 export function MathIntro() {
   return (
     <section data-surface="dark" className="relative overflow-hidden px-(--gutter) py-(--section-y)">
-      <ParallaxImage src="/assets/layout67-bg.png" />
+      {/* «Математик VII» сурах бичгийн хавтас (БСШУСЯ, 2019 — econtent.edu.mn) */}
+      <ParallaxImage src="/assets/math/textbook-cover.jpg" />
       <div aria-hidden="true" className="absolute inset-0 bg-surface-black/55" />
       <Container className="z-[2] flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-20">
         <div className="flex min-w-0 flex-1 flex-col items-start gap-4">
