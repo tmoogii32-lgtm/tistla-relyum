@@ -5,7 +5,11 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   // "Шалгалт өгөх" хуудас "Даалгавартай ажиллах" болсон — хуучин холбоос ажилласаар байна
   async redirects() {
-    return [{ source: "/shalgalt", destination: "/daalgavar", permanent: true }];
+    return [
+      { source: "/shalgalt", destination: "/daalgavar", permanent: true },
+      // "Түвшин" тайлан Нүүр хуудсанд шилжсэн
+      { source: "/tuvshin", destination: "/#tuvshin", permanent: true },
+    ];
   },
   partialPrefetching: true,
   turbopack: {

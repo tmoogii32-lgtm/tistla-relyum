@@ -5,6 +5,7 @@ import { Hero } from "@/components/home/Hero";
 import { MathIntro } from "@/components/home/MathIntro";
 import { StatsSection } from "@/components/home/StatsSection";
 import { VideoLightbox } from "@/components/home/VideoLightbox";
+import { TuvshinReport } from "@/components/tuvshin/TuvshinReport";
 import { Plate } from "@/components/ui/Plate";
 
 export default function HomePage() {
@@ -54,6 +55,12 @@ export default function HomePage() {
       />
 
       <MathIntro />
+
+      {/* Түвшин — урт текст тул том үсгээр хувиргахгүй */}
+      <div className="normal-case">
+        <TuvshinReport />
+      </div>
+
       <Courses />
     </div>
   );

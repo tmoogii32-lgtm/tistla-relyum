@@ -17,7 +17,7 @@ const linkCls = "underline decoration-accent decoration-2 underline-offset-4 hov
 
 export function StepTitle({ n, title, text, id }: { n: number; title: string; text: string; id: string }) {
   return (
-    <div id={id} className="flex scroll-mt-[calc(var(--nav-h)+1rem)] flex-col gap-2 border-t border-s-border pt-10">
+    <div id={id} className="flex scroll-mt-4 flex-col gap-2 border-t border-s-border pt-10">
       <p className="flex items-center gap-3">
         <span className="grid size-9 place-items-center bg-accent font-display text-title font-bold text-foreground">{n}</span>
         <span className="font-display text-heading leading-headline font-bold uppercase">{title}</span>

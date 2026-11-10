@@ -95,7 +95,7 @@ export function DiagnosisSection({ students, addRecord }: Props) {
   return (
     <div className="flex flex-col gap-8">
       {/* Сорил өгөх */}
-      <div id="onosh-test" className="flex scroll-mt-[calc(var(--nav-h)+1rem)] flex-col gap-6">
+      <div id="onosh-test" className="flex scroll-mt-4 flex-col gap-6">
         <BracketCard className="flex flex-col gap-4 bg-s-raised md:flex-row md:items-end md:justify-between">
           <Field label="Сорил өгөх сурагч" className="md:w-96">
             <select
@@ -257,7 +257,7 @@ export function DiagnosisSection({ students, addRecord }: Props) {
 
       {/* Сонгосон сурагчийн бүтэн тайлан */}
       {selected && (
-        <div id="onosh-report" className="flex scroll-mt-[calc(var(--nav-h)+1rem)] flex-col gap-4">
+        <div id="onosh-report" className="flex scroll-mt-4 flex-col gap-4">
           <h3 className="font-display text-heading leading-headline font-bold uppercase">{selected.name} — оношийн тайлан</h3>
           <DiagnosisReport
             key={`${selected.id}-${selected.history.length}`}
