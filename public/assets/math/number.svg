@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300" fill="none">
+  <title>Энгийн бутархай, аравтын бутархай, процент</title>
+  <circle cx="130" cy="150" r="92" fill="#04aaf7" fill-opacity="0.08" stroke="#ffffff" stroke-opacity="0.25" stroke-width="2"/>
+  <path d="M130 150 L130 58 A92 92 0 1 1 38 150 Z" fill="#04aaf7"/>
+  <path d="M130 150 L130 58 M130 150 L222 150 M130 150 L130 242 M130 150 L38 150" stroke="#191919" stroke-width="3"/>
+  <circle cx="130" cy="150" r="5" fill="#ffffff"/>
+  <g font-family="Raleway, Inter, sans-serif" font-weight="500" text-anchor="middle">
+    <rect x="262" y="40" width="104" height="56" rx="10" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-opacity="0.2"/>
+    <text x="314" y="78" font-size="30" fill="#ffffff">3/4</text>
+    <text x="314" y="118" font-size="22" fill="#ffffff" fill-opacity="0.6">=</text>
+    <rect x="262" y="128" width="104" height="56" rx="10" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-opacity="0.2"/>
+    <text x="314" y="166" font-size="30" fill="#ffffff">0.75</text>
+    <text x="314" y="206" font-size="22" fill="#ffffff" fill-opacity="0.6">=</text>
+    <rect x="262" y="216" width="104" height="56" rx="10" fill="#04aaf7"/>
+    <text x="314" y="254" font-size="30" fill="#ffffff">75%</text>
+  </g>
+</svg>
