@@ -1,7 +1,5 @@
 /* Математик 7 — суралцахуйн зорилт, сурах бичиг, төлөвлөлт, шалгуур */
 
-import { FORM_URL } from "@/lib/site";
-
 export type Strand = {
   id: string;
   title: string;
@@ -176,18 +174,18 @@ export const LESSON_STEPS: { time: string; title: string; text: string; link?: P
 export const REMEDIATION_CYCLE: { title: string; text: string; link?: PlanLink }[] = [
   {
     title: "Оношлох",
-    text: "{link} мэдлэгийн төрөл × Блумын түвшин бүрийн хоцрогдлыг илрүүлнэ.",
-    link: { label: "Оношлох сорилоор", href: FORM_URL },
+    text: "{link} мэдлэгийн төрөл × Блумын түвшин бүрийн хоцрогдлыг илрүүлнэ. Онош, нөхөх зөвлөгөө шууд гарна.",
+    link: { label: "Оношлох сорилоор", href: "/daalgavar#onosh" },
   },
   {
     title: "Бүртгэх",
-    text: "{link} хуудаст сурагч бүрийн даалгаврын дүнг бүртгэнэ.",
+    text: "Сорил, даалгаврын дүн {link} хуудаст автоматаар бүртгэгдэнэ.",
     link: { label: "Хоцрогдлыг тооцох", href: "/hotsrogdol" },
   },
   {
     title: "Нөхөн сургах",
     text: "Хоцрогдолтой сэдвээр {link} бодуулж, R1-ээс R4 хүртэл ахиулна.",
-    link: { label: "түвшинчилсэн даалгавар", href: "/daalgavar" },
+    link: { label: "түвшинчилсэн даалгавар", href: "/daalgavar#ajillah" },
   },
   { title: "Дахин үнэлэх", text: "5 бодлогоос 4 ба түүнээс дээш зөв бол сэдвийг эзэмшсэнд тооцно." },
 ];

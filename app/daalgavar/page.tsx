@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Workspace } from "@/components/daalgavar/Workspace";
+import { Hub } from "@/components/daalgavar/Hub";
 import { Container, Section } from "@/components/ui/Section";
 import { SectionTitle } from "@/components/ui/Typography";
 
@@ -11,11 +11,11 @@ export default function DaalgavarPage() {
       <Container className="flex flex-col gap-10">
         <SectionTitle
           as="h1"
-          tagline="7-р анги · Математик · R1–R4"
+          tagline="7-р анги · Математик · Онош → R1–R4 → Бүртгэл"
           title="Даалгавартай ажиллах"
-          lead="Сэдвээ сонгоод R1 түвшнээс эхэлнэ. Түвшин бүр 3 даалгавартай, даалгавар бүр 5 бодлоготой. 4 ба түүнээс дээш зөв бодвол даалгавар тэнцэж, 3 даалгавраа давбал дараагийн түвшин нээгдэнэ."
+          lead="Оношлох сорилоор хоцрогдлоо тодорхойлж, зөвлөсөн сэдвээр түвшинчилсэн даалгавар бод. Бүх дүн автоматаар бүртгэгдэнэ."
         />
-        <Workspace />
+        <Hub />
       </Container>
     </Section>
   );

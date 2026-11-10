@@ -6,10 +6,8 @@ import { Button } from "@/components/ui/Button";
 import { Field, FormError, inputClass } from "@/components/ui/Form";
 import { TableWrap, td, th } from "@/components/ui/Lists";
 import { StatCard } from "@/components/ui/StatCard";
-import { LEVELS, MAX_SCORE, PASS_SCORE, type LevelName } from "@/data/levels";
-import { useHydrated } from "@/hooks/useLocalStorage";
+import { MAX_SCORE, PASS_SCORE } from "@/data/levels";
 import { cn } from "@/lib/cn";
-import { FORM_URL } from "@/lib/site";
 import {
   averagePercent,
   behindTasks,
@@ -17,9 +15,7 @@ import {
   compareTasks,
   recordsOf,
   studentStatus,
-  today,
   type Student,
-  type TaskRecord,
   type TrackerState,
 } from "@/lib/tracker";
 
@@ -85,7 +81,7 @@ export function StudentForm({ state, classes, onAdd }: StudentFormProps) {
 
   return (
     <BracketCard className="flex flex-col gap-6 bg-s-raised">
-      <h2 className={cardTitle}>1. Шалгалт өгөх сурагч бүртгэх</h2>
+      <h2 className={cardTitle}>Сурагч бүртгэх</h2>
       <form onSubmit={submit} autoComplete="off" className="flex flex-col gap-4" noValidate>
         <Field label="Овог нэр">
           <input
@@ -203,101 +199,6 @@ export function StudentTable({ state, students, classes, classFilter, onClassFil
           </p>
         )}
       </TableWrap>
-    </BracketCard>
-  );
-}
-
-/* ---------- 2. Даалгаврын дүн ---------- */
-type TaskFormProps = {
-  students: Student[];
-  taskNames: string[];
-  studentId: string;
-  onStudent: (id: string) => void;
-  onAdd: (rec: Omit<TaskRecord, "id" | "created">) => void;
-};
-
-export function TaskForm({ students, taskNames, studentId, onStudent, onAdd }: TaskFormProps) {
-  const hydrated = useHydrated();
-  const [task, setTask] = useState("");
-  const [level, setLevel] = useState<LevelName>("Суурь");
-  const [score, setScore] = useState("0");
-  const [date, setDate] = useState("");
-  const [error, setError] = useState("");
-  // Static prerender-ийн огноо гарахгүйн тулд өнөөдрийг зөвхөн client дээр бөглөнө
-  const shownDate = date || (hydrated ? today() : "");
-
-  const submit = (e: SubmitEvent) => {
-    e.preventDefault();
-    const t = task.trim().replace(/\s+/g, " ");
-    const n = Number(score);
-    if (!students.some((s) => s.id === studentId)) return setError("Эхлээд сурагчаа сонгоно уу.");
-    if (!t) return setError("Даалгаврын нэрийг оруулна уу.");
-    if (!Number.isInteger(n) || n < 0 || n > MAX_SCORE) return setError(`Дүн 0-оос ${MAX_SCORE} хүртэлх бүхэл тоо байна.`);
-    setError("");
-    onAdd({ studentId, task: t, level, score: n, date: shownDate || today() });
-    setScore("0");
-  };
-
-  return (
-    <BracketCard className="flex flex-col gap-6 bg-s-raised">
-      <h2 className={cardTitle}>2. Даалгаврын дүн бүртгэх</h2>
-      <form onSubmit={submit} autoComplete="off" className="flex flex-col gap-4" noValidate>
-        <Field label="Сурагч">
-          <select required value={studentId} onChange={(e) => onStudent(e.target.value)} className={inputClass}>
-            <option value="">— Сурагч сонгох —</option>
-            {students.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name} ({s.cls})
-              </option>
-            ))}
-          </select>
-        </Field>
-        <Field label="Даалгавар / сэдэв">
-          <input
-            type="text"
-            required
-            maxLength={80}
-            placeholder="Жишээ: Рационал тоо"
-            list="task-list"
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
-            className={inputClass}
-          />
-          <datalist id="task-list">
-            {taskNames.map((t) => (
-              <option key={t} value={t} />
-            ))}
-          </datalist>
-        </Field>
-        <div className="grid grid-cols-2 gap-4">
-          <Field label="Түвшин">
-            <select required value={level} onChange={(e) => setLevel(e.target.value as LevelName)} className={inputClass}>
-              {LEVELS.map((l) => (
-                <option key={l.name} value={l.name}>
-                  {l.icon} {l.name}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label={`Зөв бодсон (${MAX_SCORE}-аас)`}>
-            <input
-              type="number"
-              min={0}
-              max={MAX_SCORE}
-              step={1}
-              required
-              value={score}
-              onChange={(e) => setScore(e.target.value)}
-              className={inputClass}
-            />
-          </Field>
-        </div>
-        <Field label="Огноо">
-          <input type="date" required value={shownDate} onChange={(e) => setDate(e.target.value)} className={inputClass} />
-        </Field>
-        <FormError>{error}</FormError>
-        <Button type="submit">Дүн бүртгэх</Button>
-      </form>
     </BracketCard>
   );
 }
@@ -443,7 +344,7 @@ export function BehindTable({ state, students, onShowRecords }: {
       </TableWrap>
       {rows.length > 0 && (
         <div>
-          <Button href="/daalgavar">Түвшинчилсэн даалгавраар нөхөн сургах</Button>
+          <Button href="/daalgavar#ajillah">Түвшинчилсэн даалгавраар нөхөн сургах</Button>
         </div>
       )}
     </BracketCard>
@@ -452,20 +353,19 @@ export function BehindTable({ state, students, onShowRecords }: {
 
 /** Хоцрогдлыг илрүүлэх оношлох сорил руу орох холбоос */
 export function ExamLinkCard() {
-  const formValid = /^https:\/\/(docs\.google\.com\/forms\/|forms\.gle\/)/.test(FORM_URL.trim());
   return (
     <BracketCard accent className="flex flex-col items-start justify-between gap-6 bg-s-raised p-6 sm:p-8 lg:flex-row lg:items-center">
       <div className="flex max-w-2xl flex-col gap-2">
         <p className="text-eyebrow font-medium tracking-eyebrow uppercase text-accent">1-р алхам · Оношлох</p>
         <h2 className="font-display text-heading leading-headline font-bold uppercase">Хоцрогдлыг илрүүлэх шалгалт</h2>
         <p className="text-body leading-display text-s-sub">
-          Сурагчид эхлээд оношлох сорил өгч, мэдлэгийн төрөл × Блумын түвшин бүрийн хоцрогдлоо тодорхойлно. Дараа нь гарсан дүнг доорх
-          хэсэгт сурагч бүрээр бүртгэнэ.
+          Сурагч &quot;Даалгавартай ажиллах&quot; хуудсанд нэрээ сонгоод оношлох сорил өгнө. Онош, нөхөх зөвлөгөө шууд гарч, хүрээ бүрийн
+          дүн энд автоматаар бүртгэгдэнэ.
         </p>
       </div>
       <div className="flex flex-wrap gap-4 max-sm:w-full max-sm:flex-col">
-        {formValid && <Button href={FORM_URL}>Оношлох сорил өгөх</Button>}
-        <Button href="/daalgavar">Даалгавартай ажиллах</Button>
+        <Button href="/daalgavar#onosh">Оношлох сорил өгөх</Button>
+        <Button href="/daalgavar#ajillah">Даалгавартай ажиллах</Button>
       </div>
     </BracketCard>
   );

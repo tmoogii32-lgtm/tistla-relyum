@@ -1,50 +1,45 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Reveal } from "@/components/effects/Reveal";
 import { BracketCard } from "@/components/ui/BracketCard";
 import { Actions, Button } from "@/components/ui/Button";
 import { Container, Section } from "@/components/ui/Section";
 import { SectionTitle } from "@/components/ui/Typography";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { downloadCsv } from "@/lib/csv";
+import { GUEST } from "@/lib/taskProgress";
 import { compareStudents, recordsOf, toCsvRows, today, unique, type Student } from "@/lib/tracker";
-import { BehindTable, ExamLinkCard, RecordTable, StudentForm, StudentTable, TaskForm, TrackerSummary } from "./parts";
+import { BehindTable, ExamLinkCard, StudentForm, StudentTable, TrackerSummary } from "./parts";
 import { useTracker } from "./useTracker";
 
+const isString = (v: unknown): v is string => typeof v === "string";
+
 /**
- * Хоцрогдлыг тооцох — бүх хэсэг нэг state хуваалцана
- * (шүүлтүүр, сонгосон сурагч гэх мэт).
+ * Хоцрогдлыг тооцох — сурагч бүртгэх, нийт байдал, хоцрогдолтой сурагчид.
+ * Дүн нь "Даалгавартай ажиллах" хуудаснаас (оношлох сорил, даалгавар) автоматаар орно.
  */
 export function Tracker() {
-  const { state, addStudent, deleteStudent, addRecord, deleteRecord, clearAll } = useTracker();
+  const router = useRouter();
+  const { state, addStudent, deleteStudent, clearAll } = useTracker();
+  const [, setActiveStudent] = useLocalStorage<string>("daalgavar-student", GUEST, isString);
   const [classFilter, setClassFilter] = useState("");
-  const [recordStudent, setRecordStudent] = useState("");
-  const [taskStudent, setTaskStudent] = useState("");
 
   const students = [...state.students].sort(compareStudents);
   const classes = unique(students.map((s) => s.cls));
-  const taskNames = unique(state.records.map((r) => r.task)).sort();
-
-  // Устгагдсан утгыг сонгосон хэвээр үлдээхгүй
-  const exists = (id: string) => students.some((s) => s.id === id);
   const effClass = classes.includes(classFilter) ? classFilter : "";
-  const effRecord = exists(recordStudent) ? recordStudent : "";
-  const effTask = exists(taskStudent) ? taskStudent : "";
 
+  /** Сурагчийг сонгоод "Даалгавартай ажиллах" хуудасны бүртгэл рүү */
   const showRecords = (id: string) => {
-    setRecordStudent(id);
-    setTaskStudent(id);
-    document.getElementById("tasks")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setActiveStudent(id);
+    router.push("/daalgavar#burtgel");
   };
 
   const confirmDeleteStudent = (s: Student) => {
     const count = recordsOf(state, s.id).length;
-    const msg = `${s.name} сурагчийг устгах уу?` + (count ? `\nТүүний ${count} даалгаврын бүртгэл мөн устна.` : "");
+    const msg = `${s.name} сурагчийг устгах уу?` + (count ? `\nТүүний ${count} дүнгийн бүртгэл мөн устна.` : "");
     if (confirm(msg)) deleteStudent(s.id);
-  };
-
-  const confirmDeleteRecord = (id: string) => {
-    if (confirm("Энэ даалгаврын бүртгэлийг устгах уу?")) deleteRecord(id);
   };
 
   const exportCsv = () => {
@@ -54,7 +49,7 @@ export function Tracker() {
 
   const confirmClear = () => {
     if (!state.students.length && !state.records.length) return;
-    if (confirm("Бүх сурагч болон даалгаврын бүртгэлийг устгах уу? Энэ үйлдлийг буцаах боломжгүй.")) clearAll();
+    if (confirm("Бүх сурагч болон дүнгийн бүртгэлийг устгах уу? Энэ үйлдлийг буцаах боломжгүй.")) clearAll();
   };
 
   return (
@@ -65,7 +60,7 @@ export function Tracker() {
             as="h1"
             tagline="Багшийн хэрэгсэл"
             title="Хоцрогдлыг тооцох"
-            lead="Шалгалт өгөх сурагчдыг бүртгээд даалгавар бүрийн дүнг тухайн сурагчид оруулна. Даалгавар бүр 5 бодлоготой; 4-өөс доош зөв бодсон бол хоцрогдолтой гэж тооцно."
+            lead="Сурагчдаа бүртгэнэ. Сурагч оношлох сорил өгч, даалгавар бодоход дүн нь автоматаар бүртгэгдэнэ. Даалгавар бүр 5 бодлоготой; 4-өөс доош зөв бодсон бол хоцрогдолтой гэж тооцно."
           />
           <Reveal>
             <ExamLinkCard />
@@ -77,11 +72,7 @@ export function Tracker() {
       <Section id="students" tight>
         <Container className="grid items-start gap-8 lg:grid-cols-[minmax(18rem,1fr)_2fr]">
           <Reveal>
-            <StudentForm
-              state={state}
-              classes={classes}
-              onAdd={(name, cls) => setTaskStudent(addStudent(name, cls).id)}
-            />
+            <StudentForm state={state} classes={classes} onAdd={(name, cls) => addStudent(name, cls)} />
           </Reveal>
           <Reveal delay={80} className="min-w-0">
             <StudentTable
@@ -92,32 +83,6 @@ export function Tracker() {
               onClassFilter={setClassFilter}
               onShowRecords={showRecords}
               onDelete={confirmDeleteStudent}
-            />
-          </Reveal>
-        </Container>
-      </Section>
-
-      <Section id="tasks" tight>
-        <Container className="grid items-start gap-8 lg:grid-cols-[minmax(18rem,1fr)_2fr]">
-          <Reveal>
-            <TaskForm
-              students={students}
-              taskNames={taskNames}
-              studentId={effTask}
-              onStudent={setTaskStudent}
-              onAdd={(rec) => {
-                addRecord(rec);
-                setRecordStudent(rec.studentId);
-              }}
-            />
-          </Reveal>
-          <Reveal delay={80} className="min-w-0">
-            <RecordTable
-              state={state}
-              students={students}
-              selected={effRecord}
-              onSelect={setRecordStudent}
-              onDelete={confirmDeleteRecord}
             />
           </Reveal>
           <Reveal className="min-w-0 lg:col-span-2">

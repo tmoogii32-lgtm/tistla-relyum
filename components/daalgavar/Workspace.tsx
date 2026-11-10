@@ -1,11 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import { useTracker } from "@/components/hotsrogdol/useTracker";
 import { BracketCard } from "@/components/ui/BracketCard";
 import { Actions, Button } from "@/components/ui/Button";
-import { Field, inputClass } from "@/components/ui/Form";
 import { LEVELS } from "@/data/levels";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/cn";
@@ -22,7 +19,6 @@ import {
 } from "@/lib/problems";
 import {
   EMPTY_PROGRESS,
-  GUEST,
   currentLevel,
   isProgressStore,
   levelPassed,
@@ -31,7 +27,7 @@ import {
   topicProgress,
   type ProgressStore,
 } from "@/lib/taskProgress";
-import { compareStudents, today } from "@/lib/tracker";
+import { today, type Student, type TaskRecord } from "@/lib/tracker";
 import { MathText } from "./MathText";
 import { ProblemCard } from "./ProblemCard";
 import { TaskCard, type AttemptResult } from "./TaskCard";
@@ -40,23 +36,24 @@ import { TopicTree } from "./TopicTree";
 /** Оролдлого эхлэх үеийн seed-ийг хадгална — дууссаны дараа attempts нэмэгдэхэд бодлого, сонголт өөрчлөгдөхгүй */
 type AttemptState = { results: AttemptResult[]; cursor: number; seed: string };
 
-const isString = (v: unknown): v is string => typeof v === "string";
 const onSaveError = () => alert("Явцыг хадгалж чадсангүй. Браузерын тохиргоог шалгана уу.");
+
+type Props = {
+  /** Явцын түлхүүр — сурагчийн id эсвэл "guest" */
+  sid: string;
+  /** Бүртгэлтэй сурагч (зочин бол undefined) — дүн нь автоматаар бүртгэгдэнэ */
+  student?: Student;
+  topicId: string;
+  onTopic: (id: string) => void;
+  addRecord: (rec: Omit<TaskRecord, "id" | "created">) => void;
+};
 
 /**
  * Даалгавартай ажиллах: сэдэв → R1–R4 түвшин → 3 даалгавар × 5 бодлого.
  * Даалгавар 4/5-аар тэнцэнэ; түвшний 3 даалгавар бүгд тэнцвэл дараагийн түвшин нээгдэнэ.
  */
-export function Workspace() {
-  const { state: tracker, addRecord } = useTracker();
-  const [studentId, setStudentId] = useLocalStorage<string>("daalgavar-student", GUEST, isString);
+export function Workspace({ sid, student, topicId, onTopic, addRecord }: Props) {
   const [store, setStore] = useLocalStorage<ProgressStore>("daalgavar-v1", EMPTY_PROGRESS, isProgressStore, onSaveError);
-
-  const students = [...tracker.students].sort(compareStudents);
-  const student = students.find((s) => s.id === studentId);
-  const sid = student ? student.id : GUEST;
-
-  const [topicId, setTopicId] = useState(TOPICS[0].id);
   const topic = topicById(topicId);
   const tp = topicProgress(store, sid, topic.id);
 
@@ -76,11 +73,14 @@ export function Workspace() {
   const finished = att.cursor >= PROBLEMS_PER_TASK;
   const nextUnpassed = tp[level].findIndex((t, i) => i !== task && !t.passed);
 
-  const selectTopic = (id: string) => {
-    setTopicId(id);
+  // Сэдэв (гаднаас ч) солигдоход түвшин, даалгаврыг эхнээс нь
+  const [prevTopic, setPrevTopic] = useState(topicId);
+  if (prevTopic !== topicId) {
+    setPrevTopic(topicId);
     setLevelSel(null);
     setTask(0);
-  };
+  }
+  const selectTopic = (id: string) => onTopic(id);
   const selectLevel = (l: number) => {
     setLevelSel(l);
     setTask(0);
@@ -131,38 +131,6 @@ export function Workspace() {
 
   return (
     <div className="flex flex-col gap-8">
-      {/* Сурагч сонгох */}
-      <BracketCard className="flex flex-col gap-4 bg-s-raised md:flex-row md:items-end md:justify-between">
-        <Field label="Сурагч" className="md:w-96">
-          <select value={sid} onChange={(e) => setStudentId(e.target.value)} className={inputClass}>
-            <option value={GUEST}>Зочин (бүртгэлгүй)</option>
-            {students.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name} ({s.cls})
-              </option>
-            ))}
-          </select>
-        </Field>
-        <p className="max-w-xl text-body leading-display text-s-sub">
-          {student ? (
-            <>
-              Даалгавар бүрийн дүн <strong className="text-s-fg">{student.name}</strong>-ийн нэр дээр{" "}
-              <Link href="/hotsrogdol#tasks" className="underline decoration-accent decoration-2 underline-offset-4 hover:text-accent">
-                Хоцрогдлыг тооцох
-              </Link>{" "}
-              хэсэгт автоматаар бүртгэгдэнэ.
-            </>
-          ) : (
-            <>
-              Зочин горимд явц энэ браузерт хадгалагдах ч дүн бүртгэгдэхгүй.{" "}
-              <Link href="/hotsrogdol#students" className="underline decoration-accent decoration-2 underline-offset-4 hover:text-accent">
-                Сурагч бүртгэх →
-              </Link>
-            </>
-          )}
-        </p>
-      </BracketCard>
-
       <div className="grid items-start gap-8 lg:grid-cols-[17rem_minmax(0,1fr)]">
         {/* Сэдвийн мод — утсан дээр эвхэгддэг */}
         <aside className="lg:sticky lg:top-[calc(var(--nav-h)+1rem)]">

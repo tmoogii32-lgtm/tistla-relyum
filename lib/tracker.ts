@@ -4,11 +4,14 @@
 import { LEVEL_ORDER, MAX_SCORE, PASS_SCORE, type LevelName } from "@/data/levels";
 
 export type Student = { id: string; name: string; cls: string; created: number };
+/** "Онош" — оношлох сорилын хүрээний дүн (5-ын хуваарьт) */
+export type RecordLevel = LevelName | "Онош";
+
 export type TaskRecord = {
   id: string;
   studentId: string;
   task: string;
-  level: LevelName;
+  level: RecordLevel;
   score: number;
   /** YYYY-MM-DD */
   date: string;
@@ -68,7 +71,7 @@ export function compareStudents(a: Student, b: Student) {
 }
 
 export function compareTasks(a: TaskRecord, b: TaskRecord) {
-  return a.task.localeCompare(b.task, "mn") || LEVEL_ORDER.indexOf(a.level) - LEVEL_ORDER.indexOf(b.level);
+  return a.task.localeCompare(b.task, "mn") || LEVEL_ORDER.indexOf(a.level as LevelName) - LEVEL_ORDER.indexOf(b.level as LevelName);
 }
 
 /** Том жижиг үсэг харгалзахгүй давхардлыг арилгана */
