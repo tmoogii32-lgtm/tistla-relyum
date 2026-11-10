@@ -1,15 +1,30 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { LoginCard } from "@/components/hotsrogdol/TeacherAuth";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { LoginCard, NewPasswordCard } from "@/components/hotsrogdol/TeacherAuth";
 import { signOut, useTracker } from "@/components/hotsrogdol/useTracker";
 import { BracketCard } from "@/components/ui/BracketCard";
 import { Actions, Button } from "@/components/ui/Button";
+import { cn } from "@/lib/cn";
 
-/** /nevtrekh — багш, админ нэвтрэх / бүртгүүлэх; нэвтэрсэн бол хаашаа орохыг санал болгоно */
+const tab = (on: boolean) =>
+  cn(
+    "cursor-pointer border px-5 py-2.5 text-eyebrow font-semibold uppercase transition-colors",
+    on ? "border-accent bg-accent text-foreground" : "border-s-border hover:border-accent",
+  );
+
+/**
+ * /nevtrekh — Багш / Админ нэвтрэх, бүртгүүлэх, нууц үг сэргээх.
+ * ?role=admin — админ таб, ?mode=up — бүртгүүлэх. И-мэйлийн сэргээх холбоосоор орвол шинэ нууц үг тохируулна.
+ */
 export function SignInPanel() {
+  const router = useRouter();
+  const pathname = usePathname();
   const params = useSearchParams();
-  const { status, email, isAdmin } = useTracker();
+  const { status, email, isAdmin, recovery } = useTracker();
+  const role = params.get("role") === "admin" ? "admin" : "teacher";
+
+  if (recovery) return <NewPasswordCard email={email} />;
 
   if (status === "loading") {
     return (
@@ -20,9 +35,22 @@ export function SignInPanel() {
   }
 
   if (status === "signedOut") {
-    // ?mode=up — "Бүртгүүлэх" холбоосоор орсон; key нь горим солигдоход маягтыг шинэчилнэ
     const mode = params.get("mode") === "up" ? "up" : "in";
-    return <LoginCard key={mode} initialMode={mode} />;
+    const setRole = (r: "teacher" | "admin") => router.replace(r === "admin" ? `${pathname}?role=admin` : pathname, { scroll: false });
+    return (
+      <div className="flex flex-col gap-6">
+        <div role="tablist" aria-label="Нэвтрэх төрөл" className="flex flex-wrap gap-2">
+          <button type="button" role="tab" aria-selected={role === "teacher"} onClick={() => setRole("teacher")} className={tab(role === "teacher")}>
+            Багш
+          </button>
+          <button type="button" role="tab" aria-selected={role === "admin"} onClick={() => setRole("admin")} className={tab(role === "admin")}>
+            Админ
+          </button>
+        </div>
+        {/* key — таб, горим солигдоход маягтыг шинэчилнэ */}
+        <LoginCard key={`${role}-${mode}`} admin={role === "admin"} initialMode={mode} />
+      </div>
+    );
   }
 
   return (
@@ -33,10 +61,15 @@ export function SignInPanel() {
         <p className="text-body text-s-sub">
           <strong className="text-s-fg">{email}</strong>
         </p>
+        {role === "admin" && !isAdmin && (
+          <p role="alert" className="text-body text-danger">
+            Энэ бүртгэл админы эрхгүй. Админаар орох бол «Гарах» дараад админ бүртгэлээр нэвтэрнэ үү.
+          </p>
+        )}
       </div>
       <Actions>
-        <Button href="/hotsrogdol#students">Багшийн хуудас</Button>
         {isAdmin && <Button href="/admin">Админ хуудас</Button>}
+        <Button href="/hotsrogdol#students">Багшийн хуудас</Button>
         <Button variant="link" onClick={() => void signOut()}>
           Гарах
         </Button>

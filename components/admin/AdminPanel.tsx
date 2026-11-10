@@ -26,7 +26,7 @@ export function AdminPanel() {
   const [tab, setTab] = useState<Tab>("analytics");
 
   if (status === "loading") return <Status>Ачаалж байна…</Status>;
-  if (status === "signedOut") return <LoginCard />;
+  if (status === "signedOut") return <LoginCard admin />;
 
   return (
     <div className="flex flex-col gap-8">

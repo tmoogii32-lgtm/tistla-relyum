@@ -129,6 +129,9 @@ export function Navbar() {
             </>
           ) : status === "signedOut" ? (
             <>
+              <Link href="/nevtrekh?role=admin" onClick={() => setOpen(false)} className="transition-colors hover:text-accent">
+                Админ
+              </Link>
               <Link href="/nevtrekh" onClick={() => setOpen(false)} className="transition-colors hover:text-accent">
                 Нэвтрэх
               </Link>

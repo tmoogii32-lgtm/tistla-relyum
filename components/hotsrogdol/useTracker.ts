@@ -11,9 +11,17 @@ import { EMPTY_STATE, uid, type RecordLevel, type Student, type TaskRecord, type
    Сурагч /soril хуудсаар илгээсэн сорил ч энд (diag, records) орж ирнэ. */
 
 export type TrackerStatus = "loading" | "signedOut" | "ready";
-type Snapshot = { status: TrackerStatus; email: string | null; isAdmin: boolean; state: TrackerState; diag: DiagStore };
+type Snapshot = {
+  status: TrackerStatus;
+  email: string | null;
+  isAdmin: boolean;
+  /** Нууц үг сэргээх холбоосоор орсон — шинэ нууц үг тохируулах ёстой */
+  recovery: boolean;
+  state: TrackerState;
+  diag: DiagStore;
+};
 
-const INITIAL: Snapshot = { status: "loading", email: null, isAdmin: false, state: EMPTY_STATE, diag: EMPTY_DIAG };
+const INITIAL: Snapshot = { status: "loading", email: null, isAdmin: false, recovery: false, state: EMPTY_STATE, diag: EMPTY_DIAG };
 let snap = INITIAL;
 const listeners = new Set<() => void>();
 let started = false;
@@ -117,7 +125,9 @@ function start() {
     set({ status: "signedOut" });
     return;
   }
-  db.auth.onAuthStateChange((_event, session) => {
+  db.auth.onAuthStateChange((event, session) => {
+    // И-мэйлээр ирсэн «нууц үг сэргээх» холбоосоор орсон
+    if (event === "PASSWORD_RECOVERY") set({ recovery: true });
     const user = session?.user ?? null;
     if (!user) {
       userId = null;
@@ -163,6 +173,27 @@ export async function signUp(email: string, password: string) {
 
 export async function signOut() {
   await getSupabase().auth.signOut();
+}
+
+/** «Нууц үгээ мартсан» — сэргээх холбоосыг и-мэйлээр илгээнэ (Supabase-ийн SMTP тохиргоо зөв байх ёстой) */
+export async function requestPasswordReset(email: string) {
+  const { error } = await getSupabase().auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/nevtrekh`,
+  });
+  return error;
+}
+
+/** Сэргээх холбоосоор (эсвэл нэвтэрсэн үед) шинэ нууц үг тохируулна */
+export async function updatePassword(password: string) {
+  const { error } = await getSupabase().auth.updateUser({ password });
+  if (!error) set({ recovery: false });
+  return error;
+}
+
+/** Нэвтэрсэн хэрэглэгч админ мөн эсэх (нэвтрэх маягтаас шууд шалгахад) */
+export async function checkIsAdmin() {
+  const { data, error } = await getSupabase().rpc("is_admin");
+  return !error && data === true;
 }
 
 /* ---------- Өгөгдөл өөрчлөх ---------- */
@@ -292,6 +323,7 @@ export function useTracker() {
     status: s.status,
     email: s.email,
     isAdmin: s.isAdmin,
+    recovery: s.recovery,
     addStudent,
     deleteStudent,
     addRecord,
