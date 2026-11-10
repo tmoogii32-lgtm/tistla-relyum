@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { SOCIAL_LINKS } from "@/data/nav";
 import { SITE } from "@/lib/site";
 import { Button } from "@/components/ui/Button";
@@ -34,7 +35,12 @@ export function Footer() {
           {SITE.school}
         </p>
         <hr className="h-px w-full self-end border-0 bg-on-dark opacity-30 [grid-area:rule]" />
-        <p className="text-eyebrow tracking-eyebrow text-on-dark-faint [grid-area:copy]">{SITE.copyright}</p>
+        <p className="text-eyebrow tracking-eyebrow text-on-dark-faint [grid-area:copy]">
+          {SITE.copyright} ·{" "}
+          <Link href="/styleguide" className="underline decoration-accent underline-offset-4 transition-colors hover:text-accent">
+            Styleguide
+          </Link>
+        </p>
         <div className="justify-self-start [grid-area:terms]">
           <Button href="#">Terms of Service</Button>
         </div>
