@@ -6,7 +6,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useLiveStats } from "@/lib/liveStats";
 
 type Props = {
-  /** views | students — Apps Script-ээс шууд шинэчлэгдэнэ; static — тогтмол тоо */
+  /** views — сайтын нийт үзэлт, students — бүртгэлтэй сурагч (Supabase-аас шууд); static — тогтмол тоо */
   source: "views" | "students" | "static";
   value: number;
 };

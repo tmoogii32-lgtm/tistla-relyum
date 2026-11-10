@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Oswald, Space_Grotesk } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { VisitTracker } from "@/components/layout/VisitTracker";
 import { PlateDefs } from "@/components/ui/Plate";
 import "./globals.css";
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="flex min-h-svh flex-col">
         <PlateDefs />
+        <VisitTracker />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

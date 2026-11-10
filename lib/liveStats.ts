@@ -1,60 +1,66 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { STATS_URL } from "./site";
+import { getSupabase } from "./supabase";
 
-/* Нүүр хуудасны шууд тоолуурын өгөгдөл (google-form/counter-webapp.gs).
-   Хуудас нээгдэхэд нэг удаа "hit", дараа нь 30 сек тутам "stats". */
+/* Нүүр хуудасны шууд тоолуур (Supabase: site_stats).
+   Сайт ачаалагдах бүрд нэг удаа "hit_view" (+1 үзэлт; хэн, хэдэн удаа орсныг ялгахгүй),
+   тоолуур дэлгэцэнд байх үед 30 сек тутам "site_stats"-аар шинэчилнэ. */
 
 export type LiveStats = { views?: number; students?: number };
 
 const POLL_MS = 30_000;
-const VALID = /^https:\/\/script\.google(usercontent)?\.com\//;
 
 let data: LiveStats | null = null;
-let started = false;
+let hit = false;
 let timer: ReturnType<typeof setInterval> | undefined;
 const listeners = new Set<() => void>();
 
-function request(action: "hit" | "stats") {
-  const url = STATS_URL.trim();
-  const sep = url.includes("?") ? "&" : "?";
-  return fetch(`${url}${sep}action=${action}`, { cache: "no-store" }).then((r) => {
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    return r.json() as Promise<LiveStats>;
-  });
-}
-
-function apply(next: LiveStats) {
-  data = { ...data, ...next };
+function apply(next: unknown) {
+  if (!next || typeof next !== "object") return;
+  const n = next as Record<string, unknown>;
+  const pick = (k: string) => (typeof n[k] === "number" ? (n[k] as number) : Number.isFinite(Number(n[k])) ? Number(n[k]) : undefined);
+  data = { ...data, views: pick("views") ?? data?.views, students: pick("students") ?? data?.students };
   listeners.forEach((l) => l());
 }
 
-function start() {
-  if (started || !VALID.test(STATS_URL.trim())) return;
-  started = true;
-  request("hit").then(apply).catch(() => {
-    /* сүлжээгүй үед анхны тоо үлдэнэ */
-  });
-  timer = setInterval(() => {
-    if (!document.hidden) request("stats").then(apply).catch(() => {});
-  }, POLL_MS);
+function rpc(fn: "hit_view" | "site_stats") {
+  try {
+    return getSupabase()
+      .rpc(fn)
+      .then(({ data: d, error }) => {
+        if (!error) apply(d);
+      });
+  } catch {
+    return Promise.resolve(); // Supabase тохиргоогүй — анхны тоо үлдэнэ
+  }
+}
+
+/** Сайтын үзэлтийг нэг удаа бүртгэнэ (хуудас ачаалах бүрд; сайт доторх шилжилтэд дахин тоолохгүй) */
+export function recordVisit() {
+  if (hit) return;
+  hit = true;
+  void rpc("hit_view");
 }
 
 function subscribe(cb: () => void) {
   listeners.add(cb);
-  start();
+  recordVisit();
+  if (!timer) {
+    timer = setInterval(() => {
+      if (!document.hidden) void rpc("site_stats");
+    }, POLL_MS);
+  }
   return () => {
     listeners.delete(cb);
     if (!listeners.size && timer) {
       clearInterval(timer);
       timer = undefined;
-      started = false;
     }
   };
 }
 
-/** Шууд өгөгдөл. STATS_URL тохируулаагүй эсвэл хариу ирээгүй бол null. */
+/** Шууд өгөгдөл. Хариу ирээгүй бол null. */
 export function useLiveStats() {
   return useSyncExternalStore(
     subscribe,
