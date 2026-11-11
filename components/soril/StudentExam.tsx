@@ -10,7 +10,7 @@ import { Field, FormError, inputClass } from "@/components/ui/Form";
 import { DIAG_QUESTIONS } from "@/data/diagnostic";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import type { DiagAttempt } from "@/lib/diagnosis";
-import { CODE_RE, checkTeacherCode, normalizeCode, submitDiagnostic } from "@/lib/exam";
+import { normalizeCode, submitDiagnostic } from "@/lib/exam";
 import { TOPICS } from "@/lib/problems";
 import { GUEST } from "@/lib/taskProgress";
 
@@ -21,23 +21,22 @@ const scrollTop = () => requestAnimationFrame(() => document.getElementById("sor
 
 function submitMessage(err: unknown) {
   const msg = err instanceof Error ? err.message : typeof err === "object" && err && "message" in err ? String(err.message) : "";
-  if (msg.includes("invalid_code")) return "Багшийн код буруу эсвэл солигдсон байна. Багшаасаа шинэ кодыг асуугаарай.";
+  if (msg.includes("invalid_student")) return "Овог нэр (1–60) болон анги (1–10 тэмдэгт)-г зөв бөглөнө үү.";
   return "Дүнг илгээж чадсангүй. Интернэт холболтоо шалгаад \"Дахин илгээх\" дарна уу.";
 }
 
 /**
- * Сурагч нэвтрэлгүйгээр оношлох сорил өгнө: нэр, анги, багшийн код → сорил → онош.
- * Дүн нь тухайн кодтой багшийн Supabase бүртгэлд орно.
+ * Сурагч нэвтрэлгүй, кодгүйгээр оношлох сорил өгнө: нэр, анги → сорил → онош.
+ * Дүн нь Supabase-д орж, бүх багшид харагдана. Хуучин ?code= холбоосоор орвол тэр багшид оноогдоно.
  */
 export function StudentExam() {
   const router = useRouter();
   const params = useSearchParams();
   const [phase, setPhase] = useState<Phase>("info");
-  const [code, setCode] = useState(() => normalizeCode(params.get("code") ?? ""));
+  const code = normalizeCode(params.get("code") ?? "");
   const [name, setName] = useState("");
   const [cls, setCls] = useState("");
   const [error, setError] = useState("");
-  const [checking, setChecking] = useState(false);
   const [attempt, setAttempt] = useState<DiagAttempt | null>(null);
   const [previous, setPrevious] = useState<DiagAttempt | undefined>();
   const [, setTopic] = useLocalStorage<string>("daalgavar-topic", TOPICS[0].id, isString);
@@ -51,27 +50,16 @@ export function StudentExam() {
     return () => window.removeEventListener("beforeunload", onBeforeUnload);
   }, [phase]);
 
-  const start = async (e: SubmitEvent<HTMLFormElement>) => {
+  const start = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const n = name.trim().replace(/\s+/g, " ");
     const c = cls.trim();
-    const k = normalizeCode(code);
-    if (!n || !c || !k) return setError("Овог нэр, анги, багшийн кодоо бөглөнө үү.");
-    if (!CODE_RE.test(k)) return setError("Багшийн код 6 тэмдэгттэй (үсэг, тоо) байна.");
-    setChecking(true);
+    if (!n || !c) return setError("Овог нэр, ангиа бөглөнө үү.");
     setError("");
-    try {
-      if (!(await checkTeacherCode(k))) return setError("Ийм багшийн код олдсонгүй. Багшаасаа дахин асуугаарай.");
-      setName(n);
-      setCls(c);
-      setCode(k);
-      setPhase("test");
-      scrollTop();
-    } catch {
-      setError("Сервертэй холбогдож чадсангүй. Интернэт холболтоо шалгана уу.");
-    } finally {
-      setChecking(false);
-    }
+    setName(n);
+    setCls(c);
+    setPhase("test");
+    scrollTop();
   };
 
   const send = async (a: DiagAttempt) => {
@@ -143,21 +131,8 @@ export function StudentExam() {
                 className={inputClass}
               />
             </Field>
-            <Field label="Багшийн код">
-              <input
-                type="text"
-                required
-                maxLength={6}
-                placeholder="Жишээ: K7Q3MX"
-                value={code}
-                onChange={(e) => setCode(e.target.value.toUpperCase())}
-                className={`${inputClass} font-display tracking-[0.2em] uppercase`}
-              />
-            </Field>
             <FormError>{error}</FormError>
-            <Button type="submit" disabled={checking}>
-              {checking ? "Шалгаж байна…" : "Сорил эхлэх"}
-            </Button>
+            <Button type="submit">Сорил эхлэх</Button>
           </form>
         </BracketCard>
       )}

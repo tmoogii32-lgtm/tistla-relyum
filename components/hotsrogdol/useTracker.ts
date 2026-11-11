@@ -79,7 +79,7 @@ const recordRow = (r: TaskRecord) => ({
 
 /**
  * Supabase нэг удаад 1000 мөр буцаадаг тул хуудаслан уншина.
- * `teacherId` — админ RLS-ээр бүх багшийн мөрийг харах эрхтэй тул багшийн хуудсанд өөрийнхөөр нь шүүнэ.
+ * `teacherId` — тухайн багшийн мөрөөр шүүх (заавал биш). Багшийн хуудас бүх сурагчийг шүүлтгүй ачаална.
  */
 export async function fetchAll<T>(table: string, columns: string, teacherId?: string): Promise<T[]> {
   const PAGE = 1000;
@@ -94,12 +94,13 @@ export async function fetchAll<T>(table: string, columns: string, teacherId?: st
   }
 }
 
+/** Бүх багш бүх сурагчийг харна (кодгүй сорил өгсөн сурагчид ч энд орно) — ангиар нь шүүж үзнэ */
 async function load(id: string) {
   try {
     const [students, records, diag] = await Promise.all([
-      fetchAll<StudentRow>("students", "id,name,cls,created_at", id),
-      fetchAll<RecordRow>("records", "id,student_id,task,level,score,date,created_at", id),
-      fetchAll<DiagRow>("diag_submissions", "student_id,answers,self,date", id),
+      fetchAll<StudentRow>("students", "id,name,cls,created_at"),
+      fetchAll<RecordRow>("records", "id,student_id,task,level,score,date,created_at"),
+      fetchAll<DiagRow>("diag_submissions", "student_id,answers,self,date"),
     ]);
     if (userId !== id) return; // энэ хооронд гарсан / өөр багш нэвтэрсэн
     set({ status: "ready", state: { students: students.map(toStudent), records: records.map(toRecord) }, diag: toDiagStore(diag) });

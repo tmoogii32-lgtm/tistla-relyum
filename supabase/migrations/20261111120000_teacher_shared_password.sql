@@ -74,7 +74,7 @@ create or replace function public.admin_set_teacher_password(p_password text) re
 language plpgsql security definer set search_path = '' as $$
 begin
   if not public.is_admin() then raise exception 'forbidden' using errcode = '42501'; end if;
-  if p_password is null or length(p_password) < 8 then raise exception 'too_short' using errcode = 'P0001'; end if;
+  if p_password is null or length(p_password) < 3 then raise exception 'too_short' using errcode = 'P0001'; end if;
   insert into private.teacher_password (id, hash) values (true, extensions.crypt(p_password, extensions.gen_salt('bf', 10)))
   on conflict (id) do update set hash = excluded.hash, updated_at = now();
   update auth.users u

@@ -1,19 +1,19 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState, type SubmitEvent } from "react";
+import { useState, useSyncExternalStore, type SubmitEvent } from "react";
 import { BracketCard } from "@/components/ui/BracketCard";
 import { Actions, Button } from "@/components/ui/Button";
 import { Field, FormError, inputClass } from "@/components/ui/Form";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { EMPTY_DIAG, isDiagStore } from "@/lib/diagnosis";
-import { examUrl, myTeacherCode, rotateTeacherCode } from "@/lib/exam";
+import { examUrl } from "@/lib/exam";
 import { GUEST } from "@/lib/taskProgress";
 import { EMPTY_STATE, isTrackerState } from "@/lib/tracker";
 import { cardTitle } from "./parts";
 import { checkIsAdmin, importLegacy, refresh, requestPasswordReset, signIn, signOut, teacherSignIn, updatePassword } from "./useTracker";
 
-/** Supabase-ийн англи алдаа, /api/teacher-login-ийн кодыг монголоор */
+/** Supabase-ийн англи алдаа, teacher_prepare_login-ийн кодыг монголоор */
 function authMessage(msg: string) {
   if (msg === "wrong_shared_password") return "Багшийн нийтлэг нууц үг буруу байна. Сургуулийн админаас нууц үгээ лавлана уу.";
   if (msg === "admin_account") return "Энэ и-мэйл админ бүртгэл байна. «Админ» табаар өөрийн нууц үгээр нэвтэрнэ үү.";
@@ -97,7 +97,7 @@ export function LoginCard({ initialMode = "in", admin = false }: { initialMode?:
       ? "Бүртгэлтэй и-мэйлээ оруулбал нууц үгээ шинээр тохируулах холбоос и-мэйлээр ирнэ."
       : admin
         ? "Админ эрхтэй бүртгэлээр нэвтэрмэгц бүх багшийн сурагч, дүн, судалгааны хэсэг рүү шилжинэ."
-        : "Өөрийн и-мэйл хаяг болон сургуулиас өгсөн багшийн нийтлэг нууц үгээр нэвтэрнэ. Бүртгэлгүй бол анх нэвтрэхэд бүртгэл автоматаар үүснэ. Багш бүр зөвхөн өөрийн бүртгэсэн сурагчдыг харна.";
+        : "Өөрийн и-мэйл хаяг болон сургуулиас өгсөн багшийн нийтлэг нууц үгээр нэвтэрнэ. Бүртгэлгүй бол анх нэвтрэхэд бүртгэл автоматаар үүснэ. Нэвтэрмэгц бүх сурагчийн дүнг харж, ангиараа шүүнэ.";
 
   return (
     <BracketCard className="flex max-w-xl flex-col gap-6 bg-s-raised">
@@ -237,24 +237,12 @@ export function AccountBar({ email }: { email: string | null }) {
   );
 }
 
-/** Сурагчдад өгөх сорилын код, холбоос */
+const noSubscribe = () => () => {};
+
+/** Сурагчдад өгөх сорилын холбоос (код шаардлагагүй) */
 export function ExamShareCard() {
-  const [code, setCode] = useState<string | null>(null);
-  const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
-  const [busy, setBusy] = useState(false);
-
-  useEffect(() => {
-    let alive = true;
-    myTeacherCode()
-      .then((c) => alive && setCode(c))
-      .catch(() => alive && setError("Сорилын кодыг ачаалж чадсангүй. Хуудсаа дахин ачаална уу."));
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  const url = code ? examUrl(code) : "";
+  const url = useSyncExternalStore(noSubscribe, examUrl, () => "");
 
   const copy = async () => {
     try {
@@ -266,54 +254,26 @@ export function ExamShareCard() {
     }
   };
 
-  const rotate = async () => {
-    if (!confirm("Шинэ код үүсгэх үү? Хуучин код болон холбоос ажиллахаа больж, сурагчдад шинэ холбоосыг дахин өгөх хэрэгтэй.")) return;
-    setBusy(true);
-    try {
-      setCode(await rotateTeacherCode());
-    } catch {
-      alert("Код солиход алдаа гарлаа.");
-    } finally {
-      setBusy(false);
-    }
-  };
-
   return (
     <BracketCard accent className="flex flex-col gap-5 bg-s-raised p-6 sm:p-8">
       <div className="flex flex-col gap-2">
         <p className="text-eyebrow font-medium tracking-eyebrow uppercase text-accent">Сурагчдад өгөх</p>
         <h2 className={cardTitle}>Оношлох сорилын холбоос</h2>
         <p className="max-w-3xl text-body leading-display text-s-sub">
-          Энэ холбоосоор сурагч нэвтрэлгүйгээр нэр, ангиа бичээд сорил өгнө. Дүн нь зөвхөн танд ирж, доорх жагсаалт, &quot;Оношлох
-          сорил&quot; хэсэгт гарна. Шинэ дүн харах бол &quot;Шинэчлэх&quot; дарна уу.
+          Энэ холбоосоор сурагч нэвтрэлгүй, кодгүйгээр овог нэр, ангиа бичээд шууд сорил өгнө. Дүн нь бүх багшид харагдах тул доорх
+          жагсаалтыг ангиар шүүж үзнэ үү. Шинэ дүн харах бол &quot;Шинэчлэх&quot; дарна уу.
         </p>
       </div>
-      {error ? (
-        <FormError>{error}</FormError>
-      ) : !code ? (
-        <p role="status" className="text-body text-s-sub">
-          Код ачаалж байна…
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <p className="min-w-0 text-body break-all">
+          <a href={url} target="_blank" rel="noopener" className="underline decoration-accent decoration-2 underline-offset-4 hover:text-accent">
+            {url}
+          </a>
         </p>
-      ) : (
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex min-w-0 flex-col gap-2">
-            <p className="text-body text-s-sub">
-              Багшийн код: <strong className="font-display text-heading tracking-[0.2em] text-s-fg">{code}</strong>
-            </p>
-            <p className="text-body break-all">
-              <a href={url} target="_blank" rel="noopener" className="underline decoration-accent decoration-2 underline-offset-4 hover:text-accent">
-                {url}
-              </a>
-            </p>
-          </div>
-          <Actions className="shrink-0">
-            <Button onClick={() => void copy()}>{copied ? "Хуулсан ✓" : "Холбоос хуулах"}</Button>
-            <Button variant="link" onClick={() => void rotate()} disabled={busy}>
-              Код солих
-            </Button>
-          </Actions>
-        </div>
-      )}
+        <Actions className="shrink-0">
+          <Button onClick={() => void copy()}>{copied ? "Хуулсан ✓" : "Холбоос хуулах"}</Button>
+        </Actions>
+      </div>
     </BracketCard>
   );
 }
