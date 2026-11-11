@@ -16,7 +16,7 @@ type Props = {
   onSelect: () => void;
 };
 
-/** "R1-Даалгавар 1" карт: явц, цэгүүд, зорилго */
+/** "Т1-Даалгавар 1" карт: явц, цэгүүд, зорилго */
 export function TaskCard({ level, index, progress, results, active, onSelect }: Props) {
   const done = results.length;
   const correct = results.filter((r) => r.correct).length;

@@ -11,7 +11,7 @@ export default function DaalgavarPage() {
       <Container className="flex flex-col gap-10">
         <SectionTitle
           as="h1"
-          tagline="7-р анги · Математик · Онош → R1–R4 → Бүртгэл"
+          tagline="7-р анги · Математик · Онош → Т1–Т4 → Бүртгэл"
           title="Даалгавартай ажиллах"
           lead="Оношлох сорилоор хоцрогдлоо тодорхойлж, зөвлөсөн сэдвээр түвшинчилсэн даалгавар бод. Бүх дүн автоматаар бүртгэгдэнэ."
         />

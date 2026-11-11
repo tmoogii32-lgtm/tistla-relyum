@@ -12,7 +12,7 @@ type Props = {
   onSelect: (topicId: string) => void;
 };
 
-/** Хүрээ → сэдвийн мод. Сэдэв бүрт хүрсэн түвшин (R1–R4) эсвэл ✓ */
+/** Хүрээ → сэдвийн мод. Сэдэв бүрт хүрсэн түвшин (Т1–Т4) эсвэл ✓ */
 export function TopicTree({ store, student, selected, onSelect }: Props) {
   const selectedStrand = TOPIC_TREE.find((s) => s.topics.some((t) => t.id === selected))?.id;
   const [open, setOpen] = useState<Record<string, boolean>>({});

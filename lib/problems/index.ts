@@ -15,7 +15,7 @@ export { display } from "./core";
 export const TASKS_PER_LEVEL = 3;
 export const PROBLEMS_PER_TASK = 5;
 export const TASK_PASS = 4;
-export const LEVEL_KEYS = ["R1", "R2", "R3", "R4"] as const;
+export const LEVEL_KEYS = ["Т1", "Т2", "Т3", "Т4"] as const;
 
 /** 1, 2-р даалгавар сонголттой, 3-р даалгавар хариугаа бичих */
 export const TASK_MODES = ["choice", "choice", "input"] as const;

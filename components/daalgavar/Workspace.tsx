@@ -49,7 +49,7 @@ type Props = {
 };
 
 /**
- * Даалгавартай ажиллах: сэдэв → R1–R4 түвшин → 3 даалгавар × 5 бодлого.
+ * Даалгавартай ажиллах: сэдэв → Т1–Т4 түвшин → 3 даалгавар × 5 бодлого.
  * Даалгавар 4/5-аар тэнцэнэ; түвшний 3 даалгавар бүгд тэнцвэл дараагийн түвшин нээгдэнэ.
  */
 export function Workspace({ sid, student, topicId, onTopic, addRecord }: Props) {
@@ -157,7 +157,7 @@ export function Workspace({ sid, student, topicId, onTopic, addRecord }: Props) 
             <p className="text-body text-s-sub">Түвшингээ сонгоно уу.</p>
           </div>
 
-          {/* R1–R4 */}
+          {/* Т1–Т4 */}
           <div role="tablist" aria-label="Түвшин" className="flex flex-wrap gap-2">
             {LEVEL_KEYS.map((k, l) => {
               const unlocked = levelUnlocked(tp, l);

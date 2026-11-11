@@ -89,10 +89,10 @@ export function DiagnosisReport({ attempt, previous, studentName, onRetake, onOp
           </h3>
           <p className="text-body leading-display">
             {d.status === "ok"
-              ? "Үндсэн мэдлэг, чадвараа эзэмшсэн байна. Доорх сул нүднүүдээ бататгаад R3–R4 түвшний даалгавраар ахиулаарай."
+              ? "Үндсэн мэдлэг, чадвараа эзэмшсэн байна. Доорх сул нүднүүдээ бататгаад Т3–Т4 түвшний даалгавраар ахиулаарай."
               : d.status === "mid"
                 ? "Үндсэн ойлголттой ч зарим сэдэвт алдаа гаргаж байна. Доорх давтах сэдвүүдийг дарааллаар нь нөхөөрэй."
-                : "Хэд хэдэн сэдэвт мэдлэгийн хоцрогдол байна. Доорх төлөвлөгөөний дагуу хамгийн сул сэдвээс эхлэн R1 (Суурь) түвшнээс давтаарай."}
+                : "Хэд хэдэн сэдэвт мэдлэгийн хоцрогдол байна. Доорх төлөвлөгөөний дагуу хамгийн сул сэдвээс эхлэн Т1 (Суурь) түвшнээс давтаарай."}
           </p>
           <p className="text-eyebrow text-s-sub">
             ≥ {MASTERED}% — Эзэмшсэн · {PARTIAL}–{MASTERED - 1}% — Хэсэгчлэн · &lt; {PARTIAL}% — Хоцрогдолтой
@@ -153,7 +153,7 @@ export function DiagnosisReport({ attempt, previous, studentName, onRetake, onOp
         <h3 className="font-display text-heading leading-headline font-bold uppercase">Хоцрогдлоо нөхөх төлөвлөгөө</h3>
         {d.weakTopics.length === 0 ? (
           <p className="text-body leading-display">
-            🏆 Бүх сэдвийг эзэмшсэн байна. Даалгавартай ажиллах хэсгийн R3 (Ахисан), R4 (Гүнзгий) түвшний даалгавар болон мини даалгавраар
+            🏆 Бүх сэдвийг эзэмшсэн байна. Даалгавартай ажиллах хэсгийн Т3 (Ахисан), Т4 (Гүнзгий) түвшний даалгавар болон мини даалгавраар
             мэдлэгээ гүнзгийрүүлээрэй.
           </p>
         ) : (
@@ -170,8 +170,8 @@ export function DiagnosisReport({ attempt, previous, studentName, onRetake, onOp
                   </p>
                   <p className="text-body leading-display text-s-sub">
                     {statusOf(t.pct) === "low"
-                      ? "R1 (Суурь) түвшнээс эхэлж 3 даалгаврыг 4/5-аар давтал бод. Алдсан бодлогынхоо бодолтыг уншиж, «Жишээ үзэх»-ээр дахин судал."
-                      : "R1-ийг хурдан давж R2 (Дунд) түвшинд бататга. Алдаа гаргасан алхмаа анхаар."}
+                      ? "Т1 (Суурь) түвшнээс эхэлж 3 даалгаврыг 4/5-аар давтал бод. Алдсан бодлогынхоо бодолтыг уншиж, «Жишээ үзэх»-ээр дахин судал."
+                      : "Т1-ийг хурдан давж Т2 (Дунд) түвшинд бататга. Алдаа гаргасан алхмаа анхаар."}
                   </p>
                   {t.practice.length > 0 && (
                     <div className="flex flex-wrap gap-2">
@@ -186,7 +186,7 @@ export function DiagnosisReport({ attempt, previous, studentName, onRetake, onOp
             <li className="grid grid-cols-[2rem_minmax(0,1fr)] gap-3 p-4">
               <span className="grid size-8 place-items-center border border-accent font-display text-label font-bold text-accent">✓</span>
               <p className="text-body leading-display">
-                <b>2 долоо хоногийн дараа</b> сорилыг дахин өгч ахицаа харьцуул. Сэдэв бүрийн R1–R2 түвшинг давсны дараа оношлох сорилоор
+                <b>2 долоо хоногийн дараа</b> сорилыг дахин өгч ахицаа харьцуул. Сэдэв бүрийн Т1–Т2 түвшинг давсны дараа оношлох сорилоор
                 шалгах нь хамгийн үр дүнтэй.
               </p>
             </li>

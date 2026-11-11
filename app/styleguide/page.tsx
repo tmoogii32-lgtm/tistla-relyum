@@ -229,7 +229,7 @@ export default function StyleguidePage() {
                       </span>
                     </p>
                     <p className="max-w-md bg-accent-muted text-body" style={{ lineHeight: `var(${l.cssVar})` }}>
-                      Сэдвээ сонгоод R1 түвшнээс эхэл. Даалгавар бүр 5 бодлоготой, 4 зөв бол тэнцэнэ.
+                      Сэдвээ сонгоод Т1 түвшнээс эхэл. Даалгавар бүр 5 бодлоготой, 4 зөв бол тэнцэнэ.
                     </p>
                   </div>
                 ))}
@@ -267,7 +267,7 @@ export default function StyleguidePage() {
                 <p className="font-display text-heading leading-headline font-bold uppercase">Энгийн бутархай</p>
               </TypeSpec>
               <TypeSpec label="Картын гарчиг · font-display text-title">
-                <p className="font-display text-title leading-headline font-bold uppercase">R1-Даалгавар 1</p>
+                <p className="font-display text-title leading-headline font-bold uppercase">Т1-Даалгавар 1</p>
               </TypeSpec>
               <TypeSpec label="<Lead> · text-lead text-s-sub">
                 <Lead>Сэдвээ сонгоод 5 бодлого бодоорой. Бодлого бүрийн дараа хэрхэн бодохыг тайлбарлана.</Lead>

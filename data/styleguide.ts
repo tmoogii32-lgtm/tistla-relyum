@@ -220,7 +220,7 @@ export const SECTION_REGISTRY: { page: string; href: string; items: { name: stri
     href: "/daalgavar",
     items: [
       { name: "Hub", file: "components/daalgavar/Hub.tsx", note: "Сурагч, даалгавар, бүртгэл" },
-      { name: "Workspace", file: "components/daalgavar/Workspace.tsx", note: "Сэдвийн мод, R1–R4, бодлого, даалгаврын карт" },
+      { name: "Workspace", file: "components/daalgavar/Workspace.tsx", note: "Сэдвийн мод, Т1–Т4, бодлого, даалгаврын карт" },
     ],
   },
   {

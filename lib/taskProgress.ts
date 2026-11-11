@@ -31,7 +31,7 @@ export function topicProgress(store: ProgressStore, student: string, topicId: st
 
 export const levelPassed = (tp: TopicProgress, level: number) => tp[level].every((t) => t.passed);
 
-/** R1 үргэлж нээлттэй; дараагийнх нь өмнөх түвшний 3 даалгавар бүгд тэнцсэн үед */
+/** Т1 үргэлж нээлттэй; дараагийнх нь өмнөх түвшний 3 даалгавар бүгд тэнцсэн үед */
 export const levelUnlocked = (tp: TopicProgress, level: number) => level === 0 || levelPassed(tp, level - 1);
 
 /** Нээлттэй хамгийн өндөр түвшин (0–3) */
