@@ -161,14 +161,21 @@ export async function signIn(email: string, password: string) {
   return error;
 }
 
-/** Шинэ багшийн бүртгэл. `needsConfirm` — и-мэйлээ баталгаажуулах шаардлагатай эсэх */
-export async function signUp(email: string, password: string) {
-  const { data, error } = await getSupabase().auth.signUp({
-    email,
-    password,
-    options: { emailRedirectTo: window.location.href },
-  });
-  return { error, needsConfirm: !error && !data.session };
+/**
+ * Багш нэвтрэх — өөрийн и-мэйл + бүх багшид нийтлэг нууц үг.
+ * Эхлээд шууд нэвтэрч үзнэ; бүртгэлгүй / баталгаажаагүй / өөр нууц үгтэй бол
+ * teacher_prepare_login (Supabase SQL функц) нийтлэг нууц үгийг шалгаад бүртгэлийг бэлдэж, дахин нэвтэрнэ.
+ * Алдаа гарвал түүний мессеж эсвэл кодыг (wrong_shared_password, admin_account …) буцаана.
+ */
+export async function teacherSignIn(email: string, password: string): Promise<string | null> {
+  const first = await signIn(email, password);
+  if (!first) return null;
+  if (!/invalid login credentials|email not confirmed/i.test(first.message)) return first.message;
+
+  const { error } = await getSupabase().rpc("teacher_prepare_login", { p_email: email, p_password: password });
+  if (error) return /could not find the function/i.test(error.message) ? "not_configured" : error.message;
+  const second = await signIn(email, password);
+  return second ? second.message : null;
 }
 
 export async function signOut() {

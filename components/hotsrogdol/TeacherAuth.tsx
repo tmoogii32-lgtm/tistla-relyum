@@ -11,10 +11,15 @@ import { examUrl, myTeacherCode, rotateTeacherCode } from "@/lib/exam";
 import { GUEST } from "@/lib/taskProgress";
 import { EMPTY_STATE, isTrackerState } from "@/lib/tracker";
 import { cardTitle } from "./parts";
-import { checkIsAdmin, importLegacy, refresh, requestPasswordReset, signIn, signOut, signUp, updatePassword } from "./useTracker";
+import { checkIsAdmin, importLegacy, refresh, requestPasswordReset, signIn, signOut, teacherSignIn, updatePassword } from "./useTracker";
 
-/** Supabase-ийн англи алдааг монголоор */
+/** Supabase-ийн англи алдаа, /api/teacher-login-ийн кодыг монголоор */
 function authMessage(msg: string) {
+  if (msg === "wrong_shared_password") return "Багшийн нийтлэг нууц үг буруу байна. Сургуулийн админаас нууц үгээ лавлана уу.";
+  if (msg === "admin_account") return "Энэ и-мэйл админ бүртгэл байна. «Админ» табаар өөрийн нууц үгээр нэвтэрнэ үү.";
+  if (msg === "bad_email") return "И-мэйлийн хаяг буруу байна.";
+  if (msg === "not_configured")
+    return "Багшийн нийтлэг нууц үг Supabase-д тохируулагдаагүй байна (20261111120000_teacher_shared_password.sql). Админд хандана уу.";
   if (/invalid login credentials/i.test(msg)) return "И-мэйл эсвэл нууц үг буруу байна. Нууц үгээ санахгүй бол «Нууц үгээ мартсан уу?» дарна уу.";
   if (/email not confirmed/i.test(msg)) return "И-мэйлээ баталгаажуулаагүй байна. Ирсэн захидлын холбоосыг дарна уу.";
   if (/already registered/i.test(msg)) return "Энэ и-мэйлээр бүртгэл үүссэн байна. Нэвтэрнэ үү.";
@@ -26,15 +31,17 @@ function authMessage(msg: string) {
   return msg;
 }
 
-type Mode = "in" | "up" | "forgot";
+type Mode = "in" | "forgot";
 
 /**
- * Нэвтрэх / бүртгүүлэх / нууц үг сэргээх.
- * `admin` — админ нэвтрэх хэлбэр: бүртгүүлэх сонголтгүй, нэвтэрмэгц эрхийг шалгаад /admin руу шилжинэ.
+ * Нэвтрэх.
+ * Багш — өөрийн и-мэйл + бүх багшид нийтлэг нууц үг; бүртгэлгүй бол анх нэвтрэхэд автоматаар үүснэ
+ *   (и-мэйл баталгаажуулалт, нууц үг сэргээх шаардлагагүй). `initialMode="up"` — зөвхөн гарчиг өөр.
+ * `admin` — админ өөрийн нууц үгээр нэвтэрч, эрхийг шалгаад /admin руу шилжинэ; нууц үг сэргээх боломжтой.
  */
 export function LoginCard({ initialMode = "in", admin = false }: { initialMode?: "in" | "up"; admin?: boolean }) {
   const router = useRouter();
-  const [mode, setMode] = useState<Mode>(admin ? "in" : initialMode);
+  const [mode, setMode] = useState<Mode>("in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -52,9 +59,8 @@ export function LoginCard({ initialMode = "in", admin = false }: { initialMode?:
     const em = email.trim();
     if (mode === "forgot") {
       if (!em) return setError("И-мэйлээ бөглөнө үү.");
-    } else {
-      if (!em || !password) return setError("И-мэйл болон нууц үгээ бөглөнө үү.");
-      if (mode === "up" && password.length < 6) return setError("Нууц үг хамгийн багадаа 6 тэмдэгт байна.");
+    } else if (!em || !password) {
+      return setError(admin ? "И-мэйл болон нууц үгээ бөглөнө үү." : "И-мэйл болон багшийн нийтлэг нууц үгийг бөглөнө үү.");
     }
     setBusy(true);
     setError("");
@@ -64,20 +70,14 @@ export function LoginCard({ initialMode = "in", admin = false }: { initialMode?:
         const err = await requestPasswordReset(em);
         if (err) setError(authMessage(err.message));
         else setInfo(`${em} хаяг руу нууц үг сэргээх холбоос илгээлээ. Захидлын холбоосыг дарахад шинэ нууц үг тохируулах хэсэг нээгдэнэ.`);
-      } else if (mode === "in") {
+      } else if (admin) {
         const err = await signIn(em, password);
         if (err) setError(authMessage(err.message));
-        else if (admin) {
-          if (await checkIsAdmin()) router.push("/admin");
-          else setError("Нэвтэрлээ, гэхдээ энэ бүртгэл админы эрхгүй байна. Багшийн хэсгээр орно уу.");
-        }
+        else if (await checkIsAdmin()) router.push("/admin");
+        else setError("Нэвтэрлээ, гэхдээ энэ бүртгэл админы эрхгүй байна. Багшийн хэсгээр орно уу.");
       } else {
-        const { error: err, needsConfirm } = await signUp(em, password);
-        if (err) setError(authMessage(err.message));
-        else if (needsConfirm) {
-          setInfo(`${em} хаяг руу баталгаажуулах холбоос илгээлээ. Холбоосыг дарсны дараа энд нэвтэрнэ үү.`);
-          setMode("in");
-        }
+        const err = await teacherSignIn(em, password);
+        if (err) setError(authMessage(err));
       }
     } catch (err) {
       setError(
@@ -91,13 +91,13 @@ export function LoginCard({ initialMode = "in", admin = false }: { initialMode?:
   };
 
   const title =
-    mode === "forgot" ? "Нууц үг сэргээх" : mode === "up" ? "Багшийн бүртгэл үүсгэх" : admin ? "Админ нэвтрэх" : "Багш нэвтрэх";
+    mode === "forgot" ? "Нууц үг сэргээх" : admin ? "Админ нэвтрэх" : initialMode === "up" ? "Багшийн бүртгэл үүсгэх" : "Багш нэвтрэх";
   const lead =
     mode === "forgot"
       ? "Бүртгэлтэй и-мэйлээ оруулбал нууц үгээ шинээр тохируулах холбоос и-мэйлээр ирнэ."
       : admin
         ? "Админ эрхтэй бүртгэлээр нэвтэрмэгц бүх багшийн сурагч, дүн, судалгааны хэсэг рүү шилжинэ."
-        : "Сурагч, дүнгийн бүртгэл Supabase-д хадгалагдах тул аль ч компьютерээс нэвтэрч харж болно. Багш бүр зөвхөн өөрийн бүртгэсэн сурагчдыг харна.";
+        : "Өөрийн и-мэйл хаяг болон сургуулиас өгсөн багшийн нийтлэг нууц үгээр нэвтэрнэ. Бүртгэлгүй бол анх нэвтрэхэд бүртгэл автоматаар үүснэ. Багш бүр зөвхөн өөрийн бүртгэсэн сурагчдыг харна.";
 
   return (
     <BracketCard className="flex max-w-xl flex-col gap-6 bg-s-raised">
@@ -117,12 +117,11 @@ export function LoginCard({ initialMode = "in", admin = false }: { initialMode?:
           />
         </Field>
         {mode !== "forgot" && (
-          <Field label="Нууц үг">
+          <Field label={admin ? "Нууц үг" : "Багшийн нийтлэг нууц үг"}>
             <input
               type="password"
-              autoComplete={mode === "in" ? "current-password" : "new-password"}
+              autoComplete="current-password"
               required
-              minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={inputClass}
@@ -137,26 +136,19 @@ export function LoginCard({ initialMode = "in", admin = false }: { initialMode?:
         <FormError>{error}</FormError>
         <Actions>
           <Button type="submit" disabled={busy}>
-            {busy ? "Түр хүлээнэ үү…" : mode === "forgot" ? "Холбоос илгээх" : mode === "in" ? "Нэвтрэх" : "Бүртгүүлэх"}
+            {busy ? "Түр хүлээнэ үү…" : mode === "forgot" ? "Холбоос илгээх" : "Нэвтрэх"}
           </Button>
-          {mode === "in" && (
+          {admin && mode === "in" && (
             <Button variant="link" onClick={() => switchMode("forgot")}>
               Нууц үгээ мартсан уу?
             </Button>
           )}
-        </Actions>
-        <div className="flex flex-wrap gap-x-6 gap-y-2">
-          {mode !== "in" && (
+          {mode === "forgot" && (
             <Button variant="link" onClick={() => switchMode("in")}>
               Нэвтрэх рүү буцах
             </Button>
           )}
-          {mode === "in" && !admin && (
-            <Button variant="link" onClick={() => switchMode("up")}>
-              Шинэ бүртгэл үүсгэх
-            </Button>
-          )}
-        </div>
+        </Actions>
       </form>
     </BracketCard>
   );
