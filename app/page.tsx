@@ -31,7 +31,7 @@ export default function HomePage() {
 
       <MathIntro />
 
-      {/* Түвшин — урт текст тул том үсгээр хувиргахгүй */}
+      {/* Ялгаатай даалгавар — урт текст тул том үсгээр хувиргахгүй */}
       <div className="normal-case">
         <TuvshinReport />
       </div>

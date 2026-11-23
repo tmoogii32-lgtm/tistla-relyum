@@ -163,7 +163,7 @@ export const OVERLAYS = [
   { name: "Math hero", value: "surface-black / 70%", usage: "Математик 7 hero — урт текст уншигдахуйц", cls: "bg-surface-black/70" },
   { name: "Lightbox", value: "surface-black / 40%", usage: "Видео, зургийн хавтан дээр; тоглоход алга болно", cls: "bg-surface-black/40" },
   { name: "Dialog backdrop", value: "surface-black / 70%", usage: "Мини даалгаврын цонхны ар тал", cls: "bg-surface-black/70" },
-  { name: "Sticky subnav", value: "surface-black / 90% + blur", usage: "Хэсгийн наалттай цэс (Математик, Түвшин)", cls: "bg-surface-black/90 backdrop-blur" },
+  { name: "Sticky subnav", value: "surface-black / 90% + blur", usage: "Хэсгийн наалттай цэс (Математик, Ялгаатай даалгавар)", cls: "bg-surface-black/90 backdrop-blur" },
 ];
 
 export const ICONS = [

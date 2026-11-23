@@ -1,7 +1,14 @@
-/* Түвшин — Сургалтын хоцрогдол ба ялгаатай даалгаврын олон улсын харьцуулсан судалгаа
-   (хуучин assets/tuvshin-tailan.html) */
+/* Ялгаатай даалгавар — ажлын хуудсууд ба сургалтын хоцрогдол, ялгаатай даалгаврын
+   олон улсын харьцуулсан судалгаа (хуучин assets/tuvshin-tailan.html) */
+
+/** Ялгаатай даалгаврын ажлын хуудсууд — Google Drive хавтас (хуудсанд шууд суулгаж харуулна) */
+export const WORKSHEET_FOLDERS = [
+  { id: "1rLKusHETpzWK8JVsxuzA6U0VfwkamWF1", label: "Судалгааны материал" },
+  { id: "1UEyNzZYd-2HoOTDLghafRCXgZDV81RfI", label: "7-р анги" },
+];
 
 export const REPORT_SECTIONS = [
+  { href: "#worksheets", label: "Ажлын хуудас" },
   { href: "#kpi", label: "Нөхцөл байдал" },
   { href: "#rapid", label: "RAPID Загвар" },
   { href: "#models", label: "Ялгаатай Сургалт" },
