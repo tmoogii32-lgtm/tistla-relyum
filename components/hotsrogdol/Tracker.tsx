@@ -12,6 +12,7 @@ import { downloadCsv } from "@/lib/csv";
 import { GUEST } from "@/lib/taskProgress";
 import { compareStudents, recordsOf, toCsvRows, today, unique, type Student } from "@/lib/tracker";
 import { DiagnosisSection } from "./DiagnosisSection";
+import { ParentShare } from "./ParentShare";
 import { BehindTable, ExamLinkCard, StudentForm, StudentTable, TrackerSummary } from "./parts";
 import { AccountBar, ExamShareCard, LegacyImport, LoginCard } from "./TeacherAuth";
 import { useTracker } from "./useTracker";
@@ -27,6 +28,13 @@ export function Tracker() {
   const { state, diag, status, email, addStudent, deleteStudent, addRecord, addDiagnosis, clearAll } = useTracker();
   const [, setActiveStudent] = useLocalStorage<string>("daalgavar-student", GUEST, isString);
   const [classFilter, setClassFilter] = useState("");
+  const [parentStudent, setParentStudent] = useState("");
+
+  /** "Эцэг эхэд" — сурагчийг сонгоод илгээх карт руу гүйлгэнэ */
+  const openParent = (id: string) => {
+    setParentStudent(id);
+    document.getElementById("etseg-eh")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const students = [...state.students].sort(compareStudents);
   const classes = unique(students.map((s) => s.cls));
@@ -100,12 +108,16 @@ export function Tracker() {
                 classFilter={effClass}
                 onClassFilter={setClassFilter}
                 onShowRecords={showRecords}
+                onParent={openParent}
                 onDelete={confirmDeleteStudent}
               />
             </Reveal>
             <Reveal className="min-w-0 lg:col-span-2">
               <BehindTable state={state} students={students} onShowRecords={showRecords} />
             </Reveal>
+            <div className="min-w-0 lg:col-span-2">
+              <ParentShare students={students} selected={students.some((s) => s.id === parentStudent) ? parentStudent : ""} onSelect={setParentStudent} />
+            </div>
           </Container>
         )}
       </Section>

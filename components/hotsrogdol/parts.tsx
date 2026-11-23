@@ -126,10 +126,11 @@ type StudentTableProps = {
   classFilter: string;
   onClassFilter: (v: string) => void;
   onShowRecords: (id: string) => void;
+  onParent: (id: string) => void;
   onDelete: (s: Student) => void;
 };
 
-export function StudentTable({ state, students, classes, classFilter, onClassFilter, onShowRecords, onDelete }: StudentTableProps) {
+export function StudentTable({ state, students, classes, classFilter, onClassFilter, onShowRecords, onParent, onDelete }: StudentTableProps) {
   const visible = students.filter((s) => !classFilter || s.cls === classFilter);
   return (
     <BracketCard className="flex min-w-0 flex-col gap-6">
@@ -183,7 +184,15 @@ export function StudentTable({ state, students, classes, classFilter, onClassFil
                   <td className={td}>
                     <StatusBadge status={studentStatus(state, s.id)} />
                   </td>
-                  <td className={td}>
+                  <td className={cn(td, "whitespace-nowrap")}>
+                    <button
+                      type="button"
+                      aria-label={`${s.name} сурагчийн тайланг эцэг эхэд илгээх`}
+                      onClick={() => onParent(s.id)}
+                      className="mr-4 cursor-pointer text-eyebrow uppercase text-accent underline-offset-4 hover:underline"
+                    >
+                      Эцэг эхэд
+                    </button>
                     <button type="button" aria-label={`${s.name} сурагчийг устгах`} onClick={() => onDelete(s)} className={iconBtn}>
                       Устгах
                     </button>
