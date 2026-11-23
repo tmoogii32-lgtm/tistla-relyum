@@ -1,10 +1,16 @@
 import { Reveal } from "@/components/effects/Reveal";
+import { Actions, Button } from "@/components/ui/Button";
 import { Container, Section } from "@/components/ui/Section";
 import { Lead, SectionTitle } from "@/components/ui/Typography";
 import { ImpactChart } from "./ImpactChart";
 import { RapidExplorer } from "./RapidExplorer";
 import { ImpactInsights, KpiGrid, ModelCards, PolicyRecommendations, ReportNav } from "./Report";
 import { Simulator } from "./Simulator";
+
+/** Түвшин хэсгийн судалгааны материалын Google Drive хавтас */
+const MATERIALS_URL = "https://drive.google.com/drive/folders/1rLKusHETpzWK8JVsxuzA6U0VfwkamWF1";
+/** 7-р ангийн материалын Google Drive хавтас */
+const GRADE7_URL = "https://drive.google.com/drive/folders/1UEyNzZYd-2HoOTDLghafRCXgZDV81RfI";
 
 /**
  * Түвшин — Сургалтын хоцрогдол ба ялгаатай даалгаврын олон улсын харьцуулсан судалгаа.
@@ -26,6 +32,16 @@ export function TuvshinReport() {
               судалгааны өгөгдлийг нэгтгэн, хичээлийн хоцрогдол арилгах арга зүй, ялгаатай даалгаврын үр ашгийг интерактив хэлбэрээр шинжлэх
               боломжийг олгоно.
             </p>
+          </Reveal>
+          <Reveal>
+            <Actions>
+              <Button href={MATERIALS_URL} external>
+                Судалгааны материал
+              </Button>
+              <Button href={GRADE7_URL} external>
+                7-р анги
+              </Button>
+            </Actions>
           </Reveal>
           <KpiGrid />
         </Container>
