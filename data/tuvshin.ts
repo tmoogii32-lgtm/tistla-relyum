@@ -5,6 +5,7 @@
 export const WORKSHEET_FOLDERS = [
   { id: "1rLKusHETpzWK8JVsxuzA6U0VfwkamWF1", label: "Судалгааны материал" },
   { id: "1UEyNzZYd-2HoOTDLghafRCXgZDV81RfI", label: "7-р анги" },
+  { id: "1GnJaegP69GWf54Szumrn_4o2YHeUcvr5", label: "Нэмэлт материал" },
 ];
 
 export const REPORT_SECTIONS = [
